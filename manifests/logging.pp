@@ -4,10 +4,6 @@
 #
 # == parameters
 #
-#  [*verbose*]
-#    (Optional) Should the daemons log verbose messages
-#    Defaults to $::os_service_default
-#
 #  [*debug*]
 #    (Optional) Should the daemons log debug messages
 #    Defaults to $::os_service_default
@@ -96,14 +92,13 @@
 #    (optional) Format string for %%(asctime)s in log records.
 #    Defaults to $::os_service_default
 #    Example: 'Y-%m-%d %H:%M:%S'
-
+#
 class octavia::logging(
   $use_syslog                    = $::os_service_default,
   $use_stderr                    = $::os_service_default,
   $log_facility                  = $::os_service_default,
   $log_dir                       = '/var/log/octavia',
   $log_file                      = '/var/log/octavia/octavia.log',
-  $verbose                       = $::os_service_default,
   $debug                         = $::os_service_default,
   $logging_context_format_string = $::os_service_default,
   $logging_default_format_string = $::os_service_default,
@@ -118,6 +113,7 @@ class octavia::logging(
   $log_date_format               = $::os_service_default,
 ) {
 
+
   if is_service_default($default_log_levels) {
     $default_log_levels_real = $default_log_levels
   } else {
@@ -130,7 +126,6 @@ class octavia::logging(
     'DEFAULT/syslog_log_facility' :           value => $log_facility;
     'DEFAULT/log_dir' :                       value => $log_dir;
     'DEFAULT/log_file':                       value => $log_file;
-    'DEFAULT/verbose' :                       value => $verbose;
     'DEFAULT/debug' :                         value => $debug;
     'DEFAULT/default_log_levels' :            value => $default_log_levels_real;
     'DEFAULT/logging_context_format_string' : value => $logging_context_format_string;

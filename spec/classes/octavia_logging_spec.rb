@@ -28,7 +28,6 @@ describe 'octavia::logging' do
      :log_facility => 'LOG_FOO',
      :log_dir => '/var/log',
      :log_file => '/var/log/octavia.log',
-     :verbose => true,
      :debug => true,
     }
   end
@@ -62,7 +61,6 @@ describe 'octavia::logging' do
       is_expected.to contain_octavia_config('DEFAULT/syslog_log_facility').with(:value => '<SERVICE DEFAULT>')
       is_expected.to contain_octavia_config('DEFAULT/log_dir').with(:value => '/var/log/octavia')
       is_expected.to contain_octavia_config('DEFAULT/log_file').with(:value => '/var/log/octavia/octavia.log')
-      is_expected.to contain_octavia_config('DEFAULT/verbose').with(:value => '<SERVICE DEFAULT>')
       is_expected.to contain_octavia_config('DEFAULT/debug').with(:value => '<SERVICE DEFAULT>')
     end
   end
@@ -74,7 +72,6 @@ describe 'octavia::logging' do
       is_expected.to contain_octavia_config('DEFAULT/syslog_log_facility').with(:value => 'LOG_FOO')
       is_expected.to contain_octavia_config('DEFAULT/log_dir').with(:value => '/var/log')
       is_expected.to contain_octavia_config('DEFAULT/log_file').with(:value => '/var/log/octavia.log')
-      is_expected.to contain_octavia_config('DEFAULT/verbose').with(:value => 'true')
       is_expected.to contain_octavia_config('DEFAULT/debug').with(:value => 'true')
     end
   end

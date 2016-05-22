@@ -20,6 +20,7 @@ describe 'octavia::policy' do
         :key   => 'context_is_admin',
         :value => 'foo:bar'
       })
+      is_expected.to contain_octavia_config('oslo_policy/policy_file').with_value('/etc/octavia/policy.json')
     end
   end
 

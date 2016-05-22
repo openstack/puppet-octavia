@@ -36,4 +36,5 @@ class octavia::policy (
 
   create_resources('openstacklib::policy::base', $policies)
 
+  oslo::policy { 'octavia_config': policy_file => $policy_path }
 }

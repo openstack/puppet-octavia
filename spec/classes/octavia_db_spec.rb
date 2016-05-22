@@ -4,7 +4,7 @@ describe 'octavia::db' do
 
   shared_examples 'octavia::db' do
     context 'with default parameters' do
-      it { is_expected.to contain_octavia_config('database/connection').with_value('sqlite:////var/lib/octavia/octavia.sqlite') }
+      it { is_expected.to contain_octavia_config('database/connection').with_value('sqlite:////var/lib/octavia/octavia.sqlite').with_secret(true) }
       it { is_expected.to contain_octavia_config('database/idle_timeout').with_value('<SERVICE DEFAULT>') }
       it { is_expected.to contain_octavia_config('database/min_pool_size').with_value('<SERVICE DEFAULT>') }
       it { is_expected.to contain_octavia_config('database/max_retries').with_value('<SERVICE DEFAULT>') }
@@ -25,7 +25,7 @@ describe 'octavia::db' do
         }
       end
 
-      it { is_expected.to contain_octavia_config('database/connection').with_value('mysql+pymysql://octavia:octavia@localhost/octavia') }
+      it { is_expected.to contain_octavia_config('database/connection').with_value('mysql+pymysql://octavia:octavia@localhost/octavia').with_secret(true) }
       it { is_expected.to contain_octavia_config('database/idle_timeout').with_value('3601') }
       it { is_expected.to contain_octavia_config('database/min_pool_size').with_value('2') }
       it { is_expected.to contain_octavia_config('database/max_retries').with_value('11') }
@@ -88,7 +88,7 @@ describe 'octavia::db' do
       end
 
       it 'install the proper backend package' do
-        is_expected.to contain_package('octavia-backend-package').with(
+        is_expected.to contain_package('db_backend_package').with(
           :ensure => 'present',
           :name   => 'python-pymysql',
           :tag    => 'openstack'
@@ -113,7 +113,7 @@ describe 'octavia::db' do
       end
 
       it 'install the proper backend package' do
-        is_expected.not_to contain_package('octavia-backend-package')
+        is_expected.not_to contain_package('db_backend_package')
       end
     end
   end

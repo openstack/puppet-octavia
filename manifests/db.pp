@@ -5,33 +5,38 @@
 # === Parameters
 #
 # [*database_connection*]
-#   Url used to connect to database.
-#   (Optional) Defaults to "sqlite:////var/lib/octavia/octavia.sqlite".
+#   (Optional) Url used to connect to database.
+#   Defaults to "sqlite:////var/lib/octavia/octavia.sqlite".
 #
 # [*database_idle_timeout*]
-#   Timeout when db connections should be reaped.
-#   (Optional) Defaults to $::os_service_default
+#   (Optional) Timeout when db connections should be reaped.
+#   Defaults to $::os_service_default
 #
 # [*database_max_retries*]
-#   Maximum number of database connection retries during startup.
+#   (Optional) Maximum number of database connection retries during startup.
 #   Setting -1 implies an infinite retry count.
-#   (Optional) Defaults to $::os_service_default
+#   Defaults to $::os_service_default
 #
 # [*database_retry_interval*]
-#   Interval between retries of opening a database connection.
-#   (Optional) Defaults to $::os_service_default
+#   (Optional) Interval between retries of opening a database connection.
+#   Defaults to $::os_service_default
 #
 # [*database_min_pool_size*]
-#   Minimum number of SQL connections to keep open in a pool.
-#   (Optional) Defaults to $::os_service_default
+#   (Optional) Minimum number of SQL connections to keep open in a pool.
+#   Defaults to $::os_service_default
 #
 # [*database_max_pool_size*]
-#   Maximum number of SQL connections to keep open in a pool.
-#   (Optional) Defaults to $::os_service_default
+#   (Optional) Maximum number of SQL connections to keep open in a pool.
+#   Defaults to $::os_service_default
 #
 # [*database_max_overflow*]
-#   If set, use this value for max_overflow with sqlalchemy.
-#   (Optional) Defaults to $::os_service_default
+#   (Optional) If set, use this value for max_overflow with sqlalchemy.
+#   Defaults to $::os_service_default
+#
+# [*database_db_max_retries*]
+#   (Optional) Maximum retries in case of connection error or deadlock error
+#   before error is raised. Set to -1 to specify an infinite retry count.
+#   Defaults to $::os_service_default
 #
 class octavia::db (
   $database_connection     = 'sqlite:////var/lib/octavia/octavia.sqlite',
@@ -41,6 +46,7 @@ class octavia::db (
   $database_max_retries    = $::os_service_default,
   $database_retry_interval = $::os_service_default,
   $database_max_overflow   = $::os_service_default,
+  $database_db_max_retries = $::os_service_default,
 ) {
 
   $database_connection_real = pick($::octavia::database_connection, $database_connection)
@@ -62,6 +68,7 @@ class octavia::db (
     max_retries    => $database_max_retries_real,
     retry_interval => $database_retry_interval_real,
     max_overflow   => $database_max_overflow_real,
+    db_max_retries => $database_db_max_retries,
   }
 
 }

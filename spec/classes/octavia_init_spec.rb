@@ -5,6 +5,10 @@ describe 'octavia' do
   shared_examples 'octavia' do
 
     context 'with default parameters' do
+      let :params do
+        { :purge_config => false  }
+      end
+
       it 'contains the logging class' do
         is_expected.to contain_class('octavia::logging')
       end
@@ -19,6 +23,12 @@ describe 'octavia' do
           :ensure => 'present',
           :tag    => ['openstack', 'octavia-package']
         )
+      end
+
+      it 'passes purge to resource' do
+        is_expected.to contain_resources('octavia_config').with({
+          :purge => false
+        })
       end
 
       it 'configures rabbit' do

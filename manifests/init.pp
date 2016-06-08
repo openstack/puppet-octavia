@@ -180,6 +180,11 @@
 #   (optional) AMQP topic used for OpenStack notifications
 #   Defaults to $::os_service_default
 #
+# [*purge_config*]
+#   (optional) Whether to set only the specified config options
+#   in the octavia config.
+#   Defaults to false.
+#
 class octavia (
   $ensure_package                     = 'present',
   $default_transport_url              = $::os_service_default,
@@ -220,6 +225,7 @@ class octavia (
   $notification_transport_url         = $::os_service_default,
   $notification_driver                = $::os_service_default,
   $notification_topics                = $::os_service_default,
+  $purge_config                       = false,
 ) inherits octavia::params {
 
   include ::octavia::logging
@@ -229,6 +235,10 @@ class octavia (
     ensure => $ensure_package,
     name   => $::octavia::params::common_package_name,
     tag    => ['openstack', 'octavia-package'],
+  }
+
+  resources { 'octavia_config':
+    purge => $purge_config,
   }
 
   if $rpc_backend == 'rabbit' {

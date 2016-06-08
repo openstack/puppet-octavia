@@ -63,8 +63,8 @@ describe 'octavia::keystone::auth' do
 
     it { is_expected.to contain_keystone_user('octaviay') }
     it { is_expected.to contain_keystone_user_role('octaviay@services') }
-    it { is_expected.to contain_keystone_service('octaviay::octavia') }
-    it { is_expected.to contain_keystone_endpoint('RegionOne/octaviay::octavia') }
+    it { is_expected.to contain_keystone_service('octavia::octavia') }
+    it { is_expected.to contain_keystone_endpoint('RegionOne/octavia::octavia') }
   end
 
   describe 'when overriding service name' do

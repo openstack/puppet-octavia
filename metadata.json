@@ -1,5 +1,5 @@
 {
-  "name": "puppet-octavia",
+  "name": "openstack-octavia",
   "version": "0.0.1",
   "author": "OpenStack Contributors",
   "summary": "Puppet module for OpenStack Octavia",

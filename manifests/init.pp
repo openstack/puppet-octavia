@@ -180,6 +180,10 @@
 #   (optional) AMQP topic used for OpenStack notifications
 #   Defaults to $::os_service_default
 #
+# [*topic*]
+#   Messaging topic for for controller-worker RPC communication.
+#   Defaults to 'octavia-rpc'
+#
 # [*purge_config*]
 #   (optional) Whether to set only the specified config options
 #   in the octavia config.
@@ -225,6 +229,7 @@ class octavia (
   $notification_transport_url         = $::os_service_default,
   $notification_driver                = $::os_service_default,
   $notification_topics                = $::os_service_default,
+  $topic                              = 'octavia-rpc',
   $purge_config                       = false,
 ) inherits octavia::params {
 
@@ -293,4 +298,9 @@ class octavia (
     topics        => $notification_topics,
   }
 
+  # This isn't really an oslo_messaging configuration, but an octavia specific configuration item
+  # that has been imported into the oslo_messaging configuration group by octavia.
+  octavia_config {
+    'oslo_messaging/topic' : value => $topic;
+  }
 }

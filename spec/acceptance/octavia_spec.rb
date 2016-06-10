@@ -11,6 +11,7 @@ describe 'basic octavia' do
       include ::openstack_integration::rabbitmq
       include ::openstack_integration::mysql
       include ::openstack_integration::keystone
+      include ::openstack_integration::nova
 
       rabbitmq_user { 'octavia':
         admin    => true,
@@ -51,6 +52,13 @@ describe 'basic octavia' do
           keystone_password => 'a_big_secret',
           sync_db           => true,
         }
+        class { '::octavia::worker':
+          amp_flavor_id => '65',
+        }
+
+        # We create Nova flavor on the same node where Nova runs
+        Class['::nova::keystone::auth'] -> Nova_flavor<||>
+
       }
       EOS
 

@@ -47,6 +47,10 @@ describe 'octavia' do
       end
     end
 
+    it 'has default RPC topic' do
+      is_expected.to contain_octavia_config('oslo_messaging/topic').with_value('octavia-rpc')
+    end
+
     context 'with overridden parameters' do
       let :params do
         {
@@ -63,6 +67,7 @@ describe 'octavia' do
           :notification_transport_url         => 'rabbit://rabbit_user:password@localhost:5673',
           :notification_driver                => 'ceilometer.compute.octavia_notifier',
           :notification_topics                => 'openstack',
+          :topic                              => 'oct-rpc',
         }
       end
 
@@ -83,6 +88,7 @@ describe 'octavia' do
         is_expected.to contain_octavia_config('oslo_messaging_notifications/transport_url').with_value('rabbit://rabbit_user:password@localhost:5673')
         is_expected.to contain_octavia_config('oslo_messaging_notifications/driver').with_value('ceilometer.compute.octavia_notifier')
         is_expected.to contain_octavia_config('oslo_messaging_notifications/topics').with_value('openstack')
+        is_expected.to contain_octavia_config('oslo_messaging/topic').with_value('oct-rpc')
       end
 
       context 'with multiple notification_driver' do

@@ -1,5 +1,5 @@
 #
-# Class to execute octavia-manage db_sync
+# Class to execute octavia-db-manage upgrade head
 #
 # == Parameters
 #
@@ -12,12 +12,12 @@ class octavia::db::sync(
   $extra_params  = undef,
 ) {
   exec { 'octavia-db-sync':
-    command     => "octavia-manage db_sync ${extra_params}",
+    command     => "octavia-db-manage upgrade head ${extra_params}",
     path        => '/usr/bin',
     user        => 'octavia',
     refreshonly => true,
     subscribe   => [Package['octavia'], Octavia_config['database/connection']],
   }
 
-  Exec['octavia-manage db_sync'] ~> Service<| title == 'octavia' |>
+  Exec['octavia-db-sync'] ~> Service<| tag == 'octavia-db-sync-service' |>
 }

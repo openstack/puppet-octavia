@@ -49,6 +49,7 @@ describe 'basic octavia' do
         }
         class { '::octavia::api':
           keystone_password => 'a_big_secret',
+          sync_db           => true,
         }
       }
       EOS

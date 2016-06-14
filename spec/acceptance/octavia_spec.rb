@@ -47,6 +47,9 @@ describe 'basic octavia' do
           rabbit_password => 'an_even_bigger_secret',
           rabbit_host     => '127.0.0.1',
         }
+        class { '::octavia::api':
+          keystone_password => 'a_big_secret',
+        }
       }
       EOS
 

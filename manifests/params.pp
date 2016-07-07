@@ -1,6 +1,7 @@
 # Parameters for puppet-octavia
 #
 class octavia::params {
+  include ::openstacklib::defaults
 
   $api_service_name = 'octavia-api'
   case $::osfamily {

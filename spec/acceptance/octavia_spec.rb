@@ -55,6 +55,9 @@ describe 'basic octavia' do
         class { '::octavia::worker':
           amp_flavor_id => '65',
         }
+        class { '::octavia::health_manager':
+          heartbeat_key => 'abcdefghijkl',
+        }
 
         # We create Nova flavor on the same node where Nova runs
         Class['::nova::keystone::auth'] -> Nova_flavor<||>

@@ -58,6 +58,8 @@ describe 'basic octavia' do
         class { '::octavia::health_manager':
           heartbeat_key => 'abcdefghijkl',
         }
+        class { '::octavia::housekeeping':
+        }
 
         # We create Nova flavor on the same node where Nova runs
         Class['::nova::keystone::auth'] -> Nova_flavor<||>

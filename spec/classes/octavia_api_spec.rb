@@ -10,10 +10,6 @@ describe 'octavia::api' do
   let :params do
     { :enabled           => true,
       :manage_service    => true,
-      :keystone_auth_uri => 'http://127.0.0.0:5000',
-      :keystone_password => 'octavia-passw0rd',
-      :keystone_tenant   => 'services',
-      :keystone_user     => 'octavia',
       :package_ensure    => 'latest',
       :port              => '9876',
       :host              => '0.0.0.0',
@@ -21,11 +17,6 @@ describe 'octavia::api' do
   end
 
   shared_examples_for 'octavia-api' do
-
-    context 'without required parameter keystone_password' do
-      before { params.delete(:keystone_password) }
-      it { expect { is_expected.to raise_error(Puppet::Error) } }
-    end
 
     it { is_expected.to contain_class('octavia::params') }
     it { is_expected.to contain_class('octavia::policy') }
@@ -38,12 +29,7 @@ describe 'octavia::api' do
       )
     end
 
-    it 'configures keystone authentication middleware' do
-      is_expected.to contain_octavia_config('keystone_authtoken/auth_uri').with_value( params[:keystone_auth_uri] )
-      is_expected.to contain_octavia_config('keystone_authtoken/admin_tenant_name').with_value( params[:keystone_tenant] )
-      is_expected.to contain_octavia_config('keystone_authtoken/admin_user').with_value( params[:keystone_user] )
-      is_expected.to contain_octavia_config('keystone_authtoken/admin_password').with_value( params[:keystone_password] )
-      is_expected.to contain_octavia_config('keystone_authtoken/admin_password').with_value( params[:keystone_password] ).with_secret(true)
+    it 'configures api' do
       is_expected.to contain_octavia_config('api/host').with_value( params[:host] )
       is_expected.to contain_octavia_config('api/port').with_value( params[:port] )
     end
@@ -92,17 +78,6 @@ describe 'octavia::api' do
           :hasrestart => true,
           :tag        => ['octavia-service', 'octavia-db-sync-service'],
         )
-      end
-    end
-
-    context 'with custom identity_uri' do
-      before do
-        params.merge!({
-          :keystone_identity_uri => 'https://foo.bar:1234/',
-        })
-      end
-      it 'should configure custom identity_uri correctly' do
-        is_expected.to contain_octavia_config('keystone_authtoken/identity_uri').with_value( 'https://foo.bar:1234/' )
       end
     end
 

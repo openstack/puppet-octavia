@@ -48,8 +48,10 @@ describe 'basic octavia' do
           rabbit_password => 'an_even_bigger_secret',
           rabbit_host     => '127.0.0.1',
         }
+        class { '::octavia::keystone::authtoken':
+          password => 'octavia_pass',
+        }
         class { '::octavia::api':
-          keystone_password => 'a_big_secret',
           sync_db           => true,
         }
         class { '::octavia::worker':

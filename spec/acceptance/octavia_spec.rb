@@ -64,7 +64,7 @@ describe 'basic octavia' do
         }
 
         # We create Nova flavor on the same node where Nova runs
-        Class['::nova::keystone::auth'] -> Nova_flavor<||>
+        Keystone_user_role['admin@openstack'] -> Nova_flavor<||>
 
       }
       EOS

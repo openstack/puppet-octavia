@@ -16,6 +16,8 @@ class octavia::db::sync(
     path        => '/usr/bin',
     user        => 'octavia',
     refreshonly => true,
+    try_sleep   => 5,
+    tries       => 10,
     subscribe   => [Package['octavia'], Octavia_config['database/connection']],
   }
 

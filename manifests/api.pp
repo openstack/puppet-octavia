@@ -60,19 +60,19 @@ class octavia::api (
     } else {
       $service_ensure = 'stopped'
     }
+
+    service { 'octavia-api':
+      ensure     => $service_ensure,
+      name       => $::octavia::params::api_service_name,
+      enable     => $enabled,
+      hasstatus  => true,
+      hasrestart => true,
+      tag        => ['octavia-service', 'octavia-db-sync-service'],
+    }
   }
 
   if $sync_db {
     include ::octavia::db::sync
-  }
-
-  service { 'octavia-api':
-    ensure     => $service_ensure,
-    name       => $::octavia::params::api_service_name,
-    enable     => $enabled,
-    hasstatus  => true,
-    hasrestart => true,
-    tag        => ['octavia-service', 'octavia-db-sync-service'],
   }
 
   octavia_config {

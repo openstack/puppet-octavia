@@ -91,14 +91,7 @@ describe 'octavia::api' do
       end
 
       it 'configures octavia-api service' do
-        is_expected.to contain_service('octavia-api').with(
-          :ensure     => nil,
-          :name       => platform_params[:api_service_name],
-          :enable     => false,
-          :hasstatus  => true,
-          :hasrestart => true,
-          :tag        => ['octavia-service', 'octavia-db-sync-service'],
-        )
+        is_expected.to_not contain_service('octavia-api')
       end
     end
 

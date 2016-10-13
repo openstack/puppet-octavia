@@ -1,0 +1,6 @@
+---
+fixes:
+  - |
+    Fix the `manage_service` parameter for the api class. If `manage_service`
+    is set to false then the ocatavia-api service will not be defined in puppet
+    allowing the user to manage the service themselves or elsewhere.

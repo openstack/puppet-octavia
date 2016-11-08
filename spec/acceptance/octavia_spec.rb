@@ -44,9 +44,7 @@ describe 'basic octavia' do
           debug => true,
         }
         class { '::octavia':
-          rabbit_userid   => 'octavia',
-          rabbit_password => 'an_even_bigger_secret',
-          rabbit_host     => '127.0.0.1',
+          default_transport_url => 'rabbit://octavia:an_even_bigger_secret@127.0.0.1:5672/',
         }
         class { '::octavia::keystone::authtoken':
           password => 'octavia_pass',

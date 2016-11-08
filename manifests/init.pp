@@ -21,30 +21,6 @@
 #     zmq (for zeromq)
 #   Defaults to 'rabbit'
 #
-# [*rabbit_host*]
-#   (optional) Location of rabbitmq installation.
-#   Defaults to $::os_service_default
-#
-# [*rabbit_hosts*]
-#   (optional) List of clustered rabbit servers.
-#   Defaults to $::os_service_default
-#
-# [*rabbit_port*]
-#   (optional) Port for rabbitmq instance.
-#   Defaults to $::os_service_default
-#
-# [*rabbit_password*]
-#   (optional) Password used to connect to rabbitmq.
-#   Defaults to $::os_service_default
-#
-# [*rabbit_userid*]
-#   (optional) User used to connect to rabbitmq.
-#   Defaults to $::os_service_default
-#
-# [*rabbit_virtual_host*]
-#   (optional) The RabbitMQ virtual host.
-#   Defaults to $::os_service_default
-#
 # [*rabbit_use_ssl*]
 #   (optional) Connect over SSL for RabbitMQ
 #   Defaults to $::os_service_default
@@ -193,12 +169,6 @@ class octavia (
   $ensure_package                     = 'present',
   $default_transport_url              = $::os_service_default,
   $rpc_backend                        = 'rabbit',
-  $rabbit_host                        = $::os_service_default,
-  $rabbit_hosts                       = $::os_service_default,
-  $rabbit_password                    = $::os_service_default,
-  $rabbit_port                        = $::os_service_default,
-  $rabbit_userid                      = $::os_service_default,
-  $rabbit_virtual_host                = $::os_service_default,
   $rabbit_use_ssl                     = $::os_service_default,
   $rabbit_heartbeat_timeout_threshold = $::os_service_default,
   $rabbit_heartbeat_rate              = $::os_service_default,
@@ -248,12 +218,6 @@ class octavia (
 
   if $rpc_backend == 'rabbit' {
     oslo::messaging::rabbit { 'octavia_config':
-      rabbit_userid               => $rabbit_userid,
-      rabbit_password             => $rabbit_password,
-      rabbit_virtual_host         => $rabbit_virtual_host,
-      rabbit_host                 => $rabbit_host,
-      rabbit_port                 => $rabbit_port,
-      rabbit_hosts                => $rabbit_hosts,
       rabbit_ha_queues            => $rabbit_ha_queues,
       heartbeat_timeout_threshold => $rabbit_heartbeat_timeout_threshold,
       heartbeat_rate              => $rabbit_heartbeat_rate,

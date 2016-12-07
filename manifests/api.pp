@@ -35,13 +35,9 @@ class octavia::api (
   $sync_db               = false,
 ) inherits octavia::params {
 
+  include ::octavia::deps
   include ::octavia::policy
 
-  Octavia_config<||> ~> Service['octavia-api']
-  Class['octavia::policy'] ~> Service['octavia-api']
-
-  Package['octavia-api'] -> Service['octavia-api']
-  Package['octavia-api'] -> Class['octavia::policy']
   package { 'octavia-api':
     ensure => $package_ensure,
     name   => $::octavia::params::api_package_name,
@@ -66,7 +62,6 @@ class octavia::api (
     enable     => $enabled,
     hasstatus  => true,
     hasrestart => true,
-    require    => Class['octavia::db'],
     tag        => ['octavia-service', 'octavia-db-sync-service'],
   }
 

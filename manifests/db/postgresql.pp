@@ -40,7 +40,7 @@ class octavia::db::postgresql(
   $privileges = 'ALL',
 ) {
 
-  Class['octavia::db::postgresql'] -> Service<| title == 'octavia' |>
+  include ::octavia::deps
 
   ::openstacklib::db::postgresql { 'octavia':
     password_hash => postgresql_password($user, $password),
@@ -50,6 +50,8 @@ class octavia::db::postgresql(
     privileges    => $privileges,
   }
 
-  ::Openstacklib::Db::Postgresql['octavia'] ~> Exec<| title == 'octavia-manage db_sync' |>
+  Anchor['octavia::db::begin']
+  ~> Class['octavia::db::postgresql']
+  ~> Anchor['octavia::db::end']
 
 }

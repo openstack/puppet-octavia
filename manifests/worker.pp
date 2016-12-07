@@ -47,7 +47,6 @@
 #   Possible options are documented in puppet-nova nova_flavor type.
 #   Defaults to {}.
 #
-
 class octavia::worker (
   $manage_service          = true,
   $enabled                 = true,
@@ -60,7 +59,9 @@ class octavia::worker (
   $nova_flavor_config      = {},
 ) inherits octavia::params {
 
-validate_hash($nova_flavor_config)
+  include ::octavia::deps
+
+  validate_hash($nova_flavor_config)
 
   if ! is_service_default($loadbalancer_topology) and  ! ($loadbalancer_topology in ['SINGLE', 'ACTIVE_STANDBY']) {
       fail('load balancer topology must be one of SINGLE or ACTIVE_STANDBY')
@@ -88,8 +89,6 @@ validate_hash($nova_flavor_config)
     }
   }
 
-  Octavia_config<||> ~> Service['octavia-worker']
-  Package['octavia-worker'] -> Service['octavia-worker']
   package { 'octavia-worker':
     ensure => $package_ensure,
     name   => $::octavia::params::worker_package_name,

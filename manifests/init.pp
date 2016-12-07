@@ -203,6 +203,7 @@ class octavia (
   $purge_config                       = false,
 ) inherits octavia::params {
 
+  include ::octavia::deps
   include ::octavia::logging
   include ::octavia::db
 

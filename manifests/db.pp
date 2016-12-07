@@ -49,6 +49,8 @@ class octavia::db (
   $database_db_max_retries = $::os_service_default,
 ) {
 
+  include ::octavia::deps
+
   validate_re($database_connection,
     '^(sqlite|mysql(\+pymysql)?|postgresql):\/\/(\S+:\S+@\S+\/\S+)?')
 

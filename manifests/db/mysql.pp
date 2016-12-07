@@ -53,6 +53,8 @@ class octavia::db::mysql(
   $allowed_hosts = undef
 ) {
 
+  include ::octavia::deps
+
   validate_string($password)
 
   ::openstacklib::db::mysql { 'octavia':
@@ -65,5 +67,8 @@ class octavia::db::mysql(
     allowed_hosts => $allowed_hosts,
   }
 
-  ::Openstacklib::Db::Mysql['octavia'] ~> Exec<| title == 'octavia-manage db_sync' |>
+  Anchor['octavia::db::begin']
+  ~> Class['octavia::db::mysql']
+  ~> Anchor['octavia::db::end']
+
 }

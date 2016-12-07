@@ -9,6 +9,10 @@ describe 'octavia' do
         { :purge_config => false  }
       end
 
+      it 'contains the deps class' do
+        is_expected.to contain_class('octavia::deps')
+      end
+
       it 'contains the logging class' do
         is_expected.to contain_class('octavia::logging')
       end

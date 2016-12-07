@@ -222,6 +222,8 @@ class octavia::keystone::authtoken(
   $token_cache_time               = $::os_service_default,
 ) {
 
+  include ::octavia::deps
+
   keystone::resource::authtoken { 'octavia_config':
     username                       => $username,
     password                       => $password,

@@ -64,6 +64,8 @@ class octavia::keystone::auth (
   $internal_url        = 'http://127.0.0.1:9876',
 ) {
 
+  include ::octavia::deps
+
   keystone::resource::service_identity { 'octavia':
     configure_user      => $configure_user,
     configure_user_role => $configure_user_role,

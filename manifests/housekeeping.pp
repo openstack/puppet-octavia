@@ -45,7 +45,7 @@
 # [*cert_rotate_threads*]
 #   (optional) Number of threads performing amphora certificate rotation.
 #   Defaults to $::os_service_default
-
+#
 class octavia::housekeeping (
   $manage_service            = true,
   $enabled                   = true,
@@ -60,8 +60,8 @@ class octavia::housekeeping (
   $cert_rotate_threads       = $::os_service_default,
 ) inherits octavia::params {
 
-  Octavia_config<||> ~> Service['octavia-housekeeping']
-  Package['octavia-housekeeping'] -> Service['octavia-housekeeping']
+  include ::octavia::deps
+
   package { 'octavia-housekeeping':
     ensure => $package_ensure,
     name   => $::octavia::params::housekeeping_package_name,

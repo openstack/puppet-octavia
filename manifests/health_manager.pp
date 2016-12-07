@@ -21,19 +21,18 @@
 #   (optional) Driver to use for synchronizing octavia and lbaas databases.
 #   Defaults to $::os_service_default
 #
-
 class octavia::health_manager (
   $heartbeat_key,
-  $manage_service          = true,
-  $enabled                 = true,
-  $package_ensure          = 'present',
-  $event_streamer_driver   = $::os_service_default,
+  $manage_service        = true,
+  $enabled               = true,
+  $package_ensure        = 'present',
+  $event_streamer_driver = $::os_service_default,
 ) inherits octavia::params {
+
+  include ::octavia::deps
 
   validate_string($heartbeat_key)
 
-  Octavia_config<||> ~> Service['octavia-health-manager']
-  Package['octavia-health-manager'] -> Service['octavia-health-manager']
   package { 'octavia-health-manager':
     ensure => $package_ensure,
     name   => $::octavia::params::health_manager_package_name,

@@ -18,6 +18,7 @@ describe 'octavia::api' do
 
   shared_examples_for 'octavia-api' do
 
+    it { is_expected.to contain_class('octavia::deps') }
     it { is_expected.to contain_class('octavia::params') }
     it { is_expected.to contain_class('octavia::policy') }
 
@@ -47,10 +48,11 @@ describe 'octavia::api' do
             :enable     => params[:enabled],
             :hasstatus  => true,
             :hasrestart => true,
-            :require    => 'Class[Octavia::Db]',
             :tag        => ['octavia-service', 'octavia-db-sync-service'],
           )
         end
+        it { is_expected.to contain_service('octavia-api').that_subscribes_to('Anchor[octavia::service::begin]')}
+        it { is_expected.to contain_service('octavia-api').that_notifies('Anchor[octavia::service::end]')}
       end
     end
 

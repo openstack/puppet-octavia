@@ -28,6 +28,8 @@ class octavia::policy (
   $policy_path = '/etc/octavia/policy.json',
 ) {
 
+  include ::octavia::deps
+
   validate_hash($policies)
 
   Openstacklib::Policy::Base {

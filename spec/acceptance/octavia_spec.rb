@@ -50,7 +50,7 @@ describe 'basic octavia' do
           password => 'octavia_pass',
         }
         class { '::octavia::api':
-          sync_db           => true,
+          sync_db => true,
         }
         class { '::octavia::worker':
           amp_flavor_id => '65',
@@ -71,6 +71,13 @@ describe 'basic octavia' do
       apply_manifest(pp, :catch_failures => true)
       apply_manifest(pp, :catch_changes => true)
     end
+
+    if os[:family].casecmp('RedHat') == 0
+      describe port(9876) do
+        it { is_expected.to be_listening }
+      end
+    end
+
   end
 
 end

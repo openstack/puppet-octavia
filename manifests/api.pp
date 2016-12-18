@@ -66,8 +66,8 @@ class octavia::api (
   }
 
   octavia_config {
-    'api/host'                             : value => $host;
-    'api/port'                             : value => $port;
+    'DEFAULT/host'                             : value => $host;
+    'DEFAULT/port'                             : value => $port;
   }
 
 }

@@ -30,9 +30,9 @@ describe 'octavia::api' do
       )
     end
 
-    it 'configures api' do
-      is_expected.to contain_octavia_config('api/host').with_value( params[:host] )
-      is_expected.to contain_octavia_config('api/port').with_value( params[:port] )
+    it 'configures bind_host and bind_port' do
+      is_expected.to contain_octavia_config('DEFAULT/host').with_value( params[:host] )
+      is_expected.to contain_octavia_config('DEFAULT/port').with_value( params[:port] )
     end
 
     [{:enabled => true}, {:enabled => false}].each do |param_hash|

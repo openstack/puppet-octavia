@@ -81,6 +81,22 @@ describe 'octavia::health_manager' do
       end
     end
 
+    context 'with host and port default values' do
+      it { is_expected.to contain_octavia_config('health_manager/bind_ip').with_value('<SERVICE DEFAULT>') }
+      it { is_expected.to contain_octavia_config('health_manager/bind_port').with_value('<SERVICE DEFAULT>') }
+    end
+
+    context 'with host and port values override' do
+      before do
+        params.merge!({
+          :ip   => '10.0.0.15',
+          :port => '5555'})
+      end
+
+        it { is_expected.to contain_octavia_config('health_manager/bind_ip').with_value('10.0.0.15') }
+        it { is_expected.to contain_octavia_config('health_manager/bind_port').with_value('5555') }
+    end
+
   end
 
   on_supported_os({

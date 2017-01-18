@@ -1,0 +1,5 @@
+---
+upgrade:
+  - In previous releases, ::octavia::db was included in ::octavia even though
+    it isn't required by all users of that class. It has been removed from
+    ::octavia and added to ::octavia::api where it is required.

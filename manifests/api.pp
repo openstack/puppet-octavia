@@ -37,6 +37,7 @@ class octavia::api (
 
   include ::octavia::deps
   include ::octavia::policy
+  include ::octavia::db
 
   package { 'octavia-api':
     ensure => $package_ensure,

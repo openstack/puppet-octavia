@@ -17,10 +17,6 @@ describe 'octavia' do
         is_expected.to contain_class('octavia::logging')
       end
 
-      it 'contains the db class' do
-        is_expected.to contain_class('octavia::db')
-      end
-
       it 'installs packages' do
         is_expected.to contain_package('octavia').with(
           :name   => platform_params[:octavia_common_package],

@@ -1,0 +1,5 @@
+---
+features:
+  - Added configuration for amphora_driver, compute_driver
+    and network_driver
+

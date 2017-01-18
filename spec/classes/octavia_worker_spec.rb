@@ -42,6 +42,9 @@ describe 'octavia::worker' do
 
     it 'configures worker parameters' do
       is_expected.to contain_octavia_config('controller_worker/amp_flavor_id').with_value('65')
+      is_expected.to contain_octavia_config('controller_worker/amphora_driver').with_value('amphora_haproxy_rest_driver')
+      is_expected.to contain_octavia_config('controller_worker/compute_driver').with_value('compute_nova_driver')
+      is_expected.to contain_octavia_config('controller_worker/network_driver').with_value('allowed_address_pairs_driver')
     end
 
     it 'deploys nova flavor for octavia worker' do

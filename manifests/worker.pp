@@ -47,6 +47,19 @@
 #   Possible options are documented in puppet-nova nova_flavor type.
 #   Defaults to {}.
 #
+# [*amphora_driver*]
+#   (optional) Name of driver for communicating with amphorae
+#   Defaults to 'amphora_haproxy_rest_driver'
+#
+# [*compute_driver*]
+#   (optional) Name of driver for managing amphorae VMs
+#   Defaults to 'compute_nova_driver'
+#
+# [*network_driver*]
+#   (optional) Name of network driver for configuring networking
+#   for amphorae.
+#   Defaults to 'allowed_address_pairs_driver' (neutron based)
+#
 class octavia::worker (
   $manage_service          = true,
   $enabled                 = true,
@@ -57,6 +70,9 @@ class octavia::worker (
   $loadbalancer_topology   = $::os_service_default,
   $manage_nova_flavor      = true,
   $nova_flavor_config      = {},
+  $amphora_driver          = 'amphora_haproxy_rest_driver',
+  $compute_driver          = 'compute_nova_driver',
+  $network_driver          = 'allowed_address_pairs_driver'
 ) inherits octavia::params {
 
   include ::octavia::deps
@@ -117,5 +133,8 @@ class octavia::worker (
     'controller_worker/amp_image_tag'         : value => $amp_image_tag;
     'controller_worker/amp_boot_network_list' : value => $amp_boot_network_list;
     'controller_worker/loadbalancer_topology' : value => $loadbalancer_topology;
+    'controller_worker/amphora_driver'        : value => $amphora_driver;
+    'controller_worker/compute_driver'        : value => $compute_driver;
+    'controller_worker/network_driver'        : value => $network_driver;
   }
 }

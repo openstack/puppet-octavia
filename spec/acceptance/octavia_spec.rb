@@ -11,7 +11,9 @@ describe 'basic octavia' do
       include ::openstack_integration::rabbitmq
       include ::openstack_integration::mysql
       include ::openstack_integration::keystone
-      include ::openstack_integration::nova
+      if $::osfamily == 'RedHat' {
+        include ::openstack_integration::nova
+      }
 
       rabbitmq_user { 'octavia':
         admin    => true,

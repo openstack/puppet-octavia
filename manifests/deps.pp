@@ -29,6 +29,10 @@ class octavia::deps {
   -> Openstacklib::Policy::Base<||>
   ~> Anchor['octavia::config::end']
 
+  # all db settings should be applied and all packages should be installed
+  # before dbsync starts
+  Oslo::Db<||> -> Anchor['octavia::dbsync::begin']
+
   # Installation or config changes will always restart services.
   Anchor['octavia::install::end'] ~> Anchor['octavia::service::begin']
   Anchor['octavia::config::end']  ~> Anchor['octavia::service::begin']

@@ -21,7 +21,6 @@
 #   Defaults to '65'.
 #
 # [*amp_image_tag*]
-
 #   Glance image tag for Amphora image. Allows the Amphora image to be
 #   referred to by a tag instead of an ID, allowing the Amphora image to
 #   be updated without requiring reconfiguration of Octavia.
@@ -61,18 +60,18 @@
 #   Defaults to 'allowed_address_pairs_driver' (neutron based)
 #
 class octavia::worker (
-  $manage_service          = true,
-  $enabled                 = true,
-  $package_ensure          = 'present',
-  $amp_flavor_id           = '65',
-  $amp_image_tag           = $::os_service_default,
-  $amp_boot_network_list   = [],
-  $loadbalancer_topology   = $::os_service_default,
-  $manage_nova_flavor      = true,
-  $nova_flavor_config      = {},
-  $amphora_driver          = 'amphora_haproxy_rest_driver',
-  $compute_driver          = 'compute_nova_driver',
-  $network_driver          = 'allowed_address_pairs_driver'
+  $manage_service        = true,
+  $enabled               = true,
+  $package_ensure        = 'present',
+  $amp_flavor_id         = '65',
+  $amp_image_tag         = $::os_service_default,
+  $amp_boot_network_list = [],
+  $loadbalancer_topology = $::os_service_default,
+  $manage_nova_flavor    = true,
+  $nova_flavor_config    = {},
+  $amphora_driver        = 'amphora_haproxy_rest_driver',
+  $compute_driver        = 'compute_nova_driver',
+  $network_driver        = 'allowed_address_pairs_driver'
 ) inherits octavia::params {
 
   include ::octavia::deps

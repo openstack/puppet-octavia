@@ -1,0 +1,4 @@
+---
+features:
+  - support for configuring auth_strategy for the Octavia api service has
+    been added and the keystone authtoken support properly initialized.

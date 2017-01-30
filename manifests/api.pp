@@ -22,6 +22,10 @@
 #   (optional) ensure state for package.
 #   Defaults to 'present'
 #
+# [*auth_strategy*]
+#   (optional) set authentication mechanism
+#   Defaults to 'keystone'
+#
 # [*sync_db*]
 #   (optional) Run octavia-db-manage upgrade head on api nodes after installing the package.
 #   Defaults to false
@@ -32,12 +36,17 @@ class octavia::api (
   $package_ensure        = 'present',
   $host                  = '0.0.0.0',
   $port                  = '9876',
+  $auth_strategy         = 'keystone',
   $sync_db               = false,
 ) inherits octavia::params {
 
   include ::octavia::deps
   include ::octavia::policy
   include ::octavia::db
+
+  if $auth_strategy == 'keystone' {
+    include ::octavia::keystone::authtoken
+  }
 
   package { 'octavia-api':
     ensure => $package_ensure,
@@ -69,6 +78,7 @@ class octavia::api (
   octavia_config {
     'DEFAULT/host'                             : value => $host;
     'DEFAULT/port'                             : value => $port;
+    'DEFAULT/auth_strategy'                    : value => $auth_strategy;
   }
 
 }

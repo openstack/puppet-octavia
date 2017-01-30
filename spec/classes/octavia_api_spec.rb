@@ -4,7 +4,11 @@ describe 'octavia::api' do
 
   let :pre_condition do
     "class { 'octavia': }
-     include ::octavia::db"
+     include ::octavia::db
+     class { '::octavia::keystone::authtoken':
+       password  => 'password';
+     }
+    "
   end
 
   let :params do
@@ -21,6 +25,7 @@ describe 'octavia::api' do
     it { is_expected.to contain_class('octavia::deps') }
     it { is_expected.to contain_class('octavia::params') }
     it { is_expected.to contain_class('octavia::policy') }
+    it { is_expected.to contain_class('octavia::keystone::authtoken') }
 
     it 'installs octavia-api package' do
       is_expected.to contain_package('octavia-api').with(
@@ -28,6 +33,20 @@ describe 'octavia::api' do
         :name   => platform_params[:api_package_name],
         :tag    => ['openstack', 'octavia-package'],
       )
+    end
+
+    context 'when not parameters are defined' do
+      before do
+        params.clear()
+      end
+      it 'configures with default values' do
+        is_expected.to contain_octavia_config('DEFAULT/host').with_value( '0.0.0.0' )
+        is_expected.to contain_octavia_config('DEFAULT/port').with_value( '9876' )
+        is_expected.to contain_octavia_config('DEFAULT/auth_strategy').with_value( 'keystone' )
+      end
+      it 'does not sync the database' do
+        is_expected.not_to contain_class('octavia::db::sync')
+      end
     end
 
     it 'configures bind_host and bind_port' do

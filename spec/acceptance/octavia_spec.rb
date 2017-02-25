@@ -64,7 +64,9 @@ describe 'basic octavia' do
         }
 
         # We create Nova flavor on the same node where Nova runs
-        Keystone_user_role['admin@openstack'] -> Nova_flavor<||>
+        Keystone_user_role <||>-> Nova_flavor<||>
+        Keystone_user <||>-> Nova_flavor<||>
+        Keystone_endpoint <||>-> Nova_flavor<||>
 
       }
       EOS

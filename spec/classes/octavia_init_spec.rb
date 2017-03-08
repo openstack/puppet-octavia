@@ -58,7 +58,7 @@ describe 'octavia' do
           :rabbit_heartbeat_timeout_threshold => '60',
           :rabbit_heartbeat_rate              => '10',
           :kombu_compression                  => 'gzip',
-          :ensure_package                     => '2012.1.1-15.el6',
+          :package_ensure                     => '2012.1.1-15.el6',
           :notification_transport_url         => 'rabbit://rabbit_user:password@localhost:5673',
           :notification_driver                => 'ceilometer.compute.octavia_notifier',
           :notification_topics                => 'openstack',

@@ -1,6 +1,6 @@
 {
   "name": "openstack-octavia",
-  "version": "10.3.0",
+  "version": "10.3.1",
   "author": "OpenStack Contributors",
   "summary": "Puppet module for OpenStack Octavia",
   "license": "Apache-2.0",

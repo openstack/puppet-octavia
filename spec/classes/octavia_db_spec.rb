@@ -95,7 +95,7 @@ describe 'octavia::db' do
       end
 
       it 'install the proper backend package' do
-        is_expected.to contain_package('db_backend_package').with(
+        is_expected.to contain_package('python-pymysql').with(
           :ensure => 'present',
           :name   => 'python-pymysql',
           :tag    => 'openstack'
@@ -119,9 +119,6 @@ describe 'octavia::db' do
         { :database_connection => 'mysql+pymysql://octavia:octavia@localhost/octavia', }
       end
 
-      it 'install the proper backend package' do
-        is_expected.not_to contain_package('db_backend_package')
-      end
     end
   end
 

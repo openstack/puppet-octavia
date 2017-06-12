@@ -12,11 +12,11 @@
 #
 # [*host*]
 #   (optional) The octavia api bind address.
-#   Defaults to 0.0.0.0
+#   Defaults to '0.0.0.0'
 #
 # [*port*]
 #   (optional) The octavia api port.
-#   Defaults to 9876
+#   Defaults to '9876'
 #
 # [*package_ensure*]
 #   (optional) ensure state for package.
@@ -29,15 +29,15 @@
 # [*sync_db*]
 #   (optional) Run octavia-db-manage upgrade head on api nodes after installing the package.
 #   Defaults to false
-
+#
 class octavia::api (
-  $manage_service        = true,
-  $enabled               = true,
-  $package_ensure        = 'present',
-  $host                  = '0.0.0.0',
-  $port                  = '9876',
-  $auth_strategy         = 'keystone',
-  $sync_db               = false,
+  $manage_service  = true,
+  $enabled         = true,
+  $package_ensure  = 'present',
+  $host            = '0.0.0.0',
+  $port            = '9876',
+  $auth_strategy   = 'keystone',
+  $sync_db         = false,
 ) inherits octavia::params {
 
   include ::octavia::deps
@@ -76,9 +76,9 @@ class octavia::api (
   }
 
   octavia_config {
-    'DEFAULT/host'                             : value => $host;
-    'DEFAULT/port'                             : value => $port;
-    'DEFAULT/auth_strategy'                    : value => $auth_strategy;
+    'DEFAULT/bind_host'     : value => $host;
+    'DEFAULT/bind_port'     : value => $port;
+    'DEFAULT/auth_strategy' : value => $auth_strategy;
   }
 
 }

@@ -12,11 +12,11 @@ describe 'octavia::api' do
   end
 
   let :params do
-    { :enabled           => true,
-      :manage_service    => true,
-      :package_ensure    => 'latest',
-      :port              => '9876',
-      :host              => '0.0.0.0',
+    { :enabled        => true,
+      :manage_service => true,
+      :package_ensure => 'latest',
+      :port           => '9876',
+      :host           => '0.0.0.0',
     }
   end
 
@@ -40,8 +40,8 @@ describe 'octavia::api' do
         params.clear()
       end
       it 'configures with default values' do
-        is_expected.to contain_octavia_config('DEFAULT/host').with_value( '0.0.0.0' )
-        is_expected.to contain_octavia_config('DEFAULT/port').with_value( '9876' )
+        is_expected.to contain_octavia_config('DEFAULT/bind_host').with_value( '0.0.0.0' )
+        is_expected.to contain_octavia_config('DEFAULT/bind_port').with_value( '9876' )
         is_expected.to contain_octavia_config('DEFAULT/auth_strategy').with_value( 'keystone' )
       end
       it 'does not sync the database' do
@@ -50,8 +50,8 @@ describe 'octavia::api' do
     end
 
     it 'configures bind_host and bind_port' do
-      is_expected.to contain_octavia_config('DEFAULT/host').with_value( params[:host] )
-      is_expected.to contain_octavia_config('DEFAULT/port').with_value( params[:port] )
+      is_expected.to contain_octavia_config('DEFAULT/bind_host').with_value( params[:host] )
+      is_expected.to contain_octavia_config('DEFAULT/bind_port').with_value( params[:port] )
     end
 
     [{:enabled => true}, {:enabled => false}].each do |param_hash|

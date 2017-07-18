@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    Adds `amp_ssh_key_name`, `key_path` configuration options for configuring
+    secure communications with amphorae.

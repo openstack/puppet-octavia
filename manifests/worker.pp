@@ -63,6 +63,14 @@
 #   for amphorae.
 #   Defaults to 'allowed_address_pairs_driver' (neutron based)
 #
+# [*amp_ssh_key_name*]
+#   (optional) Name of Openstack SSH keypair for communicating with amphora
+#   Defaults to 'octavia-ssh-key'
+#
+# [*key_path*]
+#   (optional) full path to the private key for the amphora SSH key
+#   Defaults to '/etc/octavia/.ssh/octavia_ssh_key'
+#
 class octavia::worker (
   $manage_service        = true,
   $enabled               = true,
@@ -76,7 +84,9 @@ class octavia::worker (
   $nova_flavor_config    = {},
   $amphora_driver        = 'amphora_haproxy_rest_driver',
   $compute_driver        = 'compute_nova_driver',
-  $network_driver        = 'allowed_address_pairs_driver'
+  $network_driver        = 'allowed_address_pairs_driver',
+  $amp_ssh_key_name      = 'octavia-ssh-key',
+  $key_path              = '/etc/octavia/.ssh/octavia_ssh_key'
 ) inherits octavia::params {
 
   include ::octavia::deps
@@ -141,5 +151,7 @@ class octavia::worker (
     'controller_worker/amphora_driver'        : value => $amphora_driver;
     'controller_worker/compute_driver'        : value => $compute_driver;
     'controller_worker/network_driver'        : value => $network_driver;
+    'controller_worker/amp_ssh_key_name'      : value => $amp_ssh_key_name;
+    'haproxy_amphora/key_path'                : value => $key_path;
   }
 }

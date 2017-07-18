@@ -32,6 +32,8 @@ describe 'octavia::worker' do
           :amp_secgroup_list     => ['lb-mgmt-sec-grp'],
           :amp_boot_network_list => ['lbnet1', 'lbnet2'],
           :loadbalancer_topology => 'SINGLE',
+          :amp_ssh_key_name      => 'custom-amphora-key',
+          :key_path              => '/opt/octavia/ssh/amphora_key',
         })
       end
 
@@ -40,6 +42,8 @@ describe 'octavia::worker' do
       it { is_expected.to contain_octavia_config('controller_worker/amp_secgroup_list').with_value(['lb-mgmt-sec-grp']) }
       it { is_expected.to contain_octavia_config('controller_worker/amp_boot_network_list').with_value(['lbnet1', 'lbnet2']) }
       it { is_expected.to contain_octavia_config('controller_worker/loadbalancer_topology').with_value('SINGLE') }
+      it { is_expected.to contain_octavia_config('controller_worker/amp_ssh_key_name').with_value('custom-amphora-key') }
+      it { is_expected.to contain_octavia_config('haproxy_amphora/key_path').with_value('/opt/octavia/ssh/amphora_key') }
     end
 
     it 'configures worker parameters' do
@@ -47,6 +51,8 @@ describe 'octavia::worker' do
       is_expected.to contain_octavia_config('controller_worker/amphora_driver').with_value('amphora_haproxy_rest_driver')
       is_expected.to contain_octavia_config('controller_worker/compute_driver').with_value('compute_nova_driver')
       is_expected.to contain_octavia_config('controller_worker/network_driver').with_value('allowed_address_pairs_driver')
+      is_expected.to contain_octavia_config('controller_worker/amp_ssh_key_name').with_value('octavia-ssh-key')
+      is_expected.to contain_octavia_config('haproxy_amphora/key_path').with_value('/etc/octavia/.ssh/octavia_ssh_key')
     end
 
     it 'deploys nova flavor for octavia worker' do

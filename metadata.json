@@ -69,5 +69,5 @@
     ],
     "source": "git://github.com/openstack/puppet-octavia.git",
     "summary": "Puppet module for OpenStack Octavia",
-    "version": "11.2.0-dev"
+    "version": "11.2.0"
 }

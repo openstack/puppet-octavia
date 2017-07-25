@@ -36,7 +36,7 @@
 #
 # [*manage_nova_flavor*]
 #   (optional) Whether or not manage Nova flavor for the Amphora.
-#   Defaults to false.
+#   Defaults to true.
 #
 # [*nova_flavor_config*]
 #   (optional) Nova flavor config hash.

@@ -1,0 +1,4 @@
+---
+features:
+  - support for configuring amp_secgroup_list has been added which allows to
+    configure the security groups to be setup on the amphorae

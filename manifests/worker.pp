@@ -26,6 +26,10 @@
 #   be updated without requiring reconfiguration of Octavia.
 #   Defaults to $::os_service_default
 #
+# [*amp_secgroup_list*]
+#   List of security groups to use for Amphorae.
+#   Defaults to $::os_service_default
+#
 # [*amp_boot_network_list*]
 #   List of networks to attach to Amphorae.
 #   Defaults to []
@@ -65,6 +69,7 @@ class octavia::worker (
   $package_ensure        = 'present',
   $amp_flavor_id         = '65',
   $amp_image_tag         = $::os_service_default,
+  $amp_secgroup_list     = $::os_service_default,
   $amp_boot_network_list = [],
   $loadbalancer_topology = $::os_service_default,
   $manage_nova_flavor    = true,
@@ -130,6 +135,7 @@ class octavia::worker (
   octavia_config {
     'controller_worker/amp_flavor_id'         : value => $amp_flavor_id;
     'controller_worker/amp_image_tag'         : value => $amp_image_tag;
+    'controller_worker/amp_secgroup_list'     : value => $amp_secgroup_list;
     'controller_worker/amp_boot_network_list' : value => $amp_boot_network_list;
     'controller_worker/loadbalancer_topology' : value => $loadbalancer_topology;
     'controller_worker/amphora_driver'        : value => $amphora_driver;

@@ -29,6 +29,7 @@ describe 'octavia::worker' do
         params.merge!({
           :amp_flavor_id         => '42',
           :amp_image_tag         => 'amphorae1',
+          :amp_secgroup_list     => ['lb-mgmt-sec-grp'],
           :amp_boot_network_list => ['lbnet1', 'lbnet2'],
           :loadbalancer_topology => 'SINGLE',
         })
@@ -36,6 +37,7 @@ describe 'octavia::worker' do
 
       it { is_expected.to contain_octavia_config('controller_worker/amp_flavor_id').with_value('42') }
       it { is_expected.to contain_octavia_config('controller_worker/amp_image_tag').with_value('amphorae1') }
+      it { is_expected.to contain_octavia_config('controller_worker/amp_secgroup_list').with_value(['lb-mgmt-sec-grp']) }
       it { is_expected.to contain_octavia_config('controller_worker/amp_boot_network_list').with_value(['lbnet1', 'lbnet2']) }
       it { is_expected.to contain_octavia_config('controller_worker/loadbalancer_topology').with_value('SINGLE') }
     end

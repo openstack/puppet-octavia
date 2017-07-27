@@ -1,0 +1,4 @@
+---
+features:
+  - You can now configure the paths for the certificates which are used to the
+    public key infrastructure system which is used to authenticate to amphorae.

@@ -28,7 +28,7 @@
 #   Defaults to 'true'.
 #
 # [*service_type*]
-#   Type of service. Defaults to 'octavia'.
+#   Type of service. Defaults to 'load-balancer'.
 #
 # [*region*]
 #   Region for endpoint. Defaults to 'RegionOne'.
@@ -57,7 +57,7 @@ class octavia::keystone::auth (
   $configure_user      = true,
   $configure_user_role = true,
   $service_name        = 'octavia',
-  $service_type        = 'octavia',
+  $service_type        = 'load-balancer',
   $region              = 'RegionOne',
   $public_url          = 'http://127.0.0.1:9876',
   $admin_url           = 'http://127.0.0.1:9876',

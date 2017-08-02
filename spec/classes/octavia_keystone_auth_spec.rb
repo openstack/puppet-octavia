@@ -26,12 +26,12 @@ describe 'octavia::keystone::auth' do
       :roles   => ['admin']
     )}
 
-    it { is_expected.to contain_keystone_service('octavia::octavia').with(
+    it { is_expected.to contain_keystone_service('octavia::load-balancer').with(
       :ensure      => 'present',
       :description => 'Octavia Service'
     ) }
 
-    it { is_expected.to contain_keystone_endpoint('RegionOne/octavia::octavia').with(
+    it { is_expected.to contain_keystone_endpoint('RegionOne/octavia::load-balancer').with(
       :ensure       => 'present',
       :public_url   => 'http://127.0.0.1:9876',
       :admin_url    => 'http://127.0.0.1:9876',
@@ -47,7 +47,7 @@ describe 'octavia::keystone::auth' do
         :admin_url    => 'http://10.10.10.12:81', }
     end
 
-    it { is_expected.to contain_keystone_endpoint('RegionOne/octavia::octavia').with(
+    it { is_expected.to contain_keystone_endpoint('RegionOne/octavia::load-balancer').with(
       :ensure       => 'present',
       :public_url   => 'https://10.10.10.10:80',
       :internal_url => 'http://10.10.10.11:81',
@@ -63,8 +63,8 @@ describe 'octavia::keystone::auth' do
 
     it { is_expected.to contain_keystone_user('octaviay') }
     it { is_expected.to contain_keystone_user_role('octaviay@services') }
-    it { is_expected.to contain_keystone_service('octavia::octavia') }
-    it { is_expected.to contain_keystone_endpoint('RegionOne/octavia::octavia') }
+    it { is_expected.to contain_keystone_service('octavia::load-balancer') }
+    it { is_expected.to contain_keystone_endpoint('RegionOne/octavia::load-balancer') }
   end
 
   describe 'when overriding service name' do
@@ -76,8 +76,8 @@ describe 'octavia::keystone::auth' do
 
     it { is_expected.to contain_keystone_user('octavia') }
     it { is_expected.to contain_keystone_user_role('octavia@services') }
-    it { is_expected.to contain_keystone_service('octavia_service::octavia') }
-    it { is_expected.to contain_keystone_endpoint('RegionOne/octavia_service::octavia') }
+    it { is_expected.to contain_keystone_service('octavia_service::load-balancer') }
+    it { is_expected.to contain_keystone_endpoint('RegionOne/octavia_service::load-balancer') }
   end
 
   describe 'when disabling user configuration' do
@@ -91,7 +91,7 @@ describe 'octavia::keystone::auth' do
 
     it { is_expected.not_to contain_keystone_user('octavia') }
     it { is_expected.to contain_keystone_user_role('octavia@services') }
-    it { is_expected.to contain_keystone_service('octavia::octavia').with(
+    it { is_expected.to contain_keystone_service('octavia::load-balancer').with(
       :ensure      => 'present',
       :description => 'Octavia Service'
     ) }
@@ -110,7 +110,7 @@ describe 'octavia::keystone::auth' do
 
     it { is_expected.not_to contain_keystone_user('octavia') }
     it { is_expected.not_to contain_keystone_user_role('octavia@services') }
-    it { is_expected.to contain_keystone_service('octavia::octavia').with(
+    it { is_expected.to contain_keystone_service('octavia::load-balancer').with(
       :ensure      => 'present',
       :description => 'Octavia Service'
     ) }

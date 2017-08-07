@@ -24,13 +24,6 @@
 #   option.
 #   Defaults to $::os_service_default
 #
-# [*rpc_backend*]
-#   (optional) The rpc backend implementation to use, can be:
-#     amqp (for AMQP 1.0 protocol)
-#     rabbit (for rabbitmq)
-#     zmq (for zeromq)
-#   Defaults to 'rabbit'
-#
 # [*rabbit_use_ssl*]
 #   (optional) Connect over SSL for RabbitMQ
 #   Defaults to $::os_service_default
@@ -181,12 +174,18 @@
 #   (optional) The state of aodh packages
 #   Defaults to undef
 #
+# [*rpc_backend*]
+#   (optional) The rpc backend implementation to use, can be:
+#     amqp (for AMQP 1.0 protocol)
+#     rabbit (for rabbitmq)
+#     zmq (for zeromq)
+#   Defaults to 'rabbit'
+#
 class octavia (
   $package_ensure                     = 'present',
   $default_transport_url              = $::os_service_default,
   $rpc_response_timeout               = $::os_service_default,
   $control_exchange                   = $::os_service_default,
-  $rpc_backend                        = 'rabbit',
   $rabbit_use_ssl                     = $::os_service_default,
   $rabbit_heartbeat_timeout_threshold = $::os_service_default,
   $rabbit_heartbeat_rate              = $::os_service_default,
@@ -221,6 +220,7 @@ class octavia (
   $purge_config                       = false,
   # DEPRECATED PARAMETERS
   $ensure_package                     = undef,
+  $rpc_backend                        = 'rabbit',
 ) inherits octavia::params {
 
   include ::octavia::deps
@@ -234,6 +234,10 @@ the future release. Please use octavia::package_ensure instead.")
     $package_ensure_real = $package_ensure
   }
 
+  if $rpc_backend {
+    warning('The rpc_backend parameter has been deprecated, please use default_transport_url instead.')
+  }
+
   package { 'octavia':
     ensure => $package_ensure_real,
     name   => $::octavia::params::common_package_name,
@@ -244,40 +248,37 @@ the future release. Please use octavia::package_ensure instead.")
     purge => $purge_config,
   }
 
-  if $rpc_backend == 'rabbit' {
-    oslo::messaging::rabbit { 'octavia_config':
-      rabbit_ha_queues            => $rabbit_ha_queues,
-      heartbeat_timeout_threshold => $rabbit_heartbeat_timeout_threshold,
-      heartbeat_rate              => $rabbit_heartbeat_rate,
-      rabbit_use_ssl              => $rabbit_use_ssl,
-      kombu_reconnect_delay       => $kombu_reconnect_delay,
-      kombu_ssl_version           => $kombu_ssl_version,
-      kombu_ssl_keyfile           => $kombu_ssl_keyfile,
-      kombu_ssl_certfile          => $kombu_ssl_certfile,
-      kombu_ssl_ca_certs          => $kombu_ssl_ca_certs,
-      kombu_compression           => $kombu_compression,
-      amqp_durable_queues         => $amqp_durable_queues,
-    }
+  oslo::messaging::rabbit { 'octavia_config':
+    rabbit_ha_queues            => $rabbit_ha_queues,
+    heartbeat_timeout_threshold => $rabbit_heartbeat_timeout_threshold,
+    heartbeat_rate              => $rabbit_heartbeat_rate,
+    rabbit_use_ssl              => $rabbit_use_ssl,
+    kombu_reconnect_delay       => $kombu_reconnect_delay,
+    kombu_ssl_version           => $kombu_ssl_version,
+    kombu_ssl_keyfile           => $kombu_ssl_keyfile,
+    kombu_ssl_certfile          => $kombu_ssl_certfile,
+    kombu_ssl_ca_certs          => $kombu_ssl_ca_certs,
+    kombu_compression           => $kombu_compression,
+    amqp_durable_queues         => $amqp_durable_queues,
   }
-  elsif $rpc_backend == 'amqp' {
-    oslo::messaging::amqp { 'octavia_config':
-      server_request_prefix  => $amqp_server_request_prefix,
-      broadcast_prefix       => $amqp_broadcast_prefix,
-      group_request_prefix   => $amqp_group_request_prefix,
-      container_name         => $amqp_container_name,
-      idle_timeout           => $amqp_idle_timeout,
-      trace                  => $amqp_trace,
-      ssl_ca_file            => $amqp_ssl_ca_file,
-      ssl_cert_file          => $amqp_ssl_cert_file,
-      ssl_key_file           => $amqp_ssl_key_file,
-      ssl_key_password       => $amqp_ssl_key_password,
-      allow_insecure_clients => $amqp_allow_insecure_clients,
-      sasl_mechanisms        => $amqp_sasl_mechanisms,
-      sasl_config_dir        => $amqp_sasl_config_dir,
-      sasl_config_name       => $amqp_sasl_config_name,
-      username               => $amqp_username,
-      password               => $amqp_password,
-    }
+
+  oslo::messaging::amqp { 'octavia_config':
+    server_request_prefix  => $amqp_server_request_prefix,
+    broadcast_prefix       => $amqp_broadcast_prefix,
+    group_request_prefix   => $amqp_group_request_prefix,
+    container_name         => $amqp_container_name,
+    idle_timeout           => $amqp_idle_timeout,
+    trace                  => $amqp_trace,
+    ssl_ca_file            => $amqp_ssl_ca_file,
+    ssl_cert_file          => $amqp_ssl_cert_file,
+    ssl_key_file           => $amqp_ssl_key_file,
+    ssl_key_password       => $amqp_ssl_key_password,
+    allow_insecure_clients => $amqp_allow_insecure_clients,
+    sasl_mechanisms        => $amqp_sasl_mechanisms,
+    sasl_config_dir        => $amqp_sasl_config_dir,
+    sasl_config_name       => $amqp_sasl_config_name,
+    username               => $amqp_username,
+    password               => $amqp_password,
   }
 
   oslo::messaging::default { 'octavia_config':

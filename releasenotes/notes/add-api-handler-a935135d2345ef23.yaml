@@ -1,0 +1,4 @@
+---
+features:
+  - Add new parameter "api_handler", the handler that the API
+    communicates with.

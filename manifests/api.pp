@@ -76,9 +76,9 @@ class octavia::api (
   }
 
   octavia_config {
-    'DEFAULT/bind_host'     : value => $host;
-    'DEFAULT/bind_port'     : value => $port;
-    'DEFAULT/auth_strategy' : value => $auth_strategy;
+    'api_settings/bind_host'     : value => $host;
+    'api_settings/bind_port'     : value => $port;
+    'api_settings/auth_strategy' : value => $auth_strategy;
   }
 
 }

@@ -1,0 +1,6 @@
+features:
+     Both v1 and v2.0 API endpoints are enabled by default
+     it is a security risk to expose the v1 endpoint publicly,so make sure access to
+     it is secured.  The way that LBaaS is implemented in OpenStack (v1) moves your
+     single point of failure out of the realm of the application, up to the point where the
+     Load Balancer itself is the Single Point of Failure. V2 gaves more security.

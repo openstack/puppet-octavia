@@ -2,6 +2,14 @@
 #
 # == Parameters
 #
+# [*api_v1_enabled*]
+#   (optional) The v1 API endpoint enabled.
+#   Defaults to $::os_service_default
+#
+# [*api_v2_enabled*]
+#   (optional) The v2 API endpoint enabled.
+#   Defaults to $::os_service_default
+#
 # [*enabled*]
 #   (optional) Should the service be enabled.
 #   Defaults to true
@@ -38,6 +46,8 @@ class octavia::api (
   $port            = '9876',
   $auth_strategy   = 'keystone',
   $sync_db         = false,
+  $api_v1_enabled  = $::os_service_default,
+  $api_v2_enabled  = $::os_service_default,
 ) inherits octavia::params {
 
   include ::octavia::deps
@@ -76,9 +86,11 @@ class octavia::api (
   }
 
   octavia_config {
-    'DEFAULT/bind_host'     : value => $host;
-    'DEFAULT/bind_port'     : value => $port;
-    'DEFAULT/auth_strategy' : value => $auth_strategy;
+    'DEFAULT/bind_host'           : value => $host;
+    'DEFAULT/bind_port'           : value => $port;
+    'DEFAULT/auth_strategy'       : value => $auth_strategy;
+    'api_settings/api_v1_enabled' : value => $api_v1_enabled;
+    'api_settings/api_v2_enabled' : value => $api_v2_enabled;
   }
 
 }

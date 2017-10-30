@@ -71,6 +71,10 @@
 #   (optional) full path to the private key for the amphora SSH key
 #   Defaults to '/etc/octavia/.ssh/octavia_ssh_key'
 #
+# [*manage_keygen*]
+#   (optional) Whether or not create OpenStack keypair for communicating with amphora
+#   Defaults to false
+#
 class octavia::worker (
   $manage_service        = true,
   $enabled               = true,
@@ -86,7 +90,8 @@ class octavia::worker (
   $compute_driver        = 'compute_nova_driver',
   $network_driver        = 'allowed_address_pairs_driver',
   $amp_ssh_key_name      = 'octavia-ssh-key',
-  $key_path              = '/etc/octavia/.ssh/octavia_ssh_key'
+  $key_path              = '/etc/octavia/.ssh/octavia_ssh_key',
+  $manage_keygen         = false
 ) inherits octavia::params {
 
   include ::octavia::deps
@@ -140,6 +145,35 @@ class octavia::worker (
     hasstatus  => true,
     hasrestart => true,
     tag        => ['octavia-service'],
+  }
+
+  if $manage_keygen {
+    exec {'create_amp_key_dir':
+      path    => ['/bin', '/usr/bin'],
+      command => "mkdir -p ${key_path}",
+      creates => $key_path
+    }
+
+    file { 'amp_key_dir':
+      ensure => directory,
+      path   => $key_path,
+      mode   => '0700',
+      group  => 'octavia',
+      owner  => 'octavia'
+    }
+
+    ssh_keygen { $amp_ssh_key_name:
+      user     => 'octavia',
+      type     => 'rsa',
+      bits     => 2048,
+      filename => "${key_path}/${amp_ssh_key_name}",
+      comment  => 'Used for Octavia Service VM'
+    }
+
+    Package<| tag == 'octavia-package' |>
+    -> Exec['create_amp_key_dir']
+    -> File['amp_key_dir']
+    -> Ssh_keygen[$amp_ssh_key_name]
   }
 
   octavia_config {

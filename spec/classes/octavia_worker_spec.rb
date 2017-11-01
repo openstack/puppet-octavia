@@ -57,12 +57,13 @@ describe 'octavia::worker' do
 
     it 'deploys nova flavor for octavia worker' do
       is_expected.to contain_nova_flavor('octavia_65').with(
-        :ensure => 'present',
-        :id     => '65',
-        :ram    => '1024',
-        :disk   => '2',
-        :vcpus  => '1',
-        :tag    => ['octavia'],
+        :ensure    => 'present',
+        :id        => '65',
+        :ram       => '1024',
+        :disk      => '2',
+        :vcpus     => '1',
+        :is_public => false,
+        :tag       => ['octavia'],
       )
     end
 

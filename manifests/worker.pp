@@ -107,11 +107,12 @@ class octavia::worker (
     if $manage_nova_flavor {
       $octavia_flavor = { "octavia_${amp_flavor_id}" => { 'id' => $amp_flavor_id } }
       $octavia_flavor_defaults = {
-        'ensure' => 'present',
-        'ram'    => '1024',
-        'disk'   => '2',
-        'vcpus'  => '1',
-        'tag'    => ['octavia']
+        'ensure'    => 'present',
+        'ram'       => '1024',
+        'disk'      => '2',
+        'vcpus'     => '1',
+        'is_public' => false,
+        'tag'       => ['octavia']
       }
       $nova_flavor_defaults = merge($octavia_flavor_defaults, $nova_flavor_config)
       create_resources('nova_flavor', $octavia_flavor, $nova_flavor_defaults)

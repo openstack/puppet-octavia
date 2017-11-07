@@ -1,0 +1,4 @@
+---
+features:
+  - Support for configuring ssh key pair generation for
+    amphora to use.

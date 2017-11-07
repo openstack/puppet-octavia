@@ -96,10 +96,7 @@ describe 'octavia::worker' do
 
     context 'with disabled service managing' do
       before do
-        params.merge!({
-          :manage_service => false,
-          :enabled        => false })
-      end
+        params.merge!({ :manage_service => false, :enabled        => false }) end
 
       it 'configures octavia-worker service' do
         is_expected.to contain_service('octavia-worker').with(
@@ -109,6 +106,30 @@ describe 'octavia::worker' do
           :hasstatus  => true,
           :hasrestart => true,
           :tag        => ['octavia-service'],
+        )
+      end
+    end
+
+    context 'with enabled sshkey gen' do
+      before do
+        params.merge!({
+          :manage_keygen => true,
+          :key_path      => '/etc/octavia/.ssh/octavia_ssh_key'})
+      end
+
+      it 'configures ssh_keygen and directory' do
+        is_expected.to contain_exec('create_amp_key_dir').with(
+          :path    => ['/bin', '/usr/bin'],
+          :command => 'mkdir -p /etc/octavia/.ssh/octavia_ssh_key',
+          :creates => '/etc/octavia/.ssh/octavia_ssh_key'
+        )
+
+        is_expected.to contain_file('amp_key_dir').with(
+          :ensure  => 'directory',
+          :path    => '/etc/octavia/.ssh/octavia_ssh_key',
+          :mode    => '0700',
+          :group   => 'octavia',
+          :owner   => 'octavia'
         )
       end
     end

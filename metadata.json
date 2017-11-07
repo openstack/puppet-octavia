@@ -24,6 +24,10 @@
         {
             "name": "openstack/oslo",
             "version_requirement": ">=12.0.0 <13.0.0"
+        },
+        {
+            "name": "puppet/ssh_keygen",
+            "version_requirement": ">=2.0.1 <3.0.0"
         }
     ],
     "description": "Installs and configures OpenStack Octavia.",

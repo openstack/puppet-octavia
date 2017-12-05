@@ -1,0 +1,4 @@
+---
+features:
+  - |
+    Add support for configuring 'service_auth' section parameters in octavia.

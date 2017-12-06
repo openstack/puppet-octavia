@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    Adds parameters to 'octavia::certificates' to support populating certificate
+    and key files with data provided.

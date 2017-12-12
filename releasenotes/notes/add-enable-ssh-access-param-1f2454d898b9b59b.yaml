@@ -1,0 +1,6 @@
+---
+features:
+  - |
+    Added 'octavia::worker::enable_ssh_access' parameter to enable
+    configuring without an OpenStack SSH key. Note that when set to false,
+    configuration of SSH key related properties is disabled.

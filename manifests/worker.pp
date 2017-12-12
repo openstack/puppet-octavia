@@ -67,6 +67,11 @@
 #   (optional) Name of Openstack SSH keypair for communicating with amphora
 #   Defaults to 'octavia-ssh-key'
 #
+# [*enable_ssh_access*]
+#   (optional) Enable SSH key configuration for amphorae. Note that setting
+#   to false disables configuration of SSH key related properties.
+#   Defaults to true
+#
 # [*key_path*]
 #   (optional) full path to the private key for the amphora SSH key
 #   Defaults to '/etc/octavia/.ssh/octavia_ssh_key'
@@ -90,6 +95,7 @@ class octavia::worker (
   $compute_driver        = 'compute_nova_driver',
   $network_driver        = 'allowed_address_pairs_driver',
   $amp_ssh_key_name      = 'octavia-ssh-key',
+  $enable_ssh_access     = true,
   $key_path              = '/etc/octavia/.ssh/octavia_ssh_key',
   $manage_keygen         = false
 ) inherits octavia::params {
@@ -148,6 +154,10 @@ class octavia::worker (
     tag        => ['octavia-service'],
   }
 
+  if $manage_keygen and ! $enable_ssh_access {
+    fail('SSH key management cannot be enabled when SSH key access is disabled')
+  }
+
   if $manage_keygen {
     exec {'create_amp_key_dir':
       path    => ['/bin', '/usr/bin'],
@@ -177,6 +187,15 @@ class octavia::worker (
     -> Ssh_keygen[$amp_ssh_key_name]
   }
 
+  if $enable_ssh_access {
+    $ssh_key_name_real = $amp_ssh_key_name
+    $key_path_real = $key_path
+  }
+  else {
+    $ssh_key_name_real = $::os_service_default
+    $key_path_real = $::os_service_default
+  }
+
   octavia_config {
     'controller_worker/amp_flavor_id'         : value => $amp_flavor_id;
     'controller_worker/amp_image_tag'         : value => $amp_image_tag;
@@ -186,7 +205,7 @@ class octavia::worker (
     'controller_worker/amphora_driver'        : value => $amphora_driver;
     'controller_worker/compute_driver'        : value => $compute_driver;
     'controller_worker/network_driver'        : value => $network_driver;
-    'controller_worker/amp_ssh_key_name'      : value => $amp_ssh_key_name;
-    'haproxy_amphora/key_path'                : value => $key_path;
+    'controller_worker/amp_ssh_key_name'      : value => $ssh_key_name_real;
+    'haproxy_amphora/key_path'                : value => $key_path_real;
   }
 }

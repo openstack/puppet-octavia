@@ -11,6 +11,7 @@ describe 'octavia::service_auth' do
         is_expected.to contain_octavia_config('service_auth/password').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_octavia_config('service_auth/user_domain_name').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_octavia_config('service_auth/project_domain_name').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('service_auth/auth_type').with_value('<SERVICE DEFAULT>')
       end
     end
 
@@ -21,7 +22,8 @@ describe 'octavia::service_auth' do
           :project_name             => 'some_project_name',
           :password                 => 'secure123',
           :user_domain_name         => 'my_domain_name',
-          :project_domain_name      => 'our_domain_name'
+          :project_domain_name      => 'our_domain_name',
+          :auth_type                => 'password',
         }
       end
 
@@ -32,6 +34,7 @@ describe 'octavia::service_auth' do
         is_expected.to contain_octavia_config('service_auth/password').with_value('secure123')
         is_expected.to contain_octavia_config('service_auth/user_domain_name').with_value('my_domain_name')
         is_expected.to contain_octavia_config('service_auth/project_domain_name').with_value('our_domain_name')
+        is_expected.to contain_octavia_config('service_auth/auth_type').with_value('password')
       end
     end
   end

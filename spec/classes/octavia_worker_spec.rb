@@ -55,6 +55,29 @@ describe 'octavia::worker' do
       is_expected.to contain_octavia_config('haproxy_amphora/key_path').with_value('/etc/octavia/.ssh/octavia_ssh_key')
     end
 
+    context 'with ssh key access disabled' do
+      before do
+        params.merge!({ :enable_ssh_access => false }) end
+
+      it 'disables configuration of SSH key properties' do
+        is_expected.to contain_octavia_config('controller_worker/amp_ssh_key_name').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('haproxy_amphora/key_path').with_value('<SERVICE DEFAULT>')
+      end
+    end
+
+    context 'with ssh key access disabled and key management enabled' do
+      before do
+        params.merge!({
+          :enable_ssh_access => false,
+          :manage_keygen     => true,
+        })
+      end
+
+      it "raises an error" do
+        is_expected.to raise_error(Puppet::Error)
+      end
+    end
+
     it 'deploys nova flavor for octavia worker' do
       is_expected.to contain_nova_flavor('octavia_65').with(
         :ensure    => 'present',

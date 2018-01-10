@@ -29,14 +29,18 @@ class octavia::policy (
 ) {
 
   include ::octavia::deps
+  include ::octavia::params
 
   validate_hash($policies)
 
   Openstacklib::Policy::Base {
-    file_path => $policy_path,
+    file_path  => $policy_path,
+    file_user  => 'root',
+    file_group => $::octavia::params::group,
   }
 
   create_resources('openstacklib::policy::base', $policies)
 
   oslo::policy { 'octavia_config': policy_file => $policy_path }
+
 }

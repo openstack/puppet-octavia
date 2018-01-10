@@ -7,6 +7,7 @@ class octavia::params {
   $worker_service_name         = 'octavia-worker'
   $health_manager_service_name = 'octavia-health-manager'
   $housekeeping_service_name   = 'octavia-housekeeping'
+  $group                       = 'octavia'
   case $::osfamily {
     'RedHat': {
       $common_package_name         = 'openstack-octavia-common'

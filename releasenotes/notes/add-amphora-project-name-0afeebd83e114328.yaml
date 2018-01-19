@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    Adds 'amp_project_name' to configure project access to the nova flavor for creating amphorae.
+

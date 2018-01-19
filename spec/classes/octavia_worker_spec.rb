@@ -34,6 +34,12 @@ describe 'octavia::worker' do
           :loadbalancer_topology => 'SINGLE',
           :amp_ssh_key_name      => 'custom-amphora-key',
           :key_path              => '/opt/octavia/ssh/amphora_key',
+          :amp_project_name      => 'loadbalancers',
+          :nova_flavor_config    => {
+            'ram'     => '2048',
+            'disk'    => '3',
+            'vcpus'   => '4'
+          }
         })
       end
 
@@ -44,6 +50,18 @@ describe 'octavia::worker' do
       it { is_expected.to contain_octavia_config('controller_worker/loadbalancer_topology').with_value('SINGLE') }
       it { is_expected.to contain_octavia_config('controller_worker/amp_ssh_key_name').with_value('custom-amphora-key') }
       it { is_expected.to contain_octavia_config('haproxy_amphora/key_path').with_value('/opt/octavia/ssh/amphora_key') }
+      it 'deploys a nova flavor for amphora' do
+        is_expected.to contain_nova_flavor('octavia_42').with(
+          :ensure    => 'present',
+          :id        => '42',
+          :ram       => '2048',
+          :disk      => '3',
+          :vcpus     => '4',
+          :is_public => false,
+          :project   => 'loadbalancers',
+          :tag       => ['octavia'],
+        )
+      end
     end
 
     it 'configures worker parameters' do

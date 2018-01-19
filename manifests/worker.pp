@@ -80,6 +80,10 @@
 #   (optional) Whether or not create OpenStack keypair for communicating with amphora
 #   Defaults to false
 #
+# [*amp_project_name*]
+#   (optional) Set the project to be used for creating load balancer instances.
+#   Defaults to undef
+#
 class octavia::worker (
   $manage_service        = true,
   $enabled               = true,
@@ -97,7 +101,8 @@ class octavia::worker (
   $amp_ssh_key_name      = 'octavia-ssh-key',
   $enable_ssh_access     = true,
   $key_path              = '/etc/octavia/.ssh/octavia_ssh_key',
-  $manage_keygen         = false
+  $manage_keygen         = false,
+  $amp_project_name      = undef
 ) inherits octavia::params {
 
   include ::octavia::deps
@@ -116,7 +121,12 @@ class octavia::worker (
     }
   } else {
     if $manage_nova_flavor {
-      $octavia_flavor = { "octavia_${amp_flavor_id}" => { 'id' => $amp_flavor_id } }
+      $octavia_flavor = { "octavia_${amp_flavor_id}" =>
+        { 'id'      => $amp_flavor_id,
+          'project' => $amp_project_name
+        }
+      }
+
       $octavia_flavor_defaults = {
         'ensure'    => 'present',
         'ram'       => '1024',

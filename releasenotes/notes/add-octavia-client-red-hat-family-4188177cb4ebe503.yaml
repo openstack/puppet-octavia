@@ -1,0 +1,6 @@
+---
+features:
+  - |
+    Defined Octavia client package name for Red Hat family.
+    python-octaviaclient is being packaged starting in RHOSP 13,
+    RDO Queens and Fedora 28.

@@ -15,7 +15,7 @@ class octavia::params {
       $worker_package_name         = 'openstack-octavia-worker'
       $health_manager_package_name = 'openstack-octavia-health-manager'
       $housekeeping_package_name   = 'openstack-octavia-housekeeping'
-      $client_package_name         = undef
+      $client_package_name         = 'python-octaviaclient'
     }
     'Debian': {
       $common_package_name         = 'octavia-common'

@@ -28,13 +28,7 @@ describe 'octavia::client' do
   end
 
   on_supported_os({
-    :supported_os   =>
-      [
-        { 'operatingsystem'        => 'Ubuntu',
-          'operatingsystemrelease' => [ '16.04' ] },
-        { 'operatingsystem'        => 'Debian',
-          'operatingsystemrelease' => [ '8' ] }
-      ]
+    :supported_os => OSDefaults.get_supported_os
   }).each do |os,facts|
     context "on #{os}" do
       let (:facts) do

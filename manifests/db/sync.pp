@@ -28,6 +28,7 @@ class octavia::db::sync(
       Anchor['octavia::dbsync::begin']
     ],
     notify      => Anchor['octavia::dbsync::end'],
+    tag         => 'openstack-db',
   }
 
 }

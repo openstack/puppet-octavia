@@ -17,6 +17,7 @@ describe 'octavia::db::sync' do
                          'Anchor[octavia::config::end]',
                          'Anchor[octavia::dbsync::begin]'],
         :notify      => 'Anchor[octavia::dbsync::end]',
+        :tag         => 'openstack-db',
       )
     end
 
@@ -40,6 +41,7 @@ describe 'octavia::db::sync' do
                          'Anchor[octavia::config::end]',
                          'Anchor[octavia::dbsync::begin]'],
           :notify      => 'Anchor[octavia::dbsync::end]',
+          :tag         => 'openstack-db',
         )
       }
     end

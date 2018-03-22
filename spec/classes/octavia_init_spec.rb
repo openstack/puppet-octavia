@@ -192,7 +192,7 @@ describe 'octavia' do
       end
     end
 
-    context 'with overriden amqp parameters' do
+    context 'with overridden amqp parameters' do
       let :params do
         { :default_transport_url => 'amqp://amqp_user:password@localhost:5672',
           :amqp_idle_timeout     => '60',

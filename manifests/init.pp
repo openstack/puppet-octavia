@@ -176,10 +176,6 @@
 #
 # DEPRECATED PARAMETERS
 #
-# [*ensure_package*]
-#   (optional) The state of aodh packages
-#   Defaults to undef
-#
 # [*rpc_backend*]
 #   (optional) The rpc backend implementation to use, can be:
 #     amqp (for AMQP 1.0 protocol)
@@ -226,27 +222,18 @@ class octavia (
   $topic                              = 'octavia-rpc',
   $purge_config                       = false,
   # DEPRECATED PARAMETERS
-  $ensure_package                     = undef,
   $rpc_backend                        = 'rabbit',
 ) inherits octavia::params {
 
   include ::octavia::deps
   include ::octavia::logging
 
-  if $ensure_package {
-    warning("octavia::ensure_package is deprecated and will be removed in \
-the future release. Please use octavia::package_ensure instead.")
-    $package_ensure_real = $ensure_package
-  } else {
-    $package_ensure_real = $package_ensure
-  }
-
   if $rpc_backend {
     warning('The rpc_backend parameter has been deprecated, please use default_transport_url instead.')
   }
 
   package { 'octavia':
-    ensure => $package_ensure_real,
+    ensure => $package_ensure,
     name   => $::octavia::params::common_package_name,
     tag    => ['openstack', 'octavia-package'],
   }

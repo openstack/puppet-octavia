@@ -19,7 +19,7 @@ describe 'octavia::client' do
 
     it 'installs octavia client package' do
       is_expected.to contain_package('python-octaviaclient').with(
-        :name   => 'python-octaviaclient',
+        :name   => platform_params[:client_package_name],
         :ensure => p[:package_ensure],
         :tag    => 'openstack'
       )
@@ -33,6 +33,19 @@ describe 'octavia::client' do
     context "on #{os}" do
       let (:facts) do
         facts.merge!(OSDefaults.get_facts())
+      end
+
+      let(:platform_params) do
+        case facts[:osfamily]
+        when 'Debian'
+          if facts[:os_package_type] == 'debian'
+            { :client_package_name => 'python3-octaviaclient' }
+          else
+            { :client_package_name => 'python-octaviaclient' }
+          end
+        when 'RedHat'
+          { :client_package_name => 'python-octaviaclient' }
+        end
       end
 
       it_behaves_like 'octavia client'

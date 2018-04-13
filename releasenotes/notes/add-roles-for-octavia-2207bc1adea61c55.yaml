@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    Added `octavia::roles::role_names` parameter to enable creation of the
+    keystone roles supported by the Octavia API.

@@ -1,0 +1,4 @@
+---
+features:
+  - |
+    Add a new class octavia::quota to manage the quota settings in Octavia.

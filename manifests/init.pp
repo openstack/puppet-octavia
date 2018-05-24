@@ -174,15 +174,6 @@
 #   in the octavia config.
 #   Defaults to false.
 #
-# DEPRECATED PARAMETERS
-#
-# [*rpc_backend*]
-#   (optional) The rpc backend implementation to use, can be:
-#     amqp (for AMQP 1.0 protocol)
-#     rabbit (for rabbitmq)
-#     zmq (for zeromq)
-#   Defaults to 'rabbit'
-#
 class octavia (
   $package_ensure                     = 'present',
   $default_transport_url              = $::os_service_default,
@@ -221,16 +212,10 @@ class octavia (
   $notification_topics                = $::os_service_default,
   $topic                              = 'octavia-rpc',
   $purge_config                       = false,
-  # DEPRECATED PARAMETERS
-  $rpc_backend                        = 'rabbit',
 ) inherits octavia::params {
 
   include ::octavia::deps
   include ::octavia::logging
-
-  if $rpc_backend {
-    warning('The rpc_backend parameter has been deprecated, please use default_transport_url instead.')
-  }
 
   package { 'octavia':
     ensure => $package_ensure,

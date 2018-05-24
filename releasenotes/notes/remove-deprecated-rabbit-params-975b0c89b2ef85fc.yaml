@@ -1,0 +1,5 @@
+---
+upgrade:
+  - |
+    The deprecated octavia::rpc_backend is now removed. Please use
+    octavia::default_transport_url instead.

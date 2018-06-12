@@ -166,7 +166,7 @@
 #   Defaults to $::os_service_default
 #
 # [*topic*]
-#   Messaging topic for for controller-worker RPC communication.
+#   Messaging topic for controller-worker RPC communication.
 #   Defaults to 'octavia-rpc'
 #
 # [*purge_config*]

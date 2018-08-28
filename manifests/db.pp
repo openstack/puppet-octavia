@@ -6,7 +6,7 @@
 #
 # [*database_connection*]
 #   (Optional) Url used to connect to database.
-#   Defaults to "sqlite:////var/lib/octavia/octavia.sqlite".
+#   Defaults to 'sqlite:////var/lib/octavia/octavia.sqlite'.
 #
 # [*database_idle_timeout*]
 #   (Optional) Timeout when db connections should be reaped.
@@ -51,18 +51,28 @@ class octavia::db (
 
   include ::octavia::deps
 
-  validate_re($database_connection,
+  $database_connection_real = pick($::octavia::database_connection, $database_connection)
+  $database_idle_timeout_real = pick($::octavia::database_idle_timeout, $database_idle_timeout)
+  $database_min_pool_size_real = pick($::octavia::database_min_pool_size, $database_min_pool_size)
+  $database_max_pool_size_real = pick($::octavia::database_max_pool_size, $database_max_pool_size)
+  $database_max_retries_real = pick($::octavia::database_max_retries, $database_max_retries)
+  $database_retry_interval_real = pick($::octavia::database_retry_interval, $database_retry_interval)
+  $database_max_overflow_real = pick($::octavia::database_max_overflow, $database_max_overflow)
+  $database_db_max_retries_real = pick($::octavia::database_db_max_retries, $database_db_max_retries)
+
+
+  validate_re($database_connection_real,
     '^(sqlite|mysql(\+pymysql)?|postgresql):\/\/(\S+:\S+@\S+\/\S+)?')
 
   oslo::db { 'octavia_config':
-    connection     => $database_connection,
-    idle_timeout   => $database_idle_timeout,
-    min_pool_size  => $database_min_pool_size,
-    max_pool_size  => $database_max_pool_size,
-    max_retries    => $database_max_retries,
-    retry_interval => $database_retry_interval,
-    max_overflow   => $database_max_overflow,
-    db_max_retries => $database_db_max_retries,
+    connection     => $database_connection_real,
+    idle_timeout   => $database_idle_timeout_real,
+    min_pool_size  => $database_min_pool_size_real,
+    max_pool_size  => $database_max_pool_size_real,
+    max_retries    => $database_max_retries_real,
+    retry_interval => $database_retry_interval_real,
+    max_overflow   => $database_max_overflow_real,
+    db_max_retries => $database_db_max_retries_real,
   }
 
 }

@@ -174,6 +174,40 @@
 #   in the octavia config.
 #   Defaults to false.
 #
+# [*database_connection*]
+#   (Optional) Url used to connect to database.
+#   Defaults to undef.
+#
+# [*database_idle_timeout*]
+#   (Optional) Timeout when db connections should be reaped.
+#   Defaults to undef.
+#
+# [*database_max_retries*]
+#   (Optional) Maximum number of database connection retries during startup.
+#   Setting -1 implies an infinite retry count.
+#   Defaults to undef.
+#
+# [*database_retry_interval*]
+#   (Optional) Interval between retries of opening a database connection.
+#   Defaults to undef.
+#
+# [*database_min_pool_size*]
+#   (Optional) Minimum number of SQL connections to keep open in a pool.
+#   Defaults to undef.
+#
+# [*database_max_pool_size*]
+#   (Optional) Maximum number of SQL connections to keep open in a pool.
+#   Defaults to undef.
+#
+# [*database_max_overflow*]
+#   (Optional) If set, use this value for max_overflow with sqlalchemy.
+#   Defaults to undef.
+#
+# [*database_db_max_retries*]
+#   (Optional) Maximum retries in case of connection error or deadlock error
+#   before error is raised. Set to -1 to specify an infinite retry count.
+#   Defaults to undef.
+#
 # DEPRECATED PARAMETERS
 #
 # [*ensure_package*]
@@ -225,12 +259,21 @@ class octavia (
   $notification_topics                = $::os_service_default,
   $topic                              = 'octavia-rpc',
   $purge_config                       = false,
+  $database_connection                = undef,
+  $database_idle_timeout              = undef,
+  $database_min_pool_size             = undef,
+  $database_max_pool_size             = undef,
+  $database_max_retries               = undef,
+  $database_retry_interval            = undef,
+  $database_max_overflow              = undef,
+  $database_db_max_retries            = undef,
   # DEPRECATED PARAMETERS
   $ensure_package                     = undef,
   $rpc_backend                        = 'rabbit',
 ) inherits octavia::params {
 
   include ::octavia::deps
+  include ::octavia::db
   include ::octavia::logging
 
   if $ensure_package {

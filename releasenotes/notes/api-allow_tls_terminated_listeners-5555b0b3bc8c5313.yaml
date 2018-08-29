@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    Added new parameter octavia::api::allow_tls_terminated_listeners which can
+    be used to set the allow_tls_terminated_listeners config option.

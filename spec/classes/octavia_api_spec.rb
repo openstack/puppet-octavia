@@ -18,6 +18,8 @@ describe 'octavia::api' do
       :port                           => '9876',
       :host                           => '0.0.0.0',
       :api_handler                    => 'queue_producer',
+      :api_v1_enabled                 => true,
+      :api_v2_enabled                 => true,
       :allow_tls_terminated_listeners => false,
     }
   end
@@ -46,6 +48,8 @@ describe 'octavia::api' do
         is_expected.to contain_octavia_config('api_settings/bind_port').with_value( '9876' )
         is_expected.to contain_octavia_config('api_settings/auth_strategy').with_value( 'keystone' )
         is_expected.to contain_octavia_config('api_settings/api_handler').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('api_settings/api_v1_enabled').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('api_settings/api_v2_enabled').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_octavia_config('api_settings/allow_tls_terminated_listeners').with_value('<SERVICE DEFAULT>')
       end
       it 'does not sync the database' do
@@ -57,6 +61,8 @@ describe 'octavia::api' do
       is_expected.to contain_octavia_config('api_settings/bind_host').with_value( params[:host] )
       is_expected.to contain_octavia_config('api_settings/bind_port').with_value( params[:port] )
       is_expected.to contain_octavia_config('api_settings/api_handler').with_value( params[:api_handler] )
+      is_expected.to contain_octavia_config('api_settings/api_v1_enabled').with_value( params[:api_v1_enabled] )
+      is_expected.to contain_octavia_config('api_settings/api_v2_enabled').with_value( params[:api_v2_enabled] )
       is_expected.to contain_octavia_config('api_settings/allow_tls_terminated_listeners').with_value( params[:allow_tls_terminated_listeners] )
     end
 

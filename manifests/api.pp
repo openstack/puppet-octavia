@@ -30,6 +30,14 @@
 #   (optional) The handler that the API communicates with
 #   Defaults to $::os_service_default
 #
+# [*api_v1_enabled*]
+#   (optional) Boolean if V1 API should be enabled.
+#   Defaults to $::os_service_default
+#
+# [*api_v2_enabled*]
+#   (optional) Boolean if V2 API should be enabled.
+#   Defaults to $::os_service_default
+#
 # [*allow_tls_terminated_listeners*]
 #   (optional) Boolean if we allow creation of TLS terminated listeners.
 #   Defaults to $::os_service_default
@@ -46,6 +54,8 @@ class octavia::api (
   $port                           = '9876',
   $auth_strategy                  = 'keystone',
   $api_handler                    = $::os_service_default,
+  $api_v1_enabled                 = $::os_service_default,
+  $api_v2_enabled                 = $::os_service_default,
   $allow_tls_terminated_listeners = $::os_service_default,
   $sync_db                        = false,
 ) inherits octavia::params {
@@ -90,6 +100,8 @@ class octavia::api (
     'api_settings/bind_port':                      value => $port;
     'api_settings/auth_strategy':                  value => $auth_strategy;
     'api_settings/api_handler':                    value => $api_handler;
+    'api_settings/api_v1_enabled':                 value => $api_v1_enabled;
+    'api_settings/api_v2_enabled':                 value => $api_v2_enabled;
     'api_settings/allow_tls_terminated_listeners': value => $allow_tls_terminated_listeners;
   }
 

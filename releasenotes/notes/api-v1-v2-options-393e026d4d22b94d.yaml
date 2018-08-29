@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    Added new parameters octavia::api::api_v1_enabled and api_v2_enabled that
+    can be used for enable/disable the API versions.

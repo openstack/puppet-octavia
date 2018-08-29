@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    Added new parameter octavia::worker::workers that can be used to set the
+    number of worker processes.

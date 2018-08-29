@@ -30,19 +30,24 @@
 #   (optional) The handler that the API communicates with
 #   Defaults to $::os_service_default
 #
+# [*allow_tls_terminated_listeners*]
+#   (optional) Boolean if we allow creation of TLS terminated listeners.
+#   Defaults to $::os_service_default
+#
 # [*sync_db*]
 #   (optional) Run octavia-db-manage upgrade head on api nodes after installing the package.
 #   Defaults to false
 #
 class octavia::api (
-  $manage_service  = true,
-  $enabled         = true,
-  $package_ensure  = 'present',
-  $host            = '0.0.0.0',
-  $port            = '9876',
-  $auth_strategy   = 'keystone',
-  $api_handler     = $::os_service_default,
-  $sync_db         = false,
+  $manage_service                 = true,
+  $enabled                        = true,
+  $package_ensure                 = 'present',
+  $host                           = '0.0.0.0',
+  $port                           = '9876',
+  $auth_strategy                  = 'keystone',
+  $api_handler                    = $::os_service_default,
+  $allow_tls_terminated_listeners = $::os_service_default,
+  $sync_db                        = false,
 ) inherits octavia::params {
 
   include ::octavia::deps
@@ -81,10 +86,11 @@ class octavia::api (
   }
 
   octavia_config {
-    'api_settings/bind_host'     : value => $host;
-    'api_settings/bind_port'     : value => $port;
-    'api_settings/auth_strategy' : value => $auth_strategy;
-    'api_settings/api_handler'   : value => $api_handler;
+    'api_settings/bind_host':                      value => $host;
+    'api_settings/bind_port':                      value => $port;
+    'api_settings/auth_strategy':                  value => $auth_strategy;
+    'api_settings/api_handler':                    value => $api_handler;
+    'api_settings/allow_tls_terminated_listeners': value => $allow_tls_terminated_listeners;
   }
 
 }

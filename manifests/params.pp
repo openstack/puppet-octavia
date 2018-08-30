@@ -22,6 +22,8 @@ class octavia::params {
       $health_manager_package_name = 'openstack-octavia-health-manager'
       $housekeeping_package_name   = 'openstack-octavia-housekeeping'
       $client_package_name         = "python${pyvers}-octaviaclient"
+      $octavia_wsgi_script_path    = '/var/www/cgi-bin/octavia'
+      $octavia_wsgi_script_source  = '/usr/bin/octavia-wsgi'
     }
     'Debian': {
       $common_package_name         = 'octavia-common'
@@ -30,6 +32,8 @@ class octavia::params {
       $health_manager_package_name = 'octavia-health-manager'
       $housekeeping_package_name   = 'octavia-housekeeping'
       $client_package_name         = "python${pyvers}-octaviaclient"
+      $octavia_wsgi_script_path    = '/usr/lib/cgi-bin/octavia'
+      $octavia_wsgi_script_source  = '/usr/bin/octavia-wsgi'
     }
     default: {
       fail("Unsupported osfamily: ${::osfamily} operatingsystem")

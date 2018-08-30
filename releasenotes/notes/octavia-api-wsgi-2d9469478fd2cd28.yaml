@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    Added new class octavia::wsgi::apache, you can now run the API under Apache
+    with mod_wsgi.

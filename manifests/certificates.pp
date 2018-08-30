@@ -4,6 +4,22 @@
 #
 # === Parameters
 #
+# [*cert_generator*]
+#   (Optional) Certificate generator to use.
+#   Defaults to $::os_service_default
+#
+# [*cert_manager*]
+#   (Optional) Certificate manager to use.
+#   Defaults to $::os_service_default
+#
+# [*region_name*]
+#   (Optional) Region name to use when connecting to cert manager.
+#   Defaults to $::os_service_default
+#
+# [*endpoint_type*]
+#   (Optional) Endpoint type to use when connecting to cert manager.
+#   Defaults to $::os_service_default
+#
 # [*ca_certificate*]
 #   (Optional) Path to the CA certificate for Octavia
 #   Defaults to $::os_service_default
@@ -41,6 +57,10 @@
 #   Defaults to 'octavia'
 #
 class octavia::certificates (
+  $cert_generator            = $::os_service_default,
+  $cert_manager              = $::os_service_default,
+  $region_name               = $::os_service_default,
+  $endpoint_type             = $::os_service_default,
   $ca_certificate            = $::os_service_default,
   $ca_private_key            = $::os_service_default,
   $ca_private_key_passphrase = $::os_service_default,
@@ -55,6 +75,10 @@ class octavia::certificates (
   include ::octavia::deps
 
   octavia_config {
+    'certificates/cert_generator'            : value => $cert_generator;
+    'certificates/cert_manager'              : value => $cert_manager;
+    'certificates/region_name'               : value => $region_name;
+    'certificates/endpoint_type'             : value => $endpoint_type;
     'certificates/ca_certificate'            : value => $ca_certificate;
     'certificates/ca_private_key'            : value => $ca_private_key;
     'certificates/ca_private_key_passphrase' : value => $ca_private_key_passphrase;

@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    Added new octavia::nova class that can be used to configure the nova section
+    in octavia.conf

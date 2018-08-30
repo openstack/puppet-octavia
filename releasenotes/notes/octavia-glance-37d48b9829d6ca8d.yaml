@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    Added new octavia::glance class that can be used to configure the glance section
+    in octavia.conf

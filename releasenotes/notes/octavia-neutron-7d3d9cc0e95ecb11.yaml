@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    Added new octavia::neutron class that can be used to configure the neutron section
+    in octavia.conf

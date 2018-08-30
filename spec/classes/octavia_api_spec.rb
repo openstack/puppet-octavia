@@ -1,16 +1,6 @@
 require 'spec_helper'
 
 describe 'octavia::api' do
-
-  let :pre_condition do
-    "class { 'octavia': }
-     include ::octavia::db
-     class { '::octavia::keystone::authtoken':
-       password  => 'password';
-     }
-    "
-  end
-
   let :params do
     { :enabled                        => true,
       :manage_service                 => true,
@@ -25,6 +15,14 @@ describe 'octavia::api' do
   end
 
   shared_examples_for 'octavia-api' do
+    let :pre_condition do
+      "class { 'octavia': }
+       include ::octavia::db
+       class { '::octavia::keystone::authtoken':
+         password  => 'password',
+       }
+      "
+    end
 
     it { is_expected.to contain_class('octavia::deps') }
     it { is_expected.to contain_class('octavia::params') }
@@ -109,6 +107,39 @@ describe 'octavia::api' do
 
   end
 
+  shared_examples 'octavia-api wsgi' do
+    let :pre_condition do
+      "class { 'octavia': }
+       include ::octavia::db
+       class { '::octavia::keystone::authtoken':
+         password  => 'password',
+       }
+       include ::apache
+      "
+    end
+
+    let :params do
+      {
+        :service_name => 'httpd',
+      }
+    end
+
+    context 'with required params' do
+      it { should contain_package('octavia-api').with(
+        :ensure => 'present',
+        :name   => platform_params[:api_package_name],
+        :tag    => ['openstack', 'octavia-package'],
+      )}
+
+      it { should contain_service('octavia-api').with(
+        :ensure => 'stopped',
+        :name   => platform_params[:api_service_name],
+        :enable => false,
+        :tag    => ['octavia-service', 'octavia-db-sync-service'],
+      )}
+    end
+  end
+
   on_supported_os({
     :supported_os => OSDefaults.get_supported_os
   }).each do |os,facts|
@@ -126,7 +157,9 @@ describe 'octavia::api' do
             :api_service_name => 'octavia-api' }
         end
       end
+
       it_behaves_like 'octavia-api'
+      it_behaves_like 'octavia-api wsgi'
     end
   end
 

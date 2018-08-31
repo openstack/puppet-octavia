@@ -1,0 +1,6 @@
+---
+features:
+  - |
+    Added new parameter cert_generator, cert_manager, region_name and endpoint_type
+    to the octavia::certificates class that configures the certificates section in
+    the octavia.conf file.

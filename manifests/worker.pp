@@ -14,6 +14,10 @@
 #   (optional) ensure state for package.
 #   Defaults to 'present'
 #
+# [*workers*]
+#   (optional) Number of worker processes.
+#    Defaults to $::os_service_default
+#
 # [*amp_flavor_id*]
 #   (optional) Nova instance flavor id for the Amphora.
 #   Note: since we set manage_nova_flavor to True by default, we need
@@ -88,6 +92,7 @@ class octavia::worker (
   $manage_service        = true,
   $enabled               = true,
   $package_ensure        = 'present',
+  $workers               = $::os_service_default,
   $amp_flavor_id         = '65',
   $amp_image_tag         = $::os_service_default,
   $amp_secgroup_list     = $::os_service_default,
@@ -207,6 +212,7 @@ class octavia::worker (
   }
 
   octavia_config {
+    'controller_worker/workers'               : value => $workers;
     'controller_worker/amp_flavor_id'         : value => $amp_flavor_id;
     'controller_worker/amp_image_tag'         : value => $amp_image_tag;
     'controller_worker/amp_secgroup_list'     : value => $amp_secgroup_list;

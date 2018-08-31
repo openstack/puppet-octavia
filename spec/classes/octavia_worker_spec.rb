@@ -27,6 +27,7 @@ describe 'octavia::worker' do
     context 'configured with specific parameters' do
       before do
         params.merge!({
+          :workers               => 8,
           :amp_flavor_id         => '42',
           :amp_image_tag         => 'amphorae1',
           :amp_secgroup_list     => ['lb-mgmt-sec-grp'],
@@ -43,6 +44,7 @@ describe 'octavia::worker' do
         })
       end
 
+      it { is_expected.to contain_octavia_config('controller_worker/workers').with_value(8) }
       it { is_expected.to contain_octavia_config('controller_worker/amp_flavor_id').with_value('42') }
       it { is_expected.to contain_octavia_config('controller_worker/amp_image_tag').with_value('amphorae1') }
       it { is_expected.to contain_octavia_config('controller_worker/amp_secgroup_list').with_value(['lb-mgmt-sec-grp']) }
@@ -65,6 +67,7 @@ describe 'octavia::worker' do
     end
 
     it 'configures worker parameters' do
+      is_expected.to contain_octavia_config('controller_worker/workers').with_value('<SERVICE DEFAULT>')
       is_expected.to contain_octavia_config('controller_worker/amp_flavor_id').with_value('65')
       is_expected.to contain_octavia_config('controller_worker/amphora_driver').with_value('amphora_haproxy_rest_driver')
       is_expected.to contain_octavia_config('controller_worker/compute_driver').with_value('compute_nova_driver')

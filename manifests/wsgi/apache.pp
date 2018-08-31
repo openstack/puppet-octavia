@@ -122,7 +122,7 @@ class octavia::wsgi::apache (
   if $ssl {
     include ::apache::mod::ssl
   }
-   ::openstacklib::wsgi::apache { 'octavia_wsgi':
+  ::openstacklib::wsgi::apache { 'octavia_wsgi':
     bind_host                   => $bind_host,
     bind_port                   => $port,
     group                       => 'octavia',

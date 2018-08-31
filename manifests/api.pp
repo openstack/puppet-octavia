@@ -10,6 +10,15 @@
 #   (optional) Whether the service should be managed by Puppet.
 #   Defaults to true.
 #
+# [*service_name*]
+#   (Optional) Name of the service that will be providing the
+#   server functionality of octavia-api.
+#   If the value is 'httpd', this means octavia-api will be a web
+#   service, and you must use another class to configure that
+#   web service. For example, use class { 'octavia::wsgi::apache'...}
+#   to make octavia-api be a web app using apache mod_wsgi.
+#   Defaults to $::octavia::params::api_service_name
+#
 # [*host*]
 #   (optional) The octavia api bind address.
 #   Defaults to '0.0.0.0'
@@ -47,11 +56,12 @@
 #   Defaults to false
 #
 class octavia::api (
-  $manage_service                 = true,
   $enabled                        = true,
-  $package_ensure                 = 'present',
+  $manage_service                 = true,
+  $service_name                   = $::octavia::params::api_service_name,
   $host                           = '0.0.0.0',
   $port                           = '9876',
+  $package_ensure                 = 'present',
   $auth_strategy                  = 'keystone',
   $api_handler                    = $::os_service_default,
   $api_v1_enabled                 = $::os_service_default,
@@ -81,13 +91,25 @@ class octavia::api (
       $service_ensure = 'stopped'
     }
 
-    service { 'octavia-api':
-      ensure     => $service_ensure,
-      name       => $::octavia::params::api_service_name,
-      enable     => $enabled,
-      hasstatus  => true,
-      hasrestart => true,
-      tag        => ['octavia-service', 'octavia-db-sync-service'],
+    if $service_name == $::octavia::params::api_service_name {
+      service { 'octavia-api':
+        ensure     => $service_ensure,
+        name       => $::octavia::params::api_service_name,
+        enable     => $enabled,
+        hasstatus  => true,
+        hasrestart => true,
+        tag        => ['octavia-service', 'octavia-db-sync-service'],
+      }
+    } elsif $service_name == 'httpd' {
+      include ::apache::params
+      service { 'octavia-api':
+        ensure => 'stopped',
+        name   => $::octavia::params::api_service_name,
+        enable => false,
+        tag    => ['octavia-service', 'octavia-db-sync-service'],
+      }
+      Service['octavia-api'] -> Service[$service_name]
+      Service<| title == 'httpd' |> { tag +> ['octavia-service', 'octavia-db-sync-service'] }
     }
   }
 

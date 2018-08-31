@@ -1,0 +1,6 @@
+features:
+  - |
+    Added new parameter client_ca and client_data_data to octavia::certificates.
+    These can be used to separate the ca_certificate/server_ca and client_ca used
+    which is something you want to do in production environment to avoid a compromised
+    Amphora being able to connect to the other running amphoras.

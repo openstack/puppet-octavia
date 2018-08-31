@@ -206,6 +206,63 @@ describe 'octavia::certificates' do
       end
     end
 
+    context 'with ca_certificate and client_ca being different' do
+      let :params do
+        {
+          :ca_certificate => '/etc/octavia/ca.pem',
+          :client_ca      => '/etc/octavia/client_ca.pem'
+        }
+      end
+
+      it 'should configure certificates' do
+        is_expected.to contain_octavia_config('certificates/ca_certificate').with_value('/etc/octavia/ca.pem')
+        is_expected.to contain_octavia_config('controller_worker/client_ca').with_value('/etc/octavia/client_ca.pem')
+      end
+
+      it 'should not populate certificate file' do
+        is_expected.not_to contain_file('/etc/octavia/client_ca.pem')
+        is_expected.not_to contain_file('/etc/octavia')
+      end
+    end
+
+    context 'with ca_certificate and client_ca being different and populate files' do
+      let :params do
+        {
+          :ca_certificate      => '/etc/octavia/ca.pem',
+          :client_ca           => '/etc/octavia/client_ca.pem',
+          :ca_certificate_data => 'my_ca_certificate',
+          :client_ca_data      => 'my_client_ca'
+        }
+      end
+
+      it 'should configure certificates' do
+        is_expected.to contain_octavia_config('certificates/ca_certificate').with_value('/etc/octavia/ca.pem')
+        is_expected.to contain_octavia_config('controller_worker/client_ca').with_value('/etc/octavia/client_ca.pem')
+      end
+
+      it 'populates certificate files' do
+        is_expected.to contain_file('/etc/octavia/ca.pem').with({
+          'ensure' => 'file',
+          'owner'  => 'octavia',
+          'group'  => 'octavia',
+          'mode'   => '0755',
+        })
+        is_expected.to contain_file('/etc/octavia/ca.pem').with_content('my_ca_certificate')
+        is_expected.to contain_file('/etc/octavia/client_ca.pem').with({
+          'ensure' => 'file',
+          'owner'  => 'octavia',
+          'group'  => 'octavia',
+          'mode'   => '0755',
+        })
+        is_expected.to contain_file('/etc/octavia/client_ca.pem').with_content('my_client_ca')
+        is_expected.to contain_file('/etc/octavia').with({
+          'ensure' => 'directory',
+          'owner'  => 'octavia',
+          'group'  => 'octavia',
+          'mode'   => '0755',
+        })
+      end
+    end
   end
 
   on_supported_os({

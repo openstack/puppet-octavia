@@ -5,6 +5,10 @@ describe 'octavia::certificates' do
 
     context 'with default params' do
       it 'configures octavia certificate manager' do
+        is_expected.to contain_octavia_config('certificates/cert_generator').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('certificates/cert_manager').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('certificates/region_name').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('certificates/endpoint_type').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_octavia_config('certificates/ca_certificate').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_octavia_config('certificates/ca_private_key').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_octavia_config('certificates/ca_private_key_passphrase').with_value('<SERVICE DEFAULT>')
@@ -19,7 +23,11 @@ describe 'octavia::certificates' do
 
     context 'when certificates are configured' do
       let :params do
-        { :ca_certificate            => '/etc/octavia/ca.pem',
+        { :cert_generator            => 'local_cert_generator',
+          :cert_manager              => 'barbican_cert_manager',
+          :region_name               => 'RegionOne',
+          :endpoint_type             => 'internalURL',
+          :ca_certificate            => '/etc/octavia/ca.pem',
           :ca_private_key            => '/etc/octavia/key.pem',
           :ca_private_key_passphrase => 'secure123',
           :client_cert               => '/etc/octavia/client.pem'
@@ -27,6 +35,10 @@ describe 'octavia::certificates' do
       end
 
       it 'configures octavia certificate manager' do
+        is_expected.to contain_octavia_config('certificates/cert_generator').with_value('local_cert_generator')
+        is_expected.to contain_octavia_config('certificates/cert_manager').with_value('barbican_cert_manager')
+        is_expected.to contain_octavia_config('certificates/region_name').with_value('RegionOne')
+        is_expected.to contain_octavia_config('certificates/endpoint_type').with_value('internalURL')
         is_expected.to contain_octavia_config('certificates/ca_certificate').with_value('/etc/octavia/ca.pem')
         is_expected.to contain_octavia_config('certificates/ca_private_key').with_value('/etc/octavia/key.pem')
         is_expected.to contain_octavia_config('certificates/ca_private_key_passphrase').with_value('secure123')

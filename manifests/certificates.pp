@@ -32,6 +32,12 @@
 #   (Optional) CA password used to sign certificates
 #   Defaults to $::os_service_default
 #
+# [*client_ca*]
+#   (Optional) Path to the client CA certificate.
+#   This option is not needed unless you want to separate the
+#   ca_certificate/server_ca and the client_ca.
+#   Defaults to undef
+#
 # [*client_cert*]
 #   (Optional) Path for client certificate used to connect to amphorae.
 #   Defaults to $::os_service_default
@@ -42,6 +48,12 @@
 #
 # [*ca_private_key_data*]
 #   (Optional) CA private key for signing certificates
+#   Defaults to undef
+#
+# [*client_ca_data*]
+#   (Optional) Client CA certificate.
+#   You must specify the client_ca parameter where to place this CA
+#   if you give the data here.
 #   Defaults to undef
 #
 # [*client_cert_data*]
@@ -64,15 +76,19 @@ class octavia::certificates (
   $ca_certificate            = $::os_service_default,
   $ca_private_key            = $::os_service_default,
   $ca_private_key_passphrase = $::os_service_default,
+  $client_ca                 = undef,
   $client_cert               = $::os_service_default,
   $ca_certificate_data       = undef,
   $ca_private_key_data       = undef,
+  $client_ca_data            = undef,
   $client_cert_data          = undef,
   $file_permission_owner     = 'octavia',
   $file_permission_group     = 'octavia'
 ) {
 
   include ::octavia::deps
+
+  $client_ca_real = pick($client_ca, $ca_certificate)
 
   octavia_config {
     'certificates/cert_generator'            : value => $cert_generator;
@@ -82,7 +98,7 @@ class octavia::certificates (
     'certificates/ca_certificate'            : value => $ca_certificate;
     'certificates/ca_private_key'            : value => $ca_private_key;
     'certificates/ca_private_key_passphrase' : value => $ca_private_key_passphrase;
-    'controller_worker/client_ca'            : value => $ca_certificate;
+    'controller_worker/client_ca'            : value => $client_ca_real;
     'haproxy_amphora/client_cert'            : value => $client_cert;
     'haproxy_amphora/server_ca'              : value => $ca_certificate;
   }
@@ -121,6 +137,22 @@ class octavia::certificates (
     file { $ca_private_key:
       ensure  => file,
       content => $ca_private_key_data,
+      group   => $file_permission_owner,
+      owner   => $file_permission_group,
+      mode    => '0755',
+      replace => true
+    }
+  }
+  if $client_ca and $client_ca_data {
+    ensure_resource('file', dirname($client_ca), {
+      ensure => directory,
+      owner  => $file_permission_owner,
+      group  => $file_permission_group,
+      mode   => '0755'
+    })
+    file { $client_ca:
+      ensure  => file,
+      content => $client_ca_data,
       group   => $file_permission_owner,
       owner   => $file_permission_group,
       mode    => '0755',

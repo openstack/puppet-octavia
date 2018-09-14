@@ -94,21 +94,6 @@ describe 'octavia' do
 
     end
 
-    context 'with default parameters' do
-      it { is_expected.to contain_class('octavia::db') }
-      it { is_expected.to contain_oslo__db('octavia_config').with(
-        :db_max_retries => '<SERVICE DEFAULT>',
-        :connection     => 'sqlite:////var/lib/octavia/octavia.sqlite',
-        :idle_timeout   => '<SERVICE DEFAULT>',
-        :min_pool_size  => '<SERVICE DEFAULT>',
-        :max_pool_size  => '<SERVICE DEFAULT>',
-        :max_retries    => '<SERVICE DEFAULT>',
-        :retry_interval => '<SERVICE DEFAULT>',
-        :max_overflow   => '<SERVICE DEFAULT>',
-        :pool_timeout   => '<SERVICE DEFAULT>',
-      )}
-    end
-
     context 'with kombu_reconnect_delay set to 5.0' do
       let :params do
         { :kombu_reconnect_delay => '5.0' }

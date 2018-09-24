@@ -1,0 +1,8 @@
+---
+features:
+  - |
+    Added all databases parameters in octavia::db in octavia::init.
+upgrade:
+  - |
+    The octavia::db class should now be considered a private class.
+    You should set all your database parameters in the init class.

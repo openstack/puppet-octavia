@@ -51,7 +51,6 @@ describe 'octavia::worker' do
       it { is_expected.to contain_octavia_config('controller_worker/amp_boot_network_list').with_value(['lbnet1', 'lbnet2']) }
       it { is_expected.to contain_octavia_config('controller_worker/loadbalancer_topology').with_value('SINGLE') }
       it { is_expected.to contain_octavia_config('controller_worker/amp_ssh_key_name').with_value('custom-amphora-key') }
-      it { is_expected.to contain_octavia_config('haproxy_amphora/key_path').with_value('/opt/octavia/ssh/amphora_key') }
       it 'deploys a nova flavor for amphora' do
         is_expected.to contain_nova_flavor('octavia_42').with(
           :ensure    => 'present',
@@ -73,7 +72,6 @@ describe 'octavia::worker' do
       is_expected.to contain_octavia_config('controller_worker/compute_driver').with_value('compute_nova_driver')
       is_expected.to contain_octavia_config('controller_worker/network_driver').with_value('allowed_address_pairs_driver')
       is_expected.to contain_octavia_config('controller_worker/amp_ssh_key_name').with_value('octavia-ssh-key')
-      is_expected.to contain_octavia_config('haproxy_amphora/key_path').with_value('/etc/octavia/.ssh/octavia_ssh_key')
     end
 
     context 'with ssh key access disabled' do
@@ -82,7 +80,6 @@ describe 'octavia::worker' do
 
       it 'disables configuration of SSH key properties' do
         is_expected.to contain_octavia_config('controller_worker/amp_ssh_key_name').with_value('<SERVICE DEFAULT>')
-        is_expected.to contain_octavia_config('haproxy_amphora/key_path').with_value('<SERVICE DEFAULT>')
       end
     end
 

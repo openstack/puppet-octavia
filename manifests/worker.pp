@@ -204,11 +204,9 @@ class octavia::worker (
 
   if $enable_ssh_access {
     $ssh_key_name_real = $amp_ssh_key_name
-    $key_path_real = $key_path
   }
   else {
     $ssh_key_name_real = $::os_service_default
-    $key_path_real = $::os_service_default
   }
 
   octavia_config {
@@ -222,6 +220,5 @@ class octavia::worker (
     'controller_worker/compute_driver'        : value => $compute_driver;
     'controller_worker/network_driver'        : value => $network_driver;
     'controller_worker/amp_ssh_key_name'      : value => $ssh_key_name_real;
-    'haproxy_amphora/key_path'                : value => $key_path_real;
   }
 }

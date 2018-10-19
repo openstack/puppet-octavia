@@ -1,0 +1,4 @@
+---
+upgrade:
+  - Octavia option [haproxy_amphora]/key_path will no longer be set. None of
+    the maintained Octavia releases support it (removed in Mitaka).

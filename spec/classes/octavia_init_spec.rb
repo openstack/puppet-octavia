@@ -129,7 +129,7 @@ describe 'octavia' do
       end
     end
 
-    context 'with rabbit_ha_queues set to false and with rabbit_hosts' do
+    context 'with rabbit_ha_queues set to false' do
       let :params do
         { :rabbit_ha_queues => 'false' }
       end

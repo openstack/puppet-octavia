@@ -61,6 +61,7 @@ class octavia::housekeeping (
 ) inherits octavia::params {
 
   include ::octavia::deps
+  include ::octavia::controller
 
   package { 'octavia-housekeeping':
     ensure => $package_ensure,

@@ -72,7 +72,7 @@ class octavia::api (
 
   include ::octavia::deps
   include ::octavia::policy
-  include ::octavia::db
+  include ::octavia::controller
 
   if $auth_strategy == 'keystone' {
     include ::octavia::keystone::authtoken

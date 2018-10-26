@@ -88,26 +88,46 @@
 #   (optional) Set the project to be used for creating load balancer instances.
 #   Defaults to undef
 #
+# [*timeout_client_data*]
+#   (optional) Frontend client inactivity timeout.
+#   Defaults to $::os_service_default
+#
+# [*timeout_member_connect*]
+#   (optional) Backend member connection timeout.
+#   Defaults to $::os_service_default
+#
+# [*timeout_member_data*]
+#   (optional) Backend member inactivity timeout.'
+#   Defaults to $::os_service_default
+#
+# [*timeout_tcp_inspect*]
+#   (optional) Time to wait for TCP packets for content inspection.
+#   Defaults to $::os_service_default
+#
 class octavia::worker (
-  $manage_service        = true,
-  $enabled               = true,
-  $package_ensure        = 'present',
-  $workers               = $::os_service_default,
-  $amp_flavor_id         = '65',
-  $amp_image_tag         = $::os_service_default,
-  $amp_secgroup_list     = $::os_service_default,
-  $amp_boot_network_list = [],
-  $loadbalancer_topology = $::os_service_default,
-  $manage_nova_flavor    = true,
-  $nova_flavor_config    = {},
-  $amphora_driver        = 'amphora_haproxy_rest_driver',
-  $compute_driver        = 'compute_nova_driver',
-  $network_driver        = 'allowed_address_pairs_driver',
-  $amp_ssh_key_name      = 'octavia-ssh-key',
-  $enable_ssh_access     = true,
-  $key_path              = '/etc/octavia/.ssh/octavia_ssh_key',
-  $manage_keygen         = false,
-  $amp_project_name      = undef
+  $manage_service         = true,
+  $enabled                = true,
+  $package_ensure         = 'present',
+  $workers                = $::os_service_default,
+  $amp_flavor_id          = '65',
+  $amp_image_tag          = $::os_service_default,
+  $amp_secgroup_list      = $::os_service_default,
+  $amp_boot_network_list  = [],
+  $loadbalancer_topology  = $::os_service_default,
+  $manage_nova_flavor     = true,
+  $nova_flavor_config     = {},
+  $amphora_driver         = 'amphora_haproxy_rest_driver',
+  $compute_driver         = 'compute_nova_driver',
+  $network_driver         = 'allowed_address_pairs_driver',
+  $amp_ssh_key_name       = 'octavia-ssh-key',
+  $enable_ssh_access      = true,
+  $key_path               = '/etc/octavia/.ssh/octavia_ssh_key',
+  $manage_keygen          = false,
+  $amp_project_name       = undef,
+  $timeout_client_data    = $::os_service_default,
+  $timeout_member_connect = $::os_service_default,
+  $timeout_member_data    = $::os_service_default,
+  $timeout_tcp_inspect    = $::os_service_default,
 ) inherits octavia::params {
 
   include ::octavia::deps
@@ -223,5 +243,9 @@ class octavia::worker (
     'controller_worker/network_driver'        : value => $network_driver;
     'controller_worker/amp_ssh_key_name'      : value => $ssh_key_name_real;
     'haproxy_amphora/key_path'                : value => $key_path_real;
+    'haproxy_amphora/timeout_client_data'     : value => $timeout_client_data;
+    'haproxy_amphora/timeout_member_connect'  : value => $timeout_member_connect;
+    'haproxy_amphora/timeout_member_data'     : value => $timeout_member_data;
+    'haproxy_amphora/timeout_tcp_inspect'     : value => $timeout_tcp_inspect;
   }
 }

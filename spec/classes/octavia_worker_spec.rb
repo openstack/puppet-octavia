@@ -74,6 +74,10 @@ describe 'octavia::worker' do
       is_expected.to contain_octavia_config('controller_worker/network_driver').with_value('allowed_address_pairs_driver')
       is_expected.to contain_octavia_config('controller_worker/amp_ssh_key_name').with_value('octavia-ssh-key')
       is_expected.to contain_octavia_config('haproxy_amphora/key_path').with_value('/etc/octavia/.ssh/octavia_ssh_key')
+      is_expected.to contain_octavia_config('haproxy_amphora/timeout_client_data').with_value('<SERVICE DEFAULT>')
+      is_expected.to contain_octavia_config('haproxy_amphora/timeout_member_connect').with_value('<SERVICE DEFAULT>')
+      is_expected.to contain_octavia_config('haproxy_amphora/timeout_member_data').with_value('<SERVICE DEFAULT>')
+      is_expected.to contain_octavia_config('haproxy_amphora/timeout_tcp_inspect').with_value('<SERVICE DEFAULT>')
     end
 
     context 'with ssh key access disabled' do

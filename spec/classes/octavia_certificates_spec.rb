@@ -81,27 +81,40 @@ describe 'octavia::certificates' do
           'owner'  => 'octavia',
           'group'  => 'octavia',
           'mode'   => '0755',
+          'tag'    => 'octavia-certificate',
         })
-        is_expected.to contain_file('/etc/octavia/ca.pem').with_content('on_my_authority_this_is_a_certificate')
+        is_expected.to contain_file('/etc/octavia/ca.pem').with({
+          'content' => 'on_my_authority_this_is_a_certificate',
+          'tag'     => 'octavia-certificate',
+        })
         is_expected.to contain_file('/etc/octavia/key.pem').with({
           'ensure' => 'file',
           'owner'  => 'octavia',
           'group'  => 'octavia',
           'mode'   => '0755',
+          'tag'    => 'octavia-certificate',
         })
-        is_expected.to contain_file('/etc/octavia/key.pem').with_content('this_is_my_private_key_woot_woot')
+        is_expected.to contain_file('/etc/octavia/key.pem').with({
+          'content' => 'this_is_my_private_key_woot_woot',
+          'tag'     => 'octavia-certificate',
+        })
         is_expected.to contain_file('/etc/octavia/client.pem').with({
           'ensure' => 'file',
           'owner'  => 'octavia',
           'group'  => 'octavia',
           'mode'   => '0755',
+          'tag'    => 'octavia-certificate',
         })
-        is_expected.to contain_file('/etc/octavia/client.pem').with_content('certainly_for_the_client')
+        is_expected.to contain_file('/etc/octavia/client.pem').with({
+          'content' => 'certainly_for_the_client',
+          'tag'     => 'octavia-certificate',
+        })
         is_expected.to contain_file('/etc/octavia').with({
           'ensure' => 'directory',
           'owner'  => 'octavia',
           'group'  => 'octavia',
           'mode'   => '0755',
+          'tag'    => 'octavia-certificate',
         })
       end
     end

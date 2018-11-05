@@ -36,4 +36,7 @@ class octavia::deps {
   # Installation or config changes will always restart services.
   Anchor['octavia::install::end'] ~> Anchor['octavia::service::begin']
   Anchor['octavia::config::end']  ~> Anchor['octavia::service::begin']
+
+  # Changes in certificate or folders will restart services.
+  File<| tag == 'octavia-certificate' |> ~> Anchor['octavia::service::begin']
 }

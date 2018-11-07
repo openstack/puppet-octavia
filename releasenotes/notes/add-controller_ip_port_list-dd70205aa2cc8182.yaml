@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    Added octavia::controller::controller_ip_port_list which can be used to configure
+    the [health_manager]/controller_ip_port_list configuration option.

@@ -1,0 +1,6 @@
+---
+features:
+  - |
+    When certificate data or file paths change in octavia::certificates it will
+    not cause a restart of the Octavia services so that for example the
+    octavia-worker service can use the new certificates.

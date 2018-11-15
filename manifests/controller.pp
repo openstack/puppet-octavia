@@ -64,21 +64,28 @@
 #   (optional) Time to wait for TCP packets for content inspection.
 #   Defaults to $::os_service_default
 #
+# [*controller_ip_port_list*]
+#   (optional) The list of controllers in a host:port comma separated
+#   list if multiple. This is added to the amphora config and is used
+#   when it connects back to the controllers to report its health.
+#   Defaults to $::os_service_default
+#
 class octavia::controller (
-  $amp_flavor_id          = '65',
-  $amp_image_tag          = $::os_service_default,
-  $amp_secgroup_list      = $::os_service_default,
-  $amp_boot_network_list  = [],
-  $loadbalancer_topology  = $::os_service_default,
-  $amphora_driver         = 'amphora_haproxy_rest_driver',
-  $compute_driver         = 'compute_nova_driver',
-  $network_driver         = 'allowed_address_pairs_driver',
-  $enable_ssh_access      = true,
-  $amp_ssh_key_name       = 'octavia-ssh-key',
-  $timeout_client_data    = $::os_service_default,
-  $timeout_member_connect = $::os_service_default,
-  $timeout_member_data    = $::os_service_default,
-  $timeout_tcp_inspect    = $::os_service_default,
+  $amp_flavor_id           = '65',
+  $amp_image_tag           = $::os_service_default,
+  $amp_secgroup_list       = $::os_service_default,
+  $amp_boot_network_list   = [],
+  $loadbalancer_topology   = $::os_service_default,
+  $amphora_driver          = 'amphora_haproxy_rest_driver',
+  $compute_driver          = 'compute_nova_driver',
+  $network_driver          = 'allowed_address_pairs_driver',
+  $enable_ssh_access       = true,
+  $amp_ssh_key_name        = 'octavia-ssh-key',
+  $timeout_client_data     = $::os_service_default,
+  $timeout_member_connect  = $::os_service_default,
+  $timeout_member_data     = $::os_service_default,
+  $timeout_tcp_inspect     = $::os_service_default,
+  $controller_ip_port_list = $::os_service_default,
 ) inherits octavia::params {
 
   include ::octavia::deps
@@ -125,5 +132,6 @@ class octavia::controller (
     'haproxy_amphora/timeout_member_connect'  : value => $timeout_member_connect_real;
     'haproxy_amphora/timeout_member_data'     : value => $timeout_member_data_real;
     'haproxy_amphora/timeout_tcp_inspect'     : value => $timeout_tcp_inspect_real;
+    'health_manager/controller_ip_port_list'  : value => $controller_ip_port_list;
   }
 }

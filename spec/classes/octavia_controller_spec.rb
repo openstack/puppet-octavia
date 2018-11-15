@@ -13,12 +13,13 @@ describe 'octavia::controller' do
 
     context 'configured with specific parameters' do
       let :params do
-        { :amp_flavor_id         => '42',
-          :amp_image_tag         => 'amphorae1',
-          :amp_secgroup_list     => ['lb-mgmt-sec-grp'],
-          :amp_boot_network_list => ['lbnet1', 'lbnet2'],
-          :loadbalancer_topology => 'SINGLE',
-          :amp_ssh_key_name      => 'custom-amphora-key',
+        { :amp_flavor_id           => '42',
+          :amp_image_tag           => 'amphorae1',
+          :amp_secgroup_list       => ['lb-mgmt-sec-grp'],
+          :amp_boot_network_list   => ['lbnet1', 'lbnet2'],
+          :loadbalancer_topology   => 'SINGLE',
+          :amp_ssh_key_name        => 'custom-amphora-key',
+          :controller_ip_port_list => '1.2.3.4:5555,4.3.2.1:5555',
         }
       end
 
@@ -28,6 +29,7 @@ describe 'octavia::controller' do
       it { is_expected.to contain_octavia_config('controller_worker/amp_boot_network_list').with_value(['lbnet1', 'lbnet2']) }
       it { is_expected.to contain_octavia_config('controller_worker/loadbalancer_topology').with_value('SINGLE') }
       it { is_expected.to contain_octavia_config('controller_worker/amp_ssh_key_name').with_value('custom-amphora-key') }
+      it { is_expected.to contain_octavia_config('health_manager/controller_ip_port_list').with_value('1.2.3.4:5555,4.3.2.1:5555') }
     end
 
     it 'configures worker parameters' do

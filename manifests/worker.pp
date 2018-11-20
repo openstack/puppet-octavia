@@ -114,13 +114,16 @@ class octavia::worker (
 ) inherits octavia::params {
 
   include ::octavia::deps
-  include ::octavia::controller
+
+  if !defined(Class['octavia::controller']) {
+    include ::octavia::controller
+  }
 
   if ($amp_flavor_id or $amp_image_tag or $amp_secgroup_list or $amp_boot_network_list or $loadbalancer_topology or $amphora_driver or
       $compute_driver or $network_driver or $amp_ssh_key_name or $enable_ssh_access) {
     warning('The amp_flavor_id, amp_image_tag, amp_secgroup_list, amp_boot_network_list, loadbalancer_topology, amphora_driver,
              compute_driver, network_driver, amp_ssh_key_name, enable_ssh_access, parameters are deprecated and have been moved to
-             octavia::controller class. Please set them there.')
+             octavia::controller class. Please set them there, you must set octavia::controller class before octavia::worker!')
   }
 
   validate_hash($nova_flavor_config)

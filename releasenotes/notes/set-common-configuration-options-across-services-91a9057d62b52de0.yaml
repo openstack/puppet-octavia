@@ -2,7 +2,8 @@
 deprecations:
   - |
     The following octavia::worker parameters are deprecated and have been
-    moved to octavia::controller class.
+    moved to octavia::controller class. When you start using octavia::controller
+    make sure it's defined before octavia::worker.
 
       * amp_flavor_id
       * amp_image_tag
@@ -27,3 +28,7 @@ fixes:
     allowed_address_pairs_driver. Another example is the database that was only
     being set for the API service. Such configuration misalignment and
     omissions lead to operate Octavia services and its resources. 
+upgrade:
+  - |
+    If you want to use the new octavia::controller class you must define it
+    before the octavia::worker class.

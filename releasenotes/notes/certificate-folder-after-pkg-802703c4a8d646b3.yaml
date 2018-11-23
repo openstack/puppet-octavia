@@ -1,0 +1,5 @@
+---
+fixes:
+  - |
+    Fixed a bug where certificate folders that depended on paths provided
+    by packages failed.

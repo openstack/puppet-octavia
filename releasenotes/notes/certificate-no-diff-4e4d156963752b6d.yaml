@@ -1,0 +1,8 @@
+---
+security:
+  - |
+    Certificate changes no longer shows diffs in output.
+fixes:
+  - |
+    Fixed a bug where certificate changes would show the diffs.
+    Certificate are now considered secrets and not displayed.

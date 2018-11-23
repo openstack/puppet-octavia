@@ -117,13 +117,14 @@ class octavia::certificates (
       tag    => 'octavia-certificate',
     })
     file { $ca_certificate:
-      ensure  => file,
-      content => $ca_certificate_data,
-      group   => $file_permission_owner,
-      owner   => $file_permission_group,
-      mode    => '0755',
-      replace => true,
-      tag     => 'octavia-certificate',
+      ensure    => file,
+      content   => $ca_certificate_data,
+      group     => $file_permission_owner,
+      owner     => $file_permission_group,
+      mode      => '0755',
+      replace   => true,
+      show_diff => false,
+      tag       => 'octavia-certificate',
     }
   }
   if $ca_private_key_data {
@@ -138,13 +139,14 @@ class octavia::certificates (
       tag    => 'octavia-certificate',
     })
     file { $ca_private_key:
-      ensure  => file,
-      content => $ca_private_key_data,
-      group   => $file_permission_owner,
-      owner   => $file_permission_group,
-      mode    => '0755',
-      replace => true,
-      tag     => 'octavia-certificate',
+      ensure    => file,
+      content   => $ca_private_key_data,
+      group     => $file_permission_owner,
+      owner     => $file_permission_group,
+      mode      => '0755',
+      replace   => true,
+      show_diff => false,
+      tag       => 'octavia-certificate',
     }
   }
   if $client_ca and $client_ca_data {
@@ -156,13 +158,14 @@ class octavia::certificates (
       tag    => 'octavia-certificate',
     })
     file { $client_ca:
-      ensure  => file,
-      content => $client_ca_data,
-      group   => $file_permission_owner,
-      owner   => $file_permission_group,
-      mode    => '0755',
-      replace => true,
-      tag     => 'octavia-certificate',
+      ensure    => file,
+      content   => $client_ca_data,
+      group     => $file_permission_owner,
+      owner     => $file_permission_group,
+      mode      => '0755',
+      replace   => true,
+      show_diff => false,
+      tag       => 'octavia-certificate',
     }
   }
   if $client_cert_data {
@@ -177,13 +180,14 @@ class octavia::certificates (
       tag    => 'octavia-certificate',
     })
     file { $client_cert:
-      ensure  => file,
-      content => $client_cert_data,
-      group   => $file_permission_owner,
-      owner   => $file_permission_group,
-      mode    => '0755',
-      replace => true,
-      tag     => 'octavia-certificate',
+      ensure    => file,
+      content   => $client_cert_data,
+      group     => $file_permission_owner,
+      owner     => $file_permission_group,
+      mode      => '0755',
+      replace   => true,
+      show_diff => false,
+      tag       => 'octavia-certificate',
     }
   }
 }

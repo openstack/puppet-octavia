@@ -16,6 +16,9 @@ class octavia::deps {
   -> anchor { 'octavia::config::begin': }
   -> Octavia_config<||>
   ~> anchor { 'octavia::config::end': }
+  -> anchor { 'octavia::certificate::begin': }
+  -> File<| tag == 'octavia-certificate' |>
+  ~> anchor { 'octavia::certificate::end': }
   -> anchor { 'octavia::db::begin': }
   -> anchor { 'octavia::db::end': }
   ~> anchor { 'octavia::dbsync::begin': }
@@ -38,5 +41,5 @@ class octavia::deps {
   Anchor['octavia::config::end']  ~> Anchor['octavia::service::begin']
 
   # Changes in certificate or folders will restart services.
-  File<| tag == 'octavia-certificate' |> ~> Anchor['octavia::service::begin']
+  Anchor['octavia::certificate::end'] ~> Anchor['octavia::service::begin']
 }

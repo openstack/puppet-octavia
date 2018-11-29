@@ -263,7 +263,6 @@ class octavia (
 
   include ::octavia::deps
   include ::octavia::db
-  include ::octavia::logging
 
   package { 'octavia':
     ensure => $package_ensure,

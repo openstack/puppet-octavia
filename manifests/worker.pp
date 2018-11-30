@@ -144,7 +144,7 @@ class octavia::worker (
       $timeout_member_data or $timeout_tcp_inspect ) {
     warning('The amp_flavor_id, amp_image_tag, amp_secgroup_list, amp_boot_network_list, loadbalancer_topology, amphora_driver,
              compute_driver, network_driver, amp_ssh_key_name, enable_ssh_access, timeout_member_connect, timeout_member_data and
-	     timeout_tcp_inspect parameters are deprecated and have been moved to octavia::controller class. Please set them there, you must
+             timeout_tcp_inspect parameters are deprecated and have been moved to octavia::controller class. Please set them there, you must
              set octavia::controller class before octavia::worker!')
   }
 

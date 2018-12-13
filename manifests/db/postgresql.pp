@@ -24,14 +24,6 @@
 #    (Optional) Privileges given to the database user.
 #    Default to 'ALL'
 #
-# == Dependencies
-#
-# == Examples
-#
-# == Authors
-#
-# == Copyright
-#
 class octavia::db::postgresql(
   $password,
   $dbname     = 'octavia',

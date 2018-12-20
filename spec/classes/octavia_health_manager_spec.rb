@@ -33,6 +33,8 @@ describe 'octavia::health_manager' do
         })
       end
       it { is_expected.to contain_octavia_config('health_manager/heartbeat_key').with_value('abcdefghi') }
+      it { is_expected.to contain_octavia_config('health_manager/health_update_threads').with_value('2') }
+      it { is_expected.to contain_octavia_config('health_manager/stats_update_threads').with_value('2') }
     end
 
     it 'installs octavia-health-manager package' do
@@ -97,6 +99,15 @@ describe 'octavia::health_manager' do
         it { is_expected.to contain_octavia_config('health_manager/bind_port').with_value('5555') }
     end
 
+    context 'configured with specific parameters' do
+      before do
+        params.merge!({
+          :workers => 8,
+          })
+      end
+      it { is_expected.to contain_octavia_config('health_manager/health_update_threads').with_value(8) }
+      it { is_expected.to contain_octavia_config('health_manager/stats_update_threads').with_value(8) }
+    end
   end
 
   on_supported_os({

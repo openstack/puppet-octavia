@@ -25,6 +25,10 @@
 #   (optional) The bind ip for the health manager
 #   Defaults to $::os_service_default
 #
+# [*workers*]
+#  (optional) The number of workers health_manager spawns
+#  Defaults to $::os_workers
+#
 # [*port*]
 #   (optional) The bind port for the health manager
 #   Defaults to $::os_service_default
@@ -37,6 +41,7 @@ class octavia::health_manager (
   $event_streamer_driver = $::os_service_default,
   $ip                    = $::os_service_default,
   $port                  = $::os_service_default,
+  $workers               = $::os_workers,
 ) inherits octavia::params {
 
   include ::octavia::deps
@@ -71,5 +76,7 @@ class octavia::health_manager (
     'health_manager/event_streamer_driver'  : value => $event_streamer_driver;
     'health_manager/bind_ip'                : value => $ip;
     'health_manager/bind_port'              : value => $port;
+    'health_manager/health_update_threads'  : value => $workers;
+    'health_manager/stats_update_threads'   : value => $workers;
   }
 }

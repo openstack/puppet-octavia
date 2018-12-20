@@ -1,0 +1,4 @@
+---
+features:
+  - Add new parameter, "workers" to health_manager which
+    defaults to $::os_workers

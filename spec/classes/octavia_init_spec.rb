@@ -13,10 +13,6 @@ describe 'octavia' do
         is_expected.to contain_class('octavia::deps')
       end
 
-      it 'contains the logging class' do
-        is_expected.to contain_class('octavia::logging')
-      end
-
       it 'installs packages' do
         is_expected.to contain_package('octavia').with(
           :name   => platform_params[:octavia_common_package],

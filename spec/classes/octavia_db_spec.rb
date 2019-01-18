@@ -43,46 +43,6 @@ describe 'octavia::db' do
         :pool_timeout   => '21',
       )}
     end
-
-    context 'with postgresql backend' do
-      let :params do
-        {
-          :database_connection => 'postgresql://octavia:octavia@localhost/octavia'
-        }
-      end
-
-      it { should contain_package('python-psycopg2').with_ensure('present') }
-    end
-
-    context 'with MySQL-python library as backend package' do
-      let :params do
-        {
-          :database_connection => 'mysql://octavia:octavia@localhost/octavia'
-        }
-      end
-
-      it { should contain_package('python-mysqldb').with_ensure('present') }
-    end
-
-    context 'with incorrect database_connection string' do
-      let :params do
-        {
-          :database_connection => 'foodb://octavia:octavia@localhost/octavia'
-        }
-      end
-
-      it { should raise_error(Puppet::Error, /validate_re/) }
-    end
-
-    context 'with incorrect pymysql database_connection string' do
-      let :params do
-        {
-          :database_connection => 'foo+pymysql://octavia:octavia@localhost/octavia'
-        }
-      end
-
-      it { should raise_error(Puppet::Error, /validate_re/) }
-    end
   end
 
   on_supported_os({

@@ -2,13 +2,7 @@
 #
 class octavia::params {
   include ::openstacklib::defaults
-
-  if ($::os_package_type == 'debian') or ($::os['name'] == 'Fedora') or
-    ($::os['family'] == 'RedHat' and Integer.new($::os['release']['major']) > 7) {
-    $pyvers = '3'
-  } else {
-    $pyvers = ''
-  }
+  $pyvers = $::openstacklib::defaults::pyvers
 
   $api_service_name            = 'octavia-api'
   $worker_service_name         = 'octavia-worker'
@@ -16,6 +10,7 @@ class octavia::params {
   $housekeeping_service_name   = 'octavia-housekeeping'
   $client_package_name         = "python${pyvers}-octaviaclient"
   $group                       = 'octavia'
+
   case $::osfamily {
     'RedHat': {
       $common_package_name         = 'openstack-octavia-common'

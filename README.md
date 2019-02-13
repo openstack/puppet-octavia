@@ -35,7 +35,7 @@ Setup
 
 **What the octavia module affects**
 
-* [Octavia](https://wiki.openstack.org/wiki/Octavia), the scalable load balancer service for OpenStack.
+* [Octavia](https://docs.openstack.org/octavia/latest/), the scalable load balancer service for OpenStack.
 
 ### Installing octavia
 

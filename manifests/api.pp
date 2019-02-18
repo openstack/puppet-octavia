@@ -55,6 +55,14 @@
 #   (optional) Run octavia-db-manage upgrade head on api nodes after installing the package.
 #   Defaults to false
 #
+# [*default_provider_driver*]
+#   (optional) Configure the default provider driver.
+#   Defaults to $::os_service_default
+#
+# [*provider_drivers*]
+#   (optional) Configure the loadbalancer provider drivers.
+#   Defaults to $::os_service_default
+#
 class octavia::api (
   $enabled                        = true,
   $manage_service                 = true,
@@ -68,11 +76,17 @@ class octavia::api (
   $api_v2_enabled                 = $::os_service_default,
   $allow_tls_terminated_listeners = $::os_service_default,
   $sync_db                        = false,
+  $default_provider_driver        = $::os_service_default,
+  $provider_drivers               = $::os_service_default,
 ) inherits octavia::params {
 
   include ::octavia::deps
   include ::octavia::policy
   include ::octavia::db
+
+  if !is_service_default($provider_drivers) {
+      validate_hash($provider_drivers)
+  }
 
   if $auth_strategy == 'keystone' {
     include ::octavia::keystone::authtoken
@@ -125,6 +139,8 @@ class octavia::api (
     'api_settings/api_v1_enabled':                 value => $api_v1_enabled;
     'api_settings/api_v2_enabled':                 value => $api_v2_enabled;
     'api_settings/allow_tls_terminated_listeners': value => $allow_tls_terminated_listeners;
+    'api_settings/default_provider_driver':        value => $default_provider_driver;
+    'api_settings/enabled_provider_drivers':       value => $provider_drivers;
   }
 
 }

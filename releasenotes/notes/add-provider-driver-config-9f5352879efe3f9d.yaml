@@ -1,0 +1,6 @@
+---
+features:
+  - |
+    Added octavia::api::provider_drivers and
+    octavia::api::default_provider_driver configuration to support configuring
+    different load balancer drivers in octavia.

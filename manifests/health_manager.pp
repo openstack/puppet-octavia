@@ -46,7 +46,7 @@ class octavia::health_manager (
 
   include ::octavia::deps
 
-  validate_string($heartbeat_key)
+  validate_legacy(String, 'validate_string', $heartbeat_key)
 
   package { 'octavia-health-manager':
     ensure => $package_ensure,

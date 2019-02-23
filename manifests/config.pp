@@ -26,7 +26,7 @@ class octavia::config (
 
   include ::octavia::deps
 
-  validate_hash($octavia_config)
+  validate_legacy(Hash, 'validate_hash', $octavia_config)
 
   create_resources('octavia_config', $octavia_config)
 }

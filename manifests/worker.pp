@@ -148,7 +148,7 @@ class octavia::worker (
              set octavia::controller class before octavia::worker!')
   }
 
-  validate_hash($nova_flavor_config)
+  validate_legacy(Hash, 'validate_hash', $nova_flavor_config)
 
   if ! $::octavia::controller::amp_flavor_id_real {
     if $manage_nova_flavor {

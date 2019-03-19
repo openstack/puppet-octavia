@@ -67,7 +67,7 @@ describe 'octavia::api' do
       is_expected.to contain_octavia_config('api_settings/api_v2_enabled').with_value( params[:api_v2_enabled] )
       is_expected.to contain_octavia_config('api_settings/allow_tls_terminated_listeners').with_value( params[:allow_tls_terminated_listeners] )
       is_expected.to contain_octavia_config('api_settings/default_provider_driver').with_value( params[:default_provider_driver] )
-      is_expected.to contain_octavia_config('api_settings/enabled_provider_drivers').with_value( params[:provider_drivers] )
+      is_expected.to contain_octavia_config('api_settings/enabled_provider_drivers').with_value( '{"amphora":"Octavia Amphora Driver","ovn":"Octavia OVN driver"}' )
     end
 
     [{:enabled => true}, {:enabled => false}].each do |param_hash|

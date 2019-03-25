@@ -11,6 +11,7 @@ describe 'octavia::certificates' do
         is_expected.to contain_octavia_config('certificates/endpoint_type').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_octavia_config('certificates/ca_certificate').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_octavia_config('certificates/ca_private_key').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('certificates/server_certs_key_passphrase').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_octavia_config('certificates/ca_private_key_passphrase').with_value('<SERVICE DEFAULT>')
       end
 
@@ -23,14 +24,15 @@ describe 'octavia::certificates' do
 
     context 'when certificates are configured' do
       let :params do
-        { :cert_generator            => 'local_cert_generator',
-          :cert_manager              => 'barbican_cert_manager',
-          :region_name               => 'RegionOne',
-          :endpoint_type             => 'internalURL',
-          :ca_certificate            => '/etc/octavia/ca.pem',
-          :ca_private_key            => '/etc/octavia/key.pem',
-          :ca_private_key_passphrase => 'secure123',
-          :client_cert               => '/etc/octavia/client.pem'
+        { :cert_generator              => 'local_cert_generator',
+          :cert_manager                => 'barbican_cert_manager',
+          :region_name                 => 'RegionOne',
+          :endpoint_type               => 'internalURL',
+          :ca_certificate              => '/etc/octavia/ca.pem',
+          :ca_private_key              => '/etc/octavia/key.pem',
+          :server_certs_key_passphrase => 'secure123',
+          :ca_private_key_passphrase   => 'secure123',
+          :client_cert                 => '/etc/octavia/client.pem'
         }
       end
 
@@ -41,6 +43,7 @@ describe 'octavia::certificates' do
         is_expected.to contain_octavia_config('certificates/endpoint_type').with_value('internalURL')
         is_expected.to contain_octavia_config('certificates/ca_certificate').with_value('/etc/octavia/ca.pem')
         is_expected.to contain_octavia_config('certificates/ca_private_key').with_value('/etc/octavia/key.pem')
+        is_expected.to contain_octavia_config('certificates/server_certs_key_passphrase').with_value('secure123')
         is_expected.to contain_octavia_config('certificates/ca_private_key_passphrase').with_value('secure123')
       end
 
@@ -53,19 +56,21 @@ describe 'octavia::certificates' do
 
     context 'when certificates are configured with data provided' do
       let :params do
-        { :ca_certificate            => '/etc/octavia/ca.pem',
-          :ca_private_key            => '/etc/octavia/key.pem',
-          :ca_private_key_passphrase => 'secure123',
-          :client_cert               => '/etc/octavia/client.pem',
-          :ca_certificate_data       => 'on_my_authority_this_is_a_certificate',
-          :ca_private_key_data       => 'this_is_my_private_key_woot_woot',
-          :client_cert_data          => 'certainly_for_the_client',
+        { :ca_certificate              => '/etc/octavia/ca.pem',
+          :ca_private_key              => '/etc/octavia/key.pem',
+          :server_certs_key_passphrase => 'secure123',
+          :ca_private_key_passphrase   => 'secure123',
+          :client_cert                 => '/etc/octavia/client.pem',
+          :ca_certificate_data         => 'on_my_authority_this_is_a_certificate',
+          :ca_private_key_data         => 'this_is_my_private_key_woot_woot',
+          :client_cert_data            => 'certainly_for_the_client',
         }
       end
 
       it 'configures octavia certificate manager' do
         is_expected.to contain_octavia_config('certificates/ca_certificate').with_value('/etc/octavia/ca.pem')
         is_expected.to contain_octavia_config('certificates/ca_private_key').with_value('/etc/octavia/key.pem')
+        is_expected.to contain_octavia_config('certificates/server_certs_key_passphrase').with_value('secure123')
         is_expected.to contain_octavia_config('certificates/ca_private_key_passphrase').with_value('secure123')
       end
 
@@ -118,19 +123,21 @@ describe 'octavia::certificates' do
 
     context 'when certificates are configured with data provided but different paths' do
       let :params do
-        { :ca_certificate            => '/etc/octavia/ca.pem',
-          :ca_private_key            => '/etc/octavia1/key.pem',
-          :ca_private_key_passphrase => 'secure123',
-          :client_cert               => '/etc/octavia2/client.pem',
-          :ca_certificate_data       => 'on_my_authority_this_is_a_certificate',
-          :ca_private_key_data       => 'this_is_my_private_key_woot_woot',
-          :client_cert_data          => 'certainly_for_the_client',
+        { :ca_certificate              => '/etc/octavia/ca.pem',
+          :ca_private_key              => '/etc/octavia1/key.pem',
+          :server_certs_key_passphrase => 'secure123',
+          :ca_private_key_passphrase   => 'secure123',
+          :client_cert                 => '/etc/octavia2/client.pem',
+          :ca_certificate_data         => 'on_my_authority_this_is_a_certificate',
+          :ca_private_key_data         => 'this_is_my_private_key_woot_woot',
+          :client_cert_data            => 'certainly_for_the_client',
         }
       end
 
       it 'configures octavia certificate manager' do
         is_expected.to contain_octavia_config('certificates/ca_certificate').with_value('/etc/octavia/ca.pem')
         is_expected.to contain_octavia_config('certificates/ca_private_key').with_value('/etc/octavia1/key.pem')
+        is_expected.to contain_octavia_config('certificates/server_certs_key_passphrase').with_value('secure123')
         is_expected.to contain_octavia_config('certificates/ca_private_key_passphrase').with_value('secure123')
       end
 

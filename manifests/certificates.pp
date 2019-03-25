@@ -28,6 +28,11 @@
 #   (Optional) Path for private key used to sign certificates
 #   Defaults to $::os_service_default
 #
+# [*server_certs_key_passphrase*]
+#   (Optional) Passphrase for encrypting Amphora Certificates and Private Keys.
+#   Defaults to $::os_service_default
+#
+#
 # [*ca_private_key_passphrase*]
 #   (Optional) CA password used to sign certificates
 #   Defaults to $::os_service_default
@@ -69,21 +74,22 @@
 #   Defaults to 'octavia'
 #
 class octavia::certificates (
-  $cert_generator            = $::os_service_default,
-  $cert_manager              = $::os_service_default,
-  $region_name               = $::os_service_default,
-  $endpoint_type             = $::os_service_default,
-  $ca_certificate            = $::os_service_default,
-  $ca_private_key            = $::os_service_default,
-  $ca_private_key_passphrase = $::os_service_default,
-  $client_ca                 = undef,
-  $client_cert               = $::os_service_default,
-  $ca_certificate_data       = undef,
-  $ca_private_key_data       = undef,
-  $client_ca_data            = undef,
-  $client_cert_data          = undef,
-  $file_permission_owner     = 'octavia',
-  $file_permission_group     = 'octavia'
+  $cert_generator              = $::os_service_default,
+  $cert_manager                = $::os_service_default,
+  $region_name                 = $::os_service_default,
+  $endpoint_type               = $::os_service_default,
+  $ca_certificate              = $::os_service_default,
+  $ca_private_key              = $::os_service_default,
+  $server_certs_key_passphrase = $::os_service_default,
+  $ca_private_key_passphrase   = $::os_service_default,
+  $client_ca                   = undef,
+  $client_cert                 = $::os_service_default,
+  $ca_certificate_data         = undef,
+  $ca_private_key_data         = undef,
+  $client_ca_data              = undef,
+  $client_cert_data            = undef,
+  $file_permission_owner       = 'octavia',
+  $file_permission_group       = 'octavia'
 ) {
 
   include ::octavia::deps
@@ -91,16 +97,17 @@ class octavia::certificates (
   $client_ca_real = pick($client_ca, $ca_certificate)
 
   octavia_config {
-    'certificates/cert_generator'            : value => $cert_generator;
-    'certificates/cert_manager'              : value => $cert_manager;
-    'certificates/region_name'               : value => $region_name;
-    'certificates/endpoint_type'             : value => $endpoint_type;
-    'certificates/ca_certificate'            : value => $ca_certificate;
-    'certificates/ca_private_key'            : value => $ca_private_key;
-    'certificates/ca_private_key_passphrase' : value => $ca_private_key_passphrase;
-    'controller_worker/client_ca'            : value => $client_ca_real;
-    'haproxy_amphora/client_cert'            : value => $client_cert;
-    'haproxy_amphora/server_ca'              : value => $ca_certificate;
+    'certificates/cert_generator'              : value => $cert_generator;
+    'certificates/cert_manager'                : value => $cert_manager;
+    'certificates/region_name'                 : value => $region_name;
+    'certificates/endpoint_type'               : value => $endpoint_type;
+    'certificates/ca_certificate'              : value => $ca_certificate;
+    'certificates/ca_private_key'              : value => $ca_private_key;
+    'certificates/server_certs_key_passphrase' : value => $server_certs_key_passphrase;
+    'certificates/ca_private_key_passphrase'   : value => $ca_private_key_passphrase;
+    'controller_worker/client_ca'              : value => $client_ca_real;
+    'haproxy_amphora/client_cert'              : value => $client_cert;
+    'haproxy_amphora/server_ca'                : value => $ca_certificate;
   }
 
   # The file creation will create the parent directory for each file if necessary, but

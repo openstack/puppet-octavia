@@ -11,19 +11,19 @@
         },
         {
             "name": "openstack/keystone",
-            "version_requirement": ">=11.4.0 <12.0.0"
+            "version_requirement": ">=11.6.0 <12.0.0"
         },
         {
             "name": "openstack/nova",
-            "version_requirement": ">=11.4.0 <12.0.0"
+            "version_requirement": ">=11.6.0 <12.0.0"
         },
         {
             "name": "openstack/openstacklib",
-            "version_requirement": ">=11.4.0 <12.0.0"
+            "version_requirement": ">=11.6.0 <12.0.0"
         },
         {
             "name": "openstack/oslo",
-            "version_requirement": ">=11.4.0 <12.0.0"
+            "version_requirement": ">=11.6.0 <12.0.0"
         }
     ],
     "description": "Installs and configures OpenStack Octavia.",
@@ -69,5 +69,5 @@
     ],
     "source": "git://github.com/openstack/puppet-octavia.git",
     "summary": "Puppet module for OpenStack Octavia",
-    "version": "11.5.0"
+    "version": "11.6.0"
 }

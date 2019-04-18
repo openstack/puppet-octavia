@@ -1,0 +1,4 @@
+---
+features:
+  - Adds octavia::api::ovn_nb_connection to configure ovn nb connection string
+    for OVN Provider driver.

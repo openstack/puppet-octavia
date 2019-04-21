@@ -95,4 +95,4 @@ Release Notes
 Repository
 ----------
 
-* https://git.openstack.org/cgit/openstack/puppet-octavia
+* https://opendev.org/openstack/puppet-octavia

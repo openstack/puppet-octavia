@@ -84,10 +84,6 @@ class octavia::api (
   include ::octavia::policy
   include ::octavia::db
 
-  if !is_service_default($provider_drivers) {
-      validate_hash($provider_drivers)
-  }
-
   if $auth_strategy == 'keystone' {
     include ::octavia::keystone::authtoken
   }

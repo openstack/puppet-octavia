@@ -2,4 +2,4 @@
 fixes:
   - |
     This patch alters the default keystone service type from "octavia" to "load-balancer" to
-    sync with https://review.openstack.org/#/c/450916/.
+    sync with https://review.opendev.org/#/c/450916/.

@@ -20,6 +20,7 @@ class octavia::client (
       name   => $::octavia::params::client_package_name,
       tag    => 'openstack',
     }
+    include '::openstacklib::openstackclient'
   } else {
     fail("There is no avaiable client package in osfamily: ${::osfamily}.")
   }

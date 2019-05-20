@@ -15,6 +15,7 @@ describe 'octavia::client' do
       default_params.merge(params)
     end
 
+    it { is_expected.to contain_class('octavia::deps') }
     it { is_expected.to contain_class('octavia::params') }
 
     it 'installs octavia client package' do

@@ -17,10 +17,6 @@
 #   (optional) ensure state for package.
 #   Defaults to 'present'
 #
-# [*event_streamer_driver*]
-#   (optional) Driver to use for synchronizing octavia and lbaas databases.
-#   Defaults to $::os_service_default
-#
 # [*ip*]
 #   (optional) The bind ip for the health manager
 #   Defaults to $::os_service_default
@@ -33,20 +29,32 @@
 #   (optional) The bind port for the health manager
 #   Defaults to $::os_service_default
 #
+# DEPRECATED PARAMETERS
+#
+# [*event_streamer_driver*]
+#   (optional) Driver to use for synchronizing octavia and lbaas databases.
+#   Defaults to $::os_service_default
+#
 class octavia::health_manager (
   $heartbeat_key,
   $manage_service        = true,
   $enabled               = true,
   $package_ensure        = 'present',
-  $event_streamer_driver = $::os_service_default,
   $ip                    = $::os_service_default,
   $port                  = $::os_service_default,
   $workers               = $::os_workers,
+  # DEPRECATED PARAMETERS
+  $event_streamer_driver = undef,
+
 ) inherits octavia::params {
 
   include ::octavia::deps
 
   validate_legacy(String, 'validate_string', $heartbeat_key)
+
+  if $event_streamer_driver {
+      warning('The event_streamer_driver parameter is deprecated as result of neutron-lbaas retirement.')
+  }
 
   package { 'octavia-health-manager':
     ensure => $package_ensure,
@@ -73,7 +81,6 @@ class octavia::health_manager (
 
   octavia_config {
     'health_manager/heartbeat_key'          : value => $heartbeat_key;
-    'health_manager/event_streamer_driver'  : value => $event_streamer_driver;
     'health_manager/bind_ip'                : value => $ip;
     'health_manager/bind_port'              : value => $port;
     'health_manager/health_update_threads'  : value => $workers;

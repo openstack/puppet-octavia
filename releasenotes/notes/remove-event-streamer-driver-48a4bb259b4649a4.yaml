@@ -1,0 +1,5 @@
+---
+deprecations:
+  - |
+    Parameter event_streamer_driver has been removed as part of Neutron LBaaS
+    project retirement in Train.

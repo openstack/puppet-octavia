@@ -1,0 +1,4 @@
+---
+features:
+  - |
+    Added octavia::driver_agent for configuring driver agent properties.

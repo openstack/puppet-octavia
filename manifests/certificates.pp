@@ -30,8 +30,8 @@
 #
 # [*server_certs_key_passphrase*]
 #   (Optional) Passphrase for encrypting Amphora Certificates and Private Keys.
-#   Defaults to $::os_service_default
-#
+#   Must be exactly 32 characters.
+#   Defaults to 'insecure-key-do-not-use-this-key'
 #
 # [*ca_private_key_passphrase*]
 #   (Optional) CA password used to sign certificates
@@ -80,7 +80,7 @@ class octavia::certificates (
   $endpoint_type               = $::os_service_default,
   $ca_certificate              = $::os_service_default,
   $ca_private_key              = $::os_service_default,
-  $server_certs_key_passphrase = $::os_service_default,
+  $server_certs_key_passphrase = 'insecure-key-do-not-use-this-key',
   $ca_private_key_passphrase   = $::os_service_default,
   $client_ca                   = undef,
   $client_cert                 = $::os_service_default,
@@ -109,7 +109,13 @@ class octavia::certificates (
     'haproxy_amphora/client_cert'              : value => $client_cert;
     'haproxy_amphora/server_ca'                : value => $ca_certificate;
   }
-
+  if !$server_certs_key_passphrase  {
+    fail('server_certs_key_passphrase is required for Octavia. Please provide a 32 characters passphrase.')
+  }
+  if length($server_certs_key_passphrase)!=32 {
+      fail("The passphrase '${server_certs_key_passphrase}' is invalid for server_certs_key_passphrase. Please provide a 32 characters
+      passphrase.")
+  }
   # The file creation will create the parent directory for each file if necessary, but
   # only to one level.
   if $ca_certificate_data {

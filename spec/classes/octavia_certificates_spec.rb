@@ -11,7 +11,6 @@ describe 'octavia::certificates' do
         is_expected.to contain_octavia_config('certificates/endpoint_type').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_octavia_config('certificates/ca_certificate').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_octavia_config('certificates/ca_private_key').with_value('<SERVICE DEFAULT>')
-        is_expected.to contain_octavia_config('certificates/server_certs_key_passphrase').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_octavia_config('certificates/ca_private_key_passphrase').with_value('<SERVICE DEFAULT>')
       end
 
@@ -30,7 +29,7 @@ describe 'octavia::certificates' do
           :endpoint_type               => 'internalURL',
           :ca_certificate              => '/etc/octavia/ca.pem',
           :ca_private_key              => '/etc/octavia/key.pem',
-          :server_certs_key_passphrase => 'secure123',
+          :server_certs_key_passphrase => 'insecure-key-do-not-use-this-key',
           :ca_private_key_passphrase   => 'secure123',
           :client_cert                 => '/etc/octavia/client.pem'
         }
@@ -43,7 +42,7 @@ describe 'octavia::certificates' do
         is_expected.to contain_octavia_config('certificates/endpoint_type').with_value('internalURL')
         is_expected.to contain_octavia_config('certificates/ca_certificate').with_value('/etc/octavia/ca.pem')
         is_expected.to contain_octavia_config('certificates/ca_private_key').with_value('/etc/octavia/key.pem')
-        is_expected.to contain_octavia_config('certificates/server_certs_key_passphrase').with_value('secure123')
+        is_expected.to contain_octavia_config('certificates/server_certs_key_passphrase').with_value('insecure-key-do-not-use-this-key')
         is_expected.to contain_octavia_config('certificates/ca_private_key_passphrase').with_value('secure123')
       end
 
@@ -58,7 +57,7 @@ describe 'octavia::certificates' do
       let :params do
         { :ca_certificate              => '/etc/octavia/ca.pem',
           :ca_private_key              => '/etc/octavia/key.pem',
-          :server_certs_key_passphrase => 'secure123',
+          :server_certs_key_passphrase => 'insecure-key-do-not-use-this-key',
           :ca_private_key_passphrase   => 'secure123',
           :client_cert                 => '/etc/octavia/client.pem',
           :ca_certificate_data         => 'on_my_authority_this_is_a_certificate',
@@ -70,7 +69,7 @@ describe 'octavia::certificates' do
       it 'configures octavia certificate manager' do
         is_expected.to contain_octavia_config('certificates/ca_certificate').with_value('/etc/octavia/ca.pem')
         is_expected.to contain_octavia_config('certificates/ca_private_key').with_value('/etc/octavia/key.pem')
-        is_expected.to contain_octavia_config('certificates/server_certs_key_passphrase').with_value('secure123')
+        is_expected.to contain_octavia_config('certificates/server_certs_key_passphrase').with_value('insecure-key-do-not-use-this-key')
         is_expected.to contain_octavia_config('certificates/ca_private_key_passphrase').with_value('secure123')
       end
 
@@ -115,7 +114,7 @@ describe 'octavia::certificates' do
       let :params do
         { :ca_certificate              => '/etc/octavia/ca.pem',
           :ca_private_key              => '/etc/octavia1/key.pem',
-          :server_certs_key_passphrase => 'secure123',
+          :server_certs_key_passphrase => 'insecure-key-do-not-use-this-key',
           :ca_private_key_passphrase   => 'secure123',
           :client_cert                 => '/etc/octavia2/client.pem',
           :ca_certificate_data         => 'on_my_authority_this_is_a_certificate',
@@ -127,7 +126,7 @@ describe 'octavia::certificates' do
       it 'configures octavia certificate manager' do
         is_expected.to contain_octavia_config('certificates/ca_certificate').with_value('/etc/octavia/ca.pem')
         is_expected.to contain_octavia_config('certificates/ca_private_key').with_value('/etc/octavia1/key.pem')
-        is_expected.to contain_octavia_config('certificates/server_certs_key_passphrase').with_value('secure123')
+        is_expected.to contain_octavia_config('certificates/server_certs_key_passphrase').with_value('insecure-key-do-not-use-this-key')
         is_expected.to contain_octavia_config('certificates/ca_private_key_passphrase').with_value('secure123')
       end
 
@@ -220,6 +219,28 @@ describe 'octavia::certificates' do
           :client_ca      => '/etc/octavia/client_ca.pem'
         }
       end
+
+    context 'When invalid non 32 characters server_certs_key_passphrase provided' do
+      let :params do
+        { :server_certs_key_passphrase => 'non-32-chars-key',
+        }
+      end
+
+      it 'fails without an invalid server_certs_key_passphrase' do
+        is_expected.to raise_error(Puppet::Error)
+      end
+    end
+
+    context 'When no server_certs_key_passphrase provided' do
+      let :params do
+        { :server_certs_key_passphrase => '',
+        }
+      end
+
+      it 'fails without a server_certs_key_passphrase' do
+        is_expected.to raise_error(Puppet::Error)
+      end
+    end
 
       it 'should configure certificates' do
         is_expected.to contain_octavia_config('certificates/ca_certificate').with_value('/etc/octavia/ca.pem')

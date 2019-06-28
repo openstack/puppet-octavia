@@ -18,8 +18,8 @@
 #   (optional) spare check interval in seconds.
 #   Defaults to $::os_service_default
 #
-# [*spare_amphorae_pool_size*]
-#   (optional) Number of spare amphorae.
+# [*spare_amphora_pool_size*]
+#   (optional) Number of spare amphora.
 #   Defaults to $::os_service_default
 #
 # [*cleanup_interval*]
@@ -46,21 +46,35 @@
 #   (optional) Number of threads performing amphora certificate rotation.
 #   Defaults to $::os_service_default
 #
+# DEPRECATED PARAMETERS
+#
+# [*spare_amphorae_pool_size*]
+#   (optional) Number of spare amphorae.
+#   Defaults to $::os_service_default
+#
 class octavia::housekeeping (
   $manage_service            = true,
   $enabled                   = true,
   $package_ensure            = 'present',
   $spare_check_interval      = $::os_service_default,
-  $spare_amphorae_pool_size  = $::os_service_default,
+  $spare_amphora_pool_size   = $::os_service_default,
   $cleanup_interval          = $::os_service_default,
   $amphora_expiry_age        = $::os_service_default,
   $load_balancer_expiry_age  = $::os_service_default,
   $cert_interval             = $::os_service_default,
   $cert_expiry_buffer        = $::os_service_default,
   $cert_rotate_threads       = $::os_service_default,
+  # DEPRECATED PARAMETERS
+  $spare_amphorae_pool_size  = undef
 ) inherits octavia::params {
 
   include ::octavia::deps
+
+  if $spare_amphorae_pool_size {
+    warning('spare_amphorae_pool_size is deprecated and will be removed in the future. Please use spare_amphora_pool_size.')
+  }
+
+  $spare_amphora_pool_size_real = pick($spare_amphorae_pool_size, $spare_amphora_pool_size)
 
   package { 'octavia-housekeeping':
     ensure => $package_ensure,
@@ -87,7 +101,7 @@ class octavia::housekeeping (
 
   octavia_config {
     'house_keeping/spare_check_interval'       : value => $spare_check_interval;
-    'house_keeping/spare_amphorae_pool_size'   : value => $spare_amphorae_pool_size;
+    'house_keeping/spare_amphora_pool_size'    : value => $spare_amphora_pool_size_real;
     'house_keeping/cleanup_interval'           : value => $cleanup_interval;
     'house_keeping/amphora_expiry_age'         : value => $amphora_expiry_age;
     'house_keeping/load_balancer_expiry_age'   : value => $load_balancer_expiry_age;

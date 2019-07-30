@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    Adds connection_max_retries and connection_retry_interval to control retry
+    behavior when the contacting the amphora.

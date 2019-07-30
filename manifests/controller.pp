@@ -54,18 +54,28 @@
 #   when it connects back to the controllers to report its health.
 #   Defaults to $::os_service_default
 #
+# [*connection_max_retries*]
+#   (optional) Maximum number of retries when contacting amphora.
+#   Defaults to $::os_service_default
+#
+# [*connection_retry_interval*]
+#   (optional) Number of seconds to wait between connection attempts to amphora.
+#   Defaults to $::os_service_default
+#
 class octavia::controller (
-  $amp_flavor_id           = '65',
-  $amp_image_tag           = $::os_service_default,
-  $amp_secgroup_list       = $::os_service_default,
-  $amp_boot_network_list   = [],
-  $loadbalancer_topology   = $::os_service_default,
-  $amphora_driver          = 'amphora_haproxy_rest_driver',
-  $compute_driver          = 'compute_nova_driver',
-  $network_driver          = 'allowed_address_pairs_driver',
-  $enable_ssh_access       = true,
-  $amp_ssh_key_name        = 'octavia-ssh-key',
-  $controller_ip_port_list = $::os_service_default,
+  $amp_flavor_id             = '65',
+  $amp_image_tag             = $::os_service_default,
+  $amp_secgroup_list         = $::os_service_default,
+  $amp_boot_network_list     = [],
+  $loadbalancer_topology     = $::os_service_default,
+  $amphora_driver            = 'amphora_haproxy_rest_driver',
+  $compute_driver            = 'compute_nova_driver',
+  $network_driver            = 'allowed_address_pairs_driver',
+  $enable_ssh_access         = true,
+  $amp_ssh_key_name          = 'octavia-ssh-key',
+  $controller_ip_port_list   = $::os_service_default,
+  $connection_max_retries    = $::os_service_default,
+  $connection_retry_interval = $::os_service_default,
 ) inherits octavia::params {
 
   include ::octavia::deps
@@ -96,14 +106,16 @@ class octavia::controller (
   }
 
   octavia_config {
-    'controller_worker/amp_flavor_id'         : value => $amp_flavor_id_real;
-    'controller_worker/amp_image_tag'         : value => $amp_image_tag_real;
-    'controller_worker/amp_secgroup_list'     : value => $amp_secgroup_list_real;
-    'controller_worker/amp_boot_network_list' : value => $amp_boot_network_list_real;
-    'controller_worker/loadbalancer_topology' : value => $loadbalancer_topology_real;
-    'controller_worker/amphora_driver'        : value => $amphora_driver_real;
-    'controller_worker/compute_driver'        : value => $compute_driver_real;
-    'controller_worker/network_driver'        : value => $network_driver_real;
-    'health_manager/controller_ip_port_list'  : value => $controller_ip_port_list;
+    'controller_worker/amp_flavor_id'           : value => $amp_flavor_id_real;
+    'controller_worker/amp_image_tag'           : value => $amp_image_tag_real;
+    'controller_worker/amp_secgroup_list'       : value => $amp_secgroup_list_real;
+    'controller_worker/amp_boot_network_list'   : value => $amp_boot_network_list_real;
+    'controller_worker/loadbalancer_topology'   : value => $loadbalancer_topology_real;
+    'controller_worker/amphora_driver'          : value => $amphora_driver_real;
+    'controller_worker/compute_driver'          : value => $compute_driver_real;
+    'controller_worker/network_driver'          : value => $network_driver_real;
+    'health_manager/controller_ip_port_list'    : value => $controller_ip_port_list;
+    'haproxy_amphora/connection_max_retries'    : value => $connection_max_retries;
+    'haproxy_amphora/connection_retry_interval' : value => $connection_retry_interval;
   }
 }

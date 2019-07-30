@@ -13,13 +13,15 @@ describe 'octavia::controller' do
 
     context 'configured with specific parameters' do
       let :params do
-        { :amp_flavor_id           => '42',
-          :amp_image_tag           => 'amphorae1',
-          :amp_secgroup_list       => ['lb-mgmt-sec-grp'],
-          :amp_boot_network_list   => ['lbnet1', 'lbnet2'],
-          :loadbalancer_topology   => 'SINGLE',
-          :amp_ssh_key_name        => 'custom-amphora-key',
-          :controller_ip_port_list => '1.2.3.4:5555,4.3.2.1:5555',
+        { :amp_flavor_id              => '42',
+          :amp_image_tag              => 'amphorae1',
+          :amp_secgroup_list          => ['lb-mgmt-sec-grp'],
+          :amp_boot_network_list      => ['lbnet1', 'lbnet2'],
+          :loadbalancer_topology      => 'SINGLE',
+          :amp_ssh_key_name           => 'custom-amphora-key',
+          :controller_ip_port_list    => '1.2.3.4:5555,4.3.2.1:5555',
+          :connection_max_retries     => 240,
+          :connection_retry_interval  => 10
         }
       end
 
@@ -30,6 +32,8 @@ describe 'octavia::controller' do
       it { is_expected.to contain_octavia_config('controller_worker/loadbalancer_topology').with_value('SINGLE') }
       it { is_expected.to contain_octavia_config('controller_worker/amp_ssh_key_name').with_value('custom-amphora-key') }
       it { is_expected.to contain_octavia_config('health_manager/controller_ip_port_list').with_value('1.2.3.4:5555,4.3.2.1:5555') }
+      it { is_expected.to contain_octavia_config('haproxy_amphora/connection_max_retries').with_value(240) }
+      it { is_expected.to contain_octavia_config('haproxy_amphora/connection_retry_interval').with_value(10) }
     end
 
     it 'configures worker parameters' do
@@ -38,6 +42,8 @@ describe 'octavia::controller' do
       is_expected.to contain_octavia_config('controller_worker/compute_driver').with_value('compute_nova_driver')
       is_expected.to contain_octavia_config('controller_worker/network_driver').with_value('allowed_address_pairs_driver')
       is_expected.to contain_octavia_config('controller_worker/amp_ssh_key_name').with_value('octavia-ssh-key')
+      is_expected.to contain_octavia_config('haproxy_amphora/connection_max_retries').with_value('<SERVICE DEFAULT>')
+      is_expected.to contain_octavia_config('haproxy_amphora/connection_retry_interval').with_value('<SERVICE DEFAULT>')
     end
 
     context 'with ssh key access disabled' do

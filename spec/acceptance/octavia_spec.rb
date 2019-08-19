@@ -12,6 +12,7 @@ describe 'basic octavia' do
       include ::openstack_integration::mysql
       include ::openstack_integration::keystone
       if $::osfamily == 'RedHat' {
+        include ::openstack_integration::placement
         include ::openstack_integration::nova
       }
 

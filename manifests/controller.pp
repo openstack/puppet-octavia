@@ -62,6 +62,14 @@
 #   (optional) Number of seconds to wait between connection attempts to amphora.
 #   Defaults to $::os_service_default
 #
+# [*build_active_retries*]
+#   (optional) Retry threshold for waiting for a build slot for an amphorae.
+#   Defaults to $::os_service_default
+#
+# [*port_detach_timeout*]
+#   (optional) Seconds to wait for a port to detach from an amphora.
+#   Defaults to $::os_service_default
+#
 class octavia::controller (
   $amp_flavor_id             = '65',
   $amp_image_tag             = $::os_service_default,
@@ -76,6 +84,8 @@ class octavia::controller (
   $controller_ip_port_list   = $::os_service_default,
   $connection_max_retries    = $::os_service_default,
   $connection_retry_interval = $::os_service_default,
+  $build_active_retries      = $::os_service_default,
+  $port_detach_timeout       = $::os_service_default,
 ) inherits octavia::params {
 
   include ::octavia::deps
@@ -117,5 +127,7 @@ class octavia::controller (
     'health_manager/controller_ip_port_list'    : value => $controller_ip_port_list;
     'haproxy_amphora/connection_max_retries'    : value => $connection_max_retries;
     'haproxy_amphora/connection_retry_interval' : value => $connection_retry_interval;
+    'haproxy_amphora/build_active_retries'      : value => $build_active_retries;
+    'networking/port_detach_timeout'            : value => $port_detach_timeout;
   }
 }

@@ -21,7 +21,9 @@ describe 'octavia::controller' do
           :amp_ssh_key_name           => 'custom-amphora-key',
           :controller_ip_port_list    => '1.2.3.4:5555,4.3.2.1:5555',
           :connection_max_retries     => 240,
-          :connection_retry_interval  => 10
+          :connection_retry_interval  => 10,
+          :build_active_retries       => 5,
+          :port_detach_timeout        => 15
         }
       end
 
@@ -34,6 +36,8 @@ describe 'octavia::controller' do
       it { is_expected.to contain_octavia_config('health_manager/controller_ip_port_list').with_value('1.2.3.4:5555,4.3.2.1:5555') }
       it { is_expected.to contain_octavia_config('haproxy_amphora/connection_max_retries').with_value(240) }
       it { is_expected.to contain_octavia_config('haproxy_amphora/connection_retry_interval').with_value(10) }
+      it { is_expected.to contain_octavia_config('haproxy_amphora/build_active_retries').with_value(5) }
+      it { is_expected.to contain_octavia_config('networking/port_detach_timeout').with_value(15) }
     end
 
     it 'configures worker parameters' do
@@ -48,6 +52,8 @@ describe 'octavia::controller' do
       is_expected.to contain_octavia_config('haproxy_amphora/timeout_tcp_inspect').with_value('<SERVICE DEFAULT>')
       is_expected.to contain_octavia_config('haproxy_amphora/connection_max_retries').with_value('<SERVICE DEFAULT>')
       is_expected.to contain_octavia_config('haproxy_amphora/connection_retry_interval').with_value('<SERVICE DEFAULT>')
+      is_expected.to contain_octavia_config('haproxy_amphora/build_active_retries').with_value('<SERVICE DEFAULT>')
+      is_expected.to contain_octavia_config('networking/port_detach_timeout').with_value('<SERVICE DEFAULT>')
     end
 
     context 'with ssh key access disabled' do

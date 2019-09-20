@@ -13,24 +13,31 @@ describe 'octavia::controller' do
 
     context 'configured with specific parameters' do
       let :params do
-        { :amp_flavor_id              => '42',
-          :amp_image_tag              => 'amphorae1',
-          :amp_secgroup_list          => ['lb-mgmt-sec-grp'],
-          :amp_boot_network_list      => ['lbnet1', 'lbnet2'],
-          :loadbalancer_topology      => 'SINGLE',
-          :amp_ssh_key_name           => 'custom-amphora-key',
-          :controller_ip_port_list    => '1.2.3.4:5555,4.3.2.1:5555',
-          :connection_max_retries     => 240,
-          :connection_retry_interval  => 10,
-          :connection_logging         => false,
-          :build_active_retries       => 5,
-          :port_detach_timeout        => 15,
-          :vrrp_advert_int            => 1,
-          :vrrp_check_interval        => 5,
-          :vrrp_fail_count            => 2,
-          :vrrp_success_count         => 2,
-          :vrrp_garp_refresh_interval => 5,
-          :vrrp_garp_refresh_count    => 2
+        { :amp_flavor_id               => '42',
+          :amp_image_tag               => 'amphorae1',
+          :amp_secgroup_list           => ['lb-mgmt-sec-grp'],
+          :amp_boot_network_list       => ['lbnet1', 'lbnet2'],
+          :loadbalancer_topology       => 'SINGLE',
+          :amp_ssh_key_name            => 'custom-amphora-key',
+          :controller_ip_port_list     => '1.2.3.4:5555,4.3.2.1:5555',
+          :connection_max_retries      => 240,
+          :connection_retry_interval   => 10,
+          :connection_logging          => false,
+          :build_active_retries        => 5,
+          :port_detach_timeout         => 15,
+          :vrrp_advert_int             => 1,
+          :vrrp_check_interval         => 5,
+          :vrrp_fail_count             => 2,
+          :vrrp_success_count          => 2,
+          :vrrp_garp_refresh_interval  => 5,
+          :vrrp_garp_refresh_count     => 2,
+          :admin_log_targets           => '192.0.2.1:10514,2001:db8:1::10:10514',
+          :administrative_log_facility => 2,
+          :forward_all_logs            => true,
+          :tenant_log_targets          => '192.0.2.1:10514,2001:db8:1::10:10514',
+          :user_log_facility           => 3,
+          :user_log_format             => '{{ project_id }} {{ lb_id }}',
+          :disable_local_log_storage   => true,
         }
       end
 
@@ -52,6 +59,13 @@ describe 'octavia::controller' do
       it { is_expected.to contain_octavia_config('keepalived_vrrp/vrrp_success_count').with_value(2) }
       it { is_expected.to contain_octavia_config('keepalived_vrrp/vrrp_garp_refresh_interval').with_value(5) }
       it { is_expected.to contain_octavia_config('keepalived_vrrp/vrrp_garp_refresh_count').with_value(2) }
+      it { is_expected.to contain_octavia_config('amphora_agent/admin_log_targets').with_value('192.0.2.1:10514,2001:db8:1::10:10514') }
+      it { is_expected.to contain_octavia_config('amphora_agent/administrative_log_facility').with_value(2) }
+      it { is_expected.to contain_octavia_config('amphora_agent/forward_all_logs').with_value(true) }
+      it { is_expected.to contain_octavia_config('amphora_agent/tenant_log_targets').with_value('192.0.2.1:10514,2001:db8:1::10:10514') }
+      it { is_expected.to contain_octavia_config('amphora_agent/user_log_facility').with_value(3) }
+      it { is_expected.to contain_octavia_config('haproxy_amphora/user_log_format').with_value('{{ project_id }} {{ lb_id }}') }
+      it { is_expected.to contain_octavia_config('amphora_agent/disable_local_log_storage').with_value(true) }
     end
 
     it 'configures worker parameters' do
@@ -75,6 +89,13 @@ describe 'octavia::controller' do
       is_expected.to contain_octavia_config('keepalived_vrrp/vrrp_success_count').with_value('<SERVICE DEFAULT>')
       is_expected.to contain_octavia_config('keepalived_vrrp/vrrp_garp_refresh_interval').with_value('<SERVICE DEFAULT>')
       is_expected.to contain_octavia_config('keepalived_vrrp/vrrp_garp_refresh_count').with_value('<SERVICE DEFAULT>')
+      is_expected.to contain_octavia_config('amphora_agent/admin_log_targets').with_value('<SERVICE DEFAULT>')
+      is_expected.to contain_octavia_config('amphora_agent/administrative_log_facility').with_value('<SERVICE DEFAULT>')
+      is_expected.to contain_octavia_config('amphora_agent/forward_all_logs').with_value('<SERVICE DEFAULT>')
+      is_expected.to contain_octavia_config('amphora_agent/tenant_log_targets').with_value('<SERVICE DEFAULT>')
+      is_expected.to contain_octavia_config('amphora_agent/user_log_facility').with_value('<SERVICE DEFAULT>')
+      is_expected.to contain_octavia_config('haproxy_amphora/user_log_format').with_value('<SERVICE DEFAULT>')
+      is_expected.to contain_octavia_config('amphora_agent/disable_local_log_storage').with_value('<SERVICE DEFAULT>')
     end
 
     context 'with ssh key access disabled' do

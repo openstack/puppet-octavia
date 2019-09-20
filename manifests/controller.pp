@@ -115,6 +115,42 @@
 # [*vrrp_garp_refresh_count*]
 #   (optional) Number of gratuitous ARP announcements to make on each refresh interval.
 #   Defaults to $::os_service_default
+#
+# [*admin_log_targets*]
+#   (optional) The list of syslog endpoints, host:port comma separated list,
+#   to receive administrative log messages.
+#   Defaults to $::os_service_default
+#
+# [*administrative_log_facility*]
+#   (optional) The syslog "LOG_LOCAL" facility to use for the administrative
+#   log messages.
+#   Defaults to $::os_service_default
+#
+# [*forward_all_logs*]
+#   (optional) When true, all log messages from the amphora will be forwarded
+#   to the administrative log endponts, including non-load balancing related
+#   logs.
+#   Defaults to $::os_service_default
+#
+# [*tenant_log_targets*]
+#   (optional) The list of syslog endpoints, host:port comma separated list,
+#   to receive tenant traffic flow log messages.
+#   Defaults to $::os_service_default
+#
+# [*user_log_facility*]
+#   (optional) The syslog "LOG_LOCAL" facility to use for the tenant traffic
+#   flow log messages.
+#   Defaults to $::os_service_default
+#
+# [*user_log_format*]
+#   (optional) The tenant traffic flow log format string.
+#   Defaults to $::os_service_default
+#
+# [*disable_local_log_storage*]
+#   (optional) When true, logs will not be stored on the amphora filesystem.
+#   This includes all kernel, system, and security logs.
+#   Defaults to $::os_service_default
+#
 class octavia::controller (
   $amp_flavor_id               = '65',
   $amp_image_tag               = $::os_service_default,
@@ -142,6 +178,13 @@ class octavia::controller (
   $vrrp_success_count          = $::os_service_default,
   $vrrp_garp_refresh_interval  = $::os_service_default,
   $vrrp_garp_refresh_count     = $::os_service_default,
+  $admin_log_targets           = $::os_service_default,
+  $administrative_log_facility = $::os_service_default,
+  $forward_all_logs            = $::os_service_default,
+  $tenant_log_targets          = $::os_service_default,
+  $user_log_facility           = $::os_service_default,
+  $user_log_format             = $::os_service_default,
+  $disable_local_log_storage   = $::os_service_default,
 ) inherits octavia::params {
 
   include ::octavia::deps
@@ -200,5 +243,12 @@ class octavia::controller (
     'keepalived_vrrp/vrrp_success_count'         : value => $vrrp_success_count;
     'keepalived_vrrp/vrrp_garp_refresh_interval' : value => $vrrp_garp_refresh_interval;
     'keepalived_vrrp/vrrp_garp_refresh_count'    : value => $vrrp_garp_refresh_count;
+    'amphora_agent/admin_log_targets'            : value => $admin_log_targets;
+    'amphora_agent/administrative_log_facility'  : value => $administrative_log_facility;
+    'amphora_agent/forward_all_logs'             : value => $forward_all_logs;
+    'amphora_agent/tenant_log_targets'           : value => $tenant_log_targets;
+    'amphora_agent/user_log_facility'            : value => $user_log_facility;
+    'haproxy_amphora/user_log_format'            : value => $user_log_format;
+    'amphora_agent/disable_local_log_storage'    : value => $disable_local_log_storage;
   }
 }

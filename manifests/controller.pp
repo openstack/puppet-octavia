@@ -127,6 +127,30 @@
 #   This includes all kernel, system, and security logs.
 #   Defaults to $::os_service_default
 #
+# [*vrrp_advert_int*]
+#   (optional) Amphora role and priority advertisement internal in seconds.
+#   Defaults to $::os_service_default
+#
+# [*vrrp_check_interval*]
+#   (optional) VRRP health check script run interval in seconds.
+#   Defaults to $::os_service_default
+#
+# [*vrrp_fail_count*]
+#   (optional) Number of successive failures before transition to a fail rate.
+#   Defaults to $::os_service_default
+#
+# [*vrrp_success_count*]
+#   (optional) Number of consecutive successes before transition to a success rate.
+#   Defaults to $::os_service_default
+#
+# [*vrrp_garp_refresh_interval*]
+#   (optional) Time in seconds between gratuitous ARP announcements from the MASTER.
+#   Defaults to $::os_service_default
+#
+# [*vrrp_garp_refresh_count*]
+#   (optional) Number of gratuitous ARP announcements to make on each refresh interval.
+#   Defaults to $::os_service_default
+#
 class octavia::controller (
   $amp_flavor_id               = '65',
   $amp_image_tag               = $::os_service_default,
@@ -155,6 +179,12 @@ class octavia::controller (
   $user_log_facility           = $::os_service_default,
   $user_log_format             = $::os_service_default,
   $disable_local_log_storage   = $::os_service_default,
+  $vrrp_advert_int             = $::os_service_default,
+  $vrrp_check_interval         = $::os_service_default,
+  $vrrp_fail_count             = $::os_service_default,
+  $vrrp_success_count          = $::os_service_default,
+  $vrrp_garp_refresh_interval  = $::os_service_default,
+  $vrrp_garp_refresh_count     = $::os_service_default,
 ) inherits octavia::params {
 
   include ::octavia::deps
@@ -189,30 +219,36 @@ class octavia::controller (
   }
 
   octavia_config {
-    'controller_worker/amp_flavor_id'           : value => $amp_flavor_id_real;
-    'controller_worker/amp_image_tag'           : value => $amp_image_tag_real;
-    'controller_worker/amp_secgroup_list'       : value => $amp_secgroup_list_real;
-    'controller_worker/amp_boot_network_list'   : value => $amp_boot_network_list_real;
-    'controller_worker/loadbalancer_topology'   : value => $loadbalancer_topology_real;
-    'controller_worker/amphora_driver'          : value => $amphora_driver_real;
-    'controller_worker/compute_driver'          : value => $compute_driver_real;
-    'controller_worker/network_driver'          : value => $network_driver_real;
-    'haproxy_amphora/timeout_client_data'       : value => $timeout_client_data_real;
-    'haproxy_amphora/timeout_member_connect'    : value => $timeout_member_connect_real;
-    'haproxy_amphora/timeout_member_data'       : value => $timeout_member_data_real;
-    'haproxy_amphora/timeout_tcp_inspect'       : value => $timeout_tcp_inspect_real;
-    'health_manager/controller_ip_port_list'    : value => $controller_ip_port_list;
-    'haproxy_amphora/connection_max_retries'    : value => $connection_max_retries;
-    'haproxy_amphora/connection_retry_interval' : value => $connection_retry_interval;
-    'haproxy_amphora/connection_logging'        : value => $connection_logging;
-    'haproxy_amphora/build_active_retries'      : value => $build_active_retries;
-    'networking/port_detach_timeout'            : value => $port_detach_timeout;
-    'amphora_agent/admin_log_targets'           : value => $admin_log_targets;
-    'amphora_agent/administrative_log_facility' : value => $administrative_log_facility;
-    'amphora_agent/forward_all_logs'            : value => $forward_all_logs;
-    'amphora_agent/tenant_log_targets'          : value => $tenant_log_targets;
-    'amphora_agent/user_log_facility'           : value => $user_log_facility;
-    'haproxy_amphora/user_log_format'           : value => $user_log_format;
-    'amphora_agent/disable_local_log_storage'   : value => $disable_local_log_storage;
+    'controller_worker/amp_flavor_id'            : value => $amp_flavor_id_real;
+    'controller_worker/amp_image_tag'            : value => $amp_image_tag_real;
+    'controller_worker/amp_secgroup_list'        : value => $amp_secgroup_list_real;
+    'controller_worker/amp_boot_network_list'    : value => $amp_boot_network_list_real;
+    'controller_worker/loadbalancer_topology'    : value => $loadbalancer_topology_real;
+    'controller_worker/amphora_driver'           : value => $amphora_driver_real;
+    'controller_worker/compute_driver'           : value => $compute_driver_real;
+    'controller_worker/network_driver'           : value => $network_driver_real;
+    'haproxy_amphora/timeout_client_data'        : value => $timeout_client_data_real;
+    'haproxy_amphora/timeout_member_connect'     : value => $timeout_member_connect_real;
+    'haproxy_amphora/timeout_member_data'        : value => $timeout_member_data_real;
+    'haproxy_amphora/timeout_tcp_inspect'        : value => $timeout_tcp_inspect_real;
+    'health_manager/controller_ip_port_list'     : value => $controller_ip_port_list;
+    'haproxy_amphora/connection_max_retries'     : value => $connection_max_retries;
+    'haproxy_amphora/connection_retry_interval'  : value => $connection_retry_interval;
+    'haproxy_amphora/connection_logging'         : value => $connection_logging;
+    'haproxy_amphora/build_active_retries'       : value => $build_active_retries;
+    'networking/port_detach_timeout'             : value => $port_detach_timeout;
+    'amphora_agent/admin_log_targets'            : value => $admin_log_targets;
+    'amphora_agent/administrative_log_facility'  : value => $administrative_log_facility;
+    'amphora_agent/forward_all_logs'             : value => $forward_all_logs;
+    'amphora_agent/tenant_log_targets'           : value => $tenant_log_targets;
+    'amphora_agent/user_log_facility'            : value => $user_log_facility;
+    'haproxy_amphora/user_log_format'            : value => $user_log_format;
+    'amphora_agent/disable_local_log_storage'    : value => $disable_local_log_storage;
+    'keepalived_vrrp/vrrp_advert_int'            : value => $vrrp_advert_int;
+    'keepalived_vrrp/vrrp_check_interval'        : value => $vrrp_check_interval;
+    'keepalived_vrrp/vrrp_fail_count'            : value => $vrrp_fail_count;
+    'keepalived_vrrp/vrrp_success_count'         : value => $vrrp_success_count;
+    'keepalived_vrrp/vrrp_garp_refresh_interval' : value => $vrrp_garp_refresh_interval;
+    'keepalived_vrrp/vrrp_garp_refresh_count'    : value => $vrrp_garp_refresh_count;
   }
 }

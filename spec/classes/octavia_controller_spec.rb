@@ -24,7 +24,13 @@ describe 'octavia::controller' do
           :connection_retry_interval  => 10,
           :connection_logging         => false,
           :build_active_retries       => 5,
-          :port_detach_timeout        => 15
+          :port_detach_timeout        => 15,
+          :vrrp_advert_int            => 1,
+          :vrrp_check_interval        => 5,
+          :vrrp_fail_count            => 2,
+          :vrrp_success_count         => 2,
+          :vrrp_garp_refresh_interval => 5,
+          :vrrp_garp_refresh_count    => 2
         }
       end
 
@@ -40,6 +46,12 @@ describe 'octavia::controller' do
       it { is_expected.to contain_octavia_config('haproxy_amphora/connection_logging').with_value(false) }
       it { is_expected.to contain_octavia_config('haproxy_amphora/build_active_retries').with_value(5) }
       it { is_expected.to contain_octavia_config('networking/port_detach_timeout').with_value(15) }
+      it { is_expected.to contain_octavia_config('keepalived_vrrp/vrrp_advert_int').with_value(1) }
+      it { is_expected.to contain_octavia_config('keepalived_vrrp/vrrp_check_interval').with_value(5) }
+      it { is_expected.to contain_octavia_config('keepalived_vrrp/vrrp_fail_count').with_value(2) }
+      it { is_expected.to contain_octavia_config('keepalived_vrrp/vrrp_success_count').with_value(2) }
+      it { is_expected.to contain_octavia_config('keepalived_vrrp/vrrp_garp_refresh_interval').with_value(5) }
+      it { is_expected.to contain_octavia_config('keepalived_vrrp/vrrp_garp_refresh_count').with_value(2) }
     end
 
     it 'configures worker parameters' do
@@ -53,6 +65,12 @@ describe 'octavia::controller' do
       is_expected.to contain_octavia_config('haproxy_amphora/connection_logging').with_value('<SERVICE DEFAULT>')
       is_expected.to contain_octavia_config('haproxy_amphora/build_active_retries').with_value('<SERVICE DEFAULT>')
       is_expected.to contain_octavia_config('networking/port_detach_timeout').with_value('<SERVICE DEFAULT>')
+      is_expected.to contain_octavia_config('keepalived_vrrp/vrrp_advert_int').with_value('<SERVICE DEFAULT>')
+      is_expected.to contain_octavia_config('keepalived_vrrp/vrrp_check_interval').with_value('<SERVICE DEFAULT>')
+      is_expected.to contain_octavia_config('keepalived_vrrp/vrrp_fail_count').with_value('<SERVICE DEFAULT>')
+      is_expected.to contain_octavia_config('keepalived_vrrp/vrrp_success_count').with_value('<SERVICE DEFAULT>')
+      is_expected.to contain_octavia_config('keepalived_vrrp/vrrp_garp_refresh_interval').with_value('<SERVICE DEFAULT>')
+      is_expected.to contain_octavia_config('keepalived_vrrp/vrrp_garp_refresh_count').with_value('<SERVICE DEFAULT>')
     end
 
     context 'with ssh key access disabled' do

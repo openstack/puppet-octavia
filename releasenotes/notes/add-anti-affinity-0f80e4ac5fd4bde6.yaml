@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    Add parameters to enable and configure nova anti-affinity for
+    active/standby amphorae.

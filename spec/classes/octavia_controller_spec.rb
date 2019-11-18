@@ -30,7 +30,9 @@ describe 'octavia::controller' do
           :vrrp_fail_count            => 2,
           :vrrp_success_count         => 2,
           :vrrp_garp_refresh_interval => 5,
-          :vrrp_garp_refresh_count    => 2
+          :vrrp_garp_refresh_count    => 2,
+          :enable_anti_affinity       => true,
+          :anti_affinity_policy       => 'anti-affinity',
         }
       end
 
@@ -52,6 +54,8 @@ describe 'octavia::controller' do
       it { is_expected.to contain_octavia_config('keepalived_vrrp/vrrp_success_count').with_value(2) }
       it { is_expected.to contain_octavia_config('keepalived_vrrp/vrrp_garp_refresh_interval').with_value(5) }
       it { is_expected.to contain_octavia_config('keepalived_vrrp/vrrp_garp_refresh_count').with_value(2) }
+      it { is_expected.to contain_octavia_config('nova/enable_anti_affinity').with_value(true) }
+      it { is_expected.to contain_octavia_config('nova/anti_affinity_policy').with_value('anti-affinity') }
     end
 
     it 'configures worker parameters' do
@@ -71,6 +75,8 @@ describe 'octavia::controller' do
       is_expected.to contain_octavia_config('keepalived_vrrp/vrrp_success_count').with_value('<SERVICE DEFAULT>')
       is_expected.to contain_octavia_config('keepalived_vrrp/vrrp_garp_refresh_interval').with_value('<SERVICE DEFAULT>')
       is_expected.to contain_octavia_config('keepalived_vrrp/vrrp_garp_refresh_count').with_value('<SERVICE DEFAULT>')
+      is_expected.to contain_octavia_config('nova/enable_anti_affinity').with_value('<SERVICE DEFAULT>')
+      is_expected.to contain_octavia_config('nova/anti_affinity_policy').with_value('<SERVICE DEFAULT>')
     end
 
     context 'with ssh key access disabled' do

@@ -151,6 +151,14 @@
 #   This includes all kernel, system, and security logs.
 #   Defaults to $::os_service_default
 #
+# [*enable_anti_affinity*]
+#   (optional) Flag to indicate if octavia anti-affinity feature is turned on.
+#   Defaults to $::os_service_default
+#
+# [*anti_affinity_policy*]
+#   (optional) Sets the nova anti-affinity policy for octavia.
+#   Defaults to $::os_service_default
+
 class octavia::controller (
   $amp_flavor_id               = '65',
   $amp_image_tag               = $::os_service_default,
@@ -185,6 +193,8 @@ class octavia::controller (
   $user_log_facility           = $::os_service_default,
   $user_log_format             = $::os_service_default,
   $disable_local_log_storage   = $::os_service_default,
+  $enable_anti_affinity        = $::os_service_default,
+  $anti_affinity_policy        = $::os_service_default,
 ) inherits octavia::params {
 
   include ::octavia::deps
@@ -250,5 +260,7 @@ class octavia::controller (
     'amphora_agent/user_log_facility'            : value => $user_log_facility;
     'haproxy_amphora/user_log_format'            : value => $user_log_format;
     'amphora_agent/disable_local_log_storage'    : value => $disable_local_log_storage;
+    'nova/enable_anti_affinity'                  : value => $enable_anti_affinity;
+    'nova/anti_affinity_policy'                  : value => $anti_affinity_policy;
   }
 }

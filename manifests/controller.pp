@@ -158,7 +158,6 @@
 # [*anti_affinity_policy*]
 #   (optional) Sets the nova anti-affinity policy for octavia.
 #   Defaults to $::os_service_default
-
 #
 class octavia::controller (
   $amp_flavor_id               = '65',

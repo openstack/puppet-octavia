@@ -32,7 +32,7 @@ class octavia::db::postgresql(
   $privileges = 'ALL',
 ) {
 
-  include ::octavia::deps
+  include octavia::deps
 
   ::openstacklib::db::postgresql { 'octavia':
     password_hash => postgresql_password($user, $password),

@@ -62,7 +62,7 @@ class octavia::db (
   $database_idle_timeout            = undef,
 ) {
 
-  include ::octavia::deps
+  include octavia::deps
 
   if $database_idle_timeout {
     warning('The database_idle_timeout parameter is deprecated. Please use \

@@ -92,7 +92,7 @@ class octavia::certificates (
   $file_permission_group       = 'octavia'
 ) {
 
-  include ::octavia::deps
+  include octavia::deps
 
   $client_ca_real = pick($client_ca, $ca_certificate)
 

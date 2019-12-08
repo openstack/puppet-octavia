@@ -6,14 +6,14 @@ describe 'basic octavia' do
 
     it 'should work with no errors' do
       pp= <<-EOS
-      include ::openstack_integration
-      include ::openstack_integration::repos
-      include ::openstack_integration::rabbitmq
-      include ::openstack_integration::mysql
-      include ::openstack_integration::keystone
+      include openstack_integration
+      include openstack_integration::repos
+      include openstack_integration::rabbitmq
+      include openstack_integration::mysql
+      include openstack_integration::keystone
       if $::osfamily == 'RedHat' {
-        include ::openstack_integration::placement
-        include ::openstack_integration::nova
+        include openstack_integration::placement
+        include openstack_integration::nova
       }
 
       rabbitmq_user { 'octavia':
@@ -31,37 +31,37 @@ describe 'basic octavia' do
         require              => Class['rabbitmq'],
       }
 
-      class { '::octavia::db::mysql':
+      class { 'octavia::db::mysql':
         password => 'a_big_secret',
       }
-      class { '::octavia::keystone::auth':
+      class { 'octavia::keystone::auth':
         password => 'a_big_secret',
       }
 
       # Octavia is not packaged on Ubuntu platform.
       if $::osfamily == 'RedHat' {
-        class { '::octavia::db':
+        class { 'octavia::db':
           database_connection => 'mysql+pymysql://octavia:a_big_secret@127.0.0.1/octavia?charset=utf8',
         }
-        class { '::octavia::logging':
+        class { 'octavia::logging':
           debug => true,
         }
-        class { '::octavia':
+        class { 'octavia':
           default_transport_url => 'rabbit://octavia:an_even_bigger_secret@127.0.0.1:5672/',
         }
-        class { '::octavia::keystone::authtoken':
+        class { 'octavia::keystone::authtoken':
           password => 'octavia_pass',
         }
-        class { '::octavia::api':
+        class { 'octavia::api':
           sync_db => true,
         }
-        class { '::octavia::worker':
+        class { 'octavia::worker':
           amp_flavor_id => '65',
         }
-        class { '::octavia::health_manager':
+        class { 'octavia::health_manager':
           heartbeat_key => 'abcdefghijkl',
         }
-        class { '::octavia::housekeeping':
+        class { 'octavia::housekeeping':
         }
 
         # We create Nova flavor on the same node where Nova runs

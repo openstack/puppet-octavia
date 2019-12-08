@@ -197,8 +197,8 @@ class octavia::controller (
   $anti_affinity_policy        = $::os_service_default,
 ) inherits octavia::params {
 
-  include ::octavia::deps
-  include ::octavia::db
+  include octavia::deps
+  include octavia::db
 
   # For backward compatibility
   $amp_flavor_id_real          = pick($::octavia::worker::amp_flavor_id, $amp_flavor_id)

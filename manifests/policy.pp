@@ -28,8 +28,8 @@ class octavia::policy (
   $policy_path = '/etc/octavia/policy.json',
 ) {
 
-  include ::octavia::deps
-  include ::octavia::params
+  include octavia::deps
+  include octavia::params
 
   validate_legacy(Hash, 'validate_hash', $policies)
 

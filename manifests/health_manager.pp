@@ -48,7 +48,7 @@ class octavia::health_manager (
 
 ) inherits octavia::params {
 
-  include ::octavia::deps
+  include octavia::deps
 
   validate_legacy(String, 'validate_string', $heartbeat_key)
 

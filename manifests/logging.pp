@@ -123,7 +123,7 @@ class octavia::logging(
   $log_date_format               = $::os_service_default,
 ) {
 
-  include ::octavia::deps
+  include octavia::deps
 
   oslo::log { 'octavia_config':
     debug                         => $debug,

@@ -115,12 +115,12 @@ class octavia::wsgi::apache (
   $custom_wsgi_process_options = {},
 ) {
 
-  include ::octavia::deps
-  include ::octavia::params
-  include ::apache
-  include ::apache::mod::wsgi
+  include octavia::deps
+  include octavia::params
+  include apache
+  include apache::mod::wsgi
   if $ssl {
-    include ::apache::mod::ssl
+    include apache::mod::ssl
   }
   ::openstacklib::wsgi::apache { 'octavia_wsgi':
     bind_host                   => $bind_host,

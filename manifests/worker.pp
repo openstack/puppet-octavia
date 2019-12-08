@@ -133,10 +133,10 @@ class octavia::worker (
   $timeout_tcp_inspect    = undef,
 ) inherits octavia::params {
 
-  include ::octavia::deps
+  include octavia::deps
 
   if !defined(Class['octavia::controller']) {
-    include ::octavia::controller
+    include octavia::controller
   }
 
   if ($amp_flavor_id or $amp_image_tag or $amp_secgroup_list or $amp_boot_network_list or $loadbalancer_topology or $amphora_driver or

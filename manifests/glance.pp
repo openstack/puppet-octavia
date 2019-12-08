@@ -27,7 +27,7 @@ class octavia::glance (
   $endpoint_type        = $::os_service_default,
 ) {
 
-  include ::octavia::deps
+  include octavia::deps
 
   octavia_config {
     'glance/service_name':  value => $service_name;

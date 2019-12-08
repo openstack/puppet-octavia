@@ -85,12 +85,12 @@ class octavia::api (
   $ovn_nb_connection              = $::os_service_default,
 ) inherits octavia::params {
 
-  include ::octavia::deps
-  include ::octavia::policy
-  include ::octavia::db
+  include octavia::deps
+  include octavia::policy
+  include octavia::db
 
   if $auth_strategy == 'keystone' {
-    include ::octavia::keystone::authtoken
+    include octavia::keystone::authtoken
   }
 
   package { 'octavia-api':
@@ -116,7 +116,7 @@ class octavia::api (
         tag        => ['octavia-service', 'octavia-db-sync-service'],
       }
     } elsif $service_name == 'httpd' {
-      include ::apache::params
+      include apache::params
       service { 'octavia-api':
         ensure => 'stopped',
         name   => $::octavia::params::api_service_name,
@@ -129,7 +129,7 @@ class octavia::api (
   }
 
   if $sync_db {
-    include ::octavia::db::sync
+    include octavia::db::sync
   }
 
   octavia_config {

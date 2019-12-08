@@ -24,7 +24,7 @@ class octavia::config (
   $octavia_config = {},
 ) {
 
-  include ::octavia::deps
+  include octavia::deps
 
   validate_legacy(Hash, 'validate_hash', $octavia_config)
 

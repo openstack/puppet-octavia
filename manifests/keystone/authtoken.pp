@@ -213,7 +213,7 @@ class octavia::keystone::authtoken(
   $service_token_roles_required   = $::os_service_default,
 ) {
 
-  include ::octavia::deps
+  include octavia::deps
 
   keystone::resource::authtoken { 'octavia_config':
     username                       => $username,

@@ -1,7 +1,7 @@
 # Parameters for puppet-octavia
 #
 class octavia::params {
-  include ::openstacklib::defaults
+  include openstacklib::defaults
   $pyvers = $::openstacklib::defaults::pyvers
 
   $api_service_name            = 'octavia-api'

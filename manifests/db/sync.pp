@@ -12,7 +12,7 @@ class octavia::db::sync(
   $extra_params = undef,
 ) {
 
-  include ::octavia::deps
+  include octavia::deps
 
   exec { 'octavia-db-sync':
     command     => "octavia-db-manage upgrade head ${extra_params}",

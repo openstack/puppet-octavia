@@ -43,7 +43,7 @@ class octavia::nova (
   $anti_affinity_policy = $::os_service_default,
 ) {
 
-  include ::octavia::deps
+  include octavia::deps
 
   octavia_config {
     'nova/service_name':         value => $service_name;

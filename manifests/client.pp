@@ -11,8 +11,8 @@ class octavia::client (
   $ensure = 'present'
 ) {
 
-  include ::octavia::deps
-  include ::octavia::params
+  include octavia::deps
+  include octavia::params
 
   if $::octavia::params::client_package_name {
     package { 'python-octaviaclient':

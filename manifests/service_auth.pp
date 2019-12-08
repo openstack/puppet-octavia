@@ -42,7 +42,7 @@ class octavia::service_auth (
   $auth_type           = $::os_service_default,
 ) {
 
-  include ::octavia::deps
+  include octavia::deps
 
   octavia_config {
     'service_auth/auth_url'            : value => $auth_url;

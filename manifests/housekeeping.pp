@@ -68,7 +68,7 @@ class octavia::housekeeping (
   $spare_amphorae_pool_size  = undef
 ) inherits octavia::params {
 
-  include ::octavia::deps
+  include octavia::deps
 
   if $spare_amphorae_pool_size {
     warning('spare_amphorae_pool_size is deprecated and will be removed in the future. Please use spare_amphora_pool_size.')

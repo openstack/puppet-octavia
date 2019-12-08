@@ -43,7 +43,7 @@ class octavia::db::mysql(
   $allowed_hosts = undef
 ) {
 
-  include ::octavia::deps
+  include octavia::deps
 
   validate_legacy(String, 'validate_string', $password)
 

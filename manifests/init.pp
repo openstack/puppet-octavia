@@ -272,8 +272,8 @@ class octavia (
   $database_db_max_retries            = undef,
 ) inherits octavia::params {
 
-  include ::octavia::deps
-  include ::octavia::db
+  include octavia::deps
+  include octavia::db
 
   package { 'octavia':
     ensure => $package_ensure,

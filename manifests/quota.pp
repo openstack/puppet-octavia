@@ -32,7 +32,7 @@ class octavia::quota (
   $health_monitor_quota  = $::os_service_default,
 ) {
 
-  include ::octavia::deps
+  include octavia::deps
 
   octavia_config {
     'quotas/default_load_balancer_quota':  value => $load_balancer_quota;

@@ -20,8 +20,8 @@ describe 'octavia::api' do
   shared_examples_for 'octavia-api' do
     let :pre_condition do
       "class { 'octavia': }
-       include ::octavia::db
-       class { '::octavia::keystone::authtoken':
+       include octavia::db
+       class { 'octavia::keystone::authtoken':
          password  => 'password',
        }
       "
@@ -119,11 +119,11 @@ describe 'octavia::api' do
   shared_examples 'octavia-api wsgi' do
     let :pre_condition do
       "class { 'octavia': }
-       include ::octavia::db
-       class { '::octavia::keystone::authtoken':
+       include octavia::db
+       class { 'octavia::keystone::authtoken':
          password  => 'password',
        }
-       include ::apache
+       include apache
       "
     end
 

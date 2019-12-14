@@ -38,8 +38,6 @@ describe 'octavia::controller' do
           :user_log_facility           => 3,
           :user_log_format             => '{{ project_id }} {{ lb_id }}',
           :disable_local_log_storage   => true,
-          :enable_anti_affinity        => true,
-          :anti_affinity_policy        => 'anti-affinity'
         }
       end
 
@@ -68,8 +66,6 @@ describe 'octavia::controller' do
       it { is_expected.to contain_octavia_config('amphora_agent/user_log_facility').with_value(3) }
       it { is_expected.to contain_octavia_config('haproxy_amphora/user_log_format').with_value('{{ project_id }} {{ lb_id }}') }
       it { is_expected.to contain_octavia_config('amphora_agent/disable_local_log_storage').with_value(true) }
-      it { is_expected.to contain_octavia_config('nova/enable_anti_affinity').with_value(true) }
-      it { is_expected.to contain_octavia_config('nova/anti_affinity_policy').with_value('anti-affinity') }
     end
 
     it 'configures worker parameters' do
@@ -100,8 +96,6 @@ describe 'octavia::controller' do
       is_expected.to contain_octavia_config('amphora_agent/user_log_facility').with_value('<SERVICE DEFAULT>')
       is_expected.to contain_octavia_config('haproxy_amphora/user_log_format').with_value('<SERVICE DEFAULT>')
       is_expected.to contain_octavia_config('amphora_agent/disable_local_log_storage').with_value('<SERVICE DEFAULT>')
-      is_expected.to contain_octavia_config('nova/enable_anti_affinity').with_value('<SERVICE DEFAULT>')
-      is_expected.to contain_octavia_config('nova/anti_affinity_policy').with_value('<SERVICE DEFAULT>')
     end
 
     context 'with ssh key access disabled' do

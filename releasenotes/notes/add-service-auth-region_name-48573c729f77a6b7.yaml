@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    The new octavia::service_auth::region_name parameter was added to specify
+    keystone region where we expect service auth indentity is created

@@ -12,6 +12,7 @@ describe 'octavia::service_auth' do
         is_expected.to contain_octavia_config('service_auth/user_domain_name').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_octavia_config('service_auth/project_domain_name').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_octavia_config('service_auth/auth_type').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('service_auth/region_name').with_value('<SERVICE DEFAULT>')
       end
     end
 
@@ -24,6 +25,7 @@ describe 'octavia::service_auth' do
           :user_domain_name         => 'my_domain_name',
           :project_domain_name      => 'our_domain_name',
           :auth_type                => 'password',
+          :region_name              => 'region2',
         }
       end
 
@@ -35,6 +37,7 @@ describe 'octavia::service_auth' do
         is_expected.to contain_octavia_config('service_auth/user_domain_name').with_value('my_domain_name')
         is_expected.to contain_octavia_config('service_auth/project_domain_name').with_value('our_domain_name')
         is_expected.to contain_octavia_config('service_auth/auth_type').with_value('password')
+        is_expected.to contain_octavia_config('service_auth/region_name').with_value('region2')
       end
     end
   end

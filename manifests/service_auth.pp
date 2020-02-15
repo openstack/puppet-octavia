@@ -31,7 +31,10 @@
 #   (optional) keystone authentication type
 #   Defaults to $::os_service_default
 #
-
+# [*region_name*]
+#   (Optional) The region in which the identity server can be found.
+#   Defaults to $::os_service_default.
+#
 class octavia::service_auth (
   $auth_url            = $::os_service_default,
   $username            = $::os_service_default,
@@ -40,6 +43,7 @@ class octavia::service_auth (
   $user_domain_name    = $::os_service_default,
   $project_domain_name = $::os_service_default,
   $auth_type           = $::os_service_default,
+  $region_name         = $::os_service_default,
 ) {
 
   include octavia::deps
@@ -52,5 +56,6 @@ class octavia::service_auth (
     'service_auth/user_domain_name'    : value => $user_domain_name;
     'service_auth/project_domain_name' : value => $project_domain_name;
     'service_auth/auth_type'           : value => $auth_type;
+    'service_auth/region_name'         : value => $region_name;
   }
 }

@@ -1,0 +1,4 @@
+---
+features:
+  - |
+    Added octavia::provider::ovn for configuring OVN driver properties.

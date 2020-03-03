@@ -1,0 +1,4 @@
+---
+upgrade:
+  - |
+    The number of workers for octavia-worker now defaults to os_workers

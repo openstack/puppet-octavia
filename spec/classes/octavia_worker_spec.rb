@@ -66,7 +66,7 @@ describe 'octavia::worker' do
     end
 
     it 'configures worker parameters' do
-      is_expected.to contain_octavia_config('controller_worker/workers').with_value('<SERVICE DEFAULT>')
+      is_expected.to contain_octavia_config('controller_worker/workers').with_value(4)
       is_expected.to contain_octavia_config('controller_worker/amp_flavor_id').with_value('65')
       is_expected.to contain_octavia_config('controller_worker/amphora_driver').with_value('amphora_haproxy_rest_driver')
       is_expected.to contain_octavia_config('controller_worker/compute_driver').with_value('compute_nova_driver')
@@ -186,7 +186,7 @@ describe 'octavia::worker' do
   }).each do |os,facts|
     context "on #{os}" do
       let (:facts) do
-        facts.merge!(OSDefaults.get_facts())
+        facts.merge!(OSDefaults.get_facts({:os_workers => 4}))
       end
       let(:platform_params) do
         case facts[:osfamily]

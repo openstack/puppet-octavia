@@ -1,8 +1,0 @@
----
-features:
-  - |
-    Added octavia::provider::ovn for configuring OVN driver properties.
-deprecations:
-  - |
-    octavia::api::ovn_nb_connection is now deprecated and will be removed in the
-    future release. Please use octavia::provider::ovn::ovn_nb_connection instead.

@@ -17,6 +17,7 @@ describe 'octavia::controller' do
           :amp_active_wait_sec         => '10',
           :amp_flavor_id               => '42',
           :amp_image_tag               => 'amphorae1',
+          :amp_image_owner_id          => 'customowner',
           :amp_secgroup_list           => ['lb-mgmt-sec-grp'],
           :amp_boot_network_list       => ['lbnet1', 'lbnet2'],
           :loadbalancer_topology       => 'SINGLE',
@@ -54,6 +55,7 @@ describe 'octavia::controller' do
         is_expected.to contain_octavia_config('controller_worker/amp_active_wait_sec').with_value('10')
         is_expected.to contain_octavia_config('controller_worker/amp_flavor_id').with_value('42')
         is_expected.to contain_octavia_config('controller_worker/amp_image_tag').with_value('amphorae1')
+        is_expected.to contain_octavia_config('controller_worker/amp_image_owner_id').with_value('customowner')
         is_expected.to contain_octavia_config('controller_worker/amp_secgroup_list').with_value(['lb-mgmt-sec-grp'])
         is_expected.to contain_octavia_config('controller_worker/amp_boot_network_list').with_value(['lbnet1', 'lbnet2'])
         is_expected.to contain_octavia_config('controller_worker/loadbalancer_topology').with_value('SINGLE')
@@ -83,7 +85,7 @@ describe 'octavia::controller' do
         is_expected.to contain_octavia_config('keepalived_vrrp/vrrp_success_count').with_value(2)
         is_expected.to contain_octavia_config('keepalived_vrrp/vrrp_garp_refresh_interval').with_value(5)
         is_expected.to contain_octavia_config('keepalived_vrrp/vrrp_garp_refresh_count').with_value(2)
-     end
+      end
     end
 
     it 'configures with the default values' do
@@ -91,6 +93,7 @@ describe 'octavia::controller' do
       is_expected.to contain_octavia_config('controller_worker/amp_active_wait_sec').with_value('<SERVICE DEFAULT>')
       is_expected.to contain_octavia_config('controller_worker/amp_flavor_id').with_value('65')
       is_expected.to contain_octavia_config('controller_worker/amp_image_tag').with_value('<SERVICE DEFAULT>')
+      is_expected.to contain_octavia_config('controller_worker/amp_image_owner_id').with_value('<SERVICE DEFAULT>')
       is_expected.to contain_octavia_config('controller_worker/amp_secgroup_list').with_value('<SERVICE DEFAULT>')
       is_expected.to contain_octavia_config('controller_worker/amp_boot_network_list').with_value([])
       is_expected.to contain_octavia_config('controller_worker/loadbalancer_topology').with_value('<SERVICE DEFAULT>')

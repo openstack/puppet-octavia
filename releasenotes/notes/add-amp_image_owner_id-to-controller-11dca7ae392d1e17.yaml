@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    Support amp_image_owner_id setting in octavia controller
+    Set using ``octavia::controller::amp_image_owner_id```

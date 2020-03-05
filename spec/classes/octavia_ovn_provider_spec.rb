@@ -10,10 +10,10 @@ describe 'octavia::provider::ovn' do
   shared_examples_for 'octavia-ovn-provider' do
 
     context 'with default parameters' do
-      it { is_expected.to contain_octavia_ovn_provider_config('ovn/ovn_nb_connection').with_value('<SERVICE DEFAULT>') }
-      it { is_expected.to contain_octavia_ovn_provider_config('ovn/ovn_nb_private_key').with_value('<SERVICE DEFAULT>') }
-      it { is_expected.to contain_octavia_ovn_provider_config('ovn/ovn_nb_certificate').with_value('<SERVICE DEFAULT>') }
-      it { is_expected.to contain_octavia_ovn_provider_config('ovn/ovn_nb_ca_cert').with_value('<SERVICE DEFAULT>') }
+      it { is_expected.to contain_octavia_config('ovn/ovn_nb_connection').with_value('<SERVICE DEFAULT>') }
+      it { is_expected.to contain_octavia_config('ovn/ovn_nb_private_key').with_value('<SERVICE DEFAULT>') }
+      it { is_expected.to contain_octavia_config('ovn/ovn_nb_certificate').with_value('<SERVICE DEFAULT>') }
+      it { is_expected.to contain_octavia_config('ovn/ovn_nb_ca_cert').with_value('<SERVICE DEFAULT>') }
     end
 
     context 'with specific parameters' do
@@ -26,10 +26,10 @@ describe 'octavia::provider::ovn' do
         })
       end
 
-      it { is_expected.to contain_octavia_ovn_provider_config('ovn/ovn_nb_connection').with_value('tcp:127.0.0.1:6641') }
-      it { is_expected.to contain_octavia_ovn_provider_config('ovn/ovn_nb_private_key').with_value('/foo.key') }
-      it { is_expected.to contain_octavia_ovn_provider_config('ovn/ovn_nb_certificate').with_value('/foo.pem') }
-      it { is_expected.to contain_octavia_ovn_provider_config('ovn/ovn_nb_ca_cert').with_value('/ca_foo.pem') }
+      it { is_expected.to contain_octavia_config('ovn/ovn_nb_connection').with_value('tcp:127.0.0.1:6641') }
+      it { is_expected.to contain_octavia_config('ovn/ovn_nb_private_key').with_value('/foo.key') }
+      it { is_expected.to contain_octavia_config('ovn/ovn_nb_certificate').with_value('/foo.pem') }
+      it { is_expected.to contain_octavia_config('ovn/ovn_nb_ca_cert').with_value('/ca_foo.pem') }
     end
   end
 

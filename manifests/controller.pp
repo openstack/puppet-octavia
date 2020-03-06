@@ -2,6 +2,15 @@
 #
 # === Parameters
 #
+# [*amp_active_retries*]
+#   (optional) Retry attempts to wait for Amphora to become active.
+#   Defaults to $::os_service_default
+#
+# [*amp_active_wait_sec*]
+#   (optional) Seconds to wait between checks on whether an Amphora has
+#   become active.
+#   Defaults to $::os_service_default
+#
 # [*amp_flavor_id*]
 #   (optional) Nova instance flavor id for the Amphora.
 #   Note: since we set manage_nova_flavor to True by default, we need
@@ -152,6 +161,8 @@
 #   Defaults to $::os_service_default
 #
 class octavia::controller (
+  $amp_active_retries          = $::os_service_default,
+  $amp_active_wait_sec         = $::os_service_default,
   $amp_flavor_id               = '65',
   $amp_image_tag               = $::os_service_default,
   $amp_secgroup_list           = $::os_service_default,
@@ -219,6 +230,8 @@ class octavia::controller (
   }
 
   octavia_config {
+    'controller_worker/amp_active_retries'       : value => $amp_active_retries;
+    'controller_worker/amp_active_wait_sec'      : value => $amp_active_wait_sec;
     'controller_worker/amp_flavor_id'            : value => $amp_flavor_id_real;
     'controller_worker/amp_image_tag'            : value => $amp_image_tag_real;
     'controller_worker/amp_secgroup_list'        : value => $amp_secgroup_list_real;

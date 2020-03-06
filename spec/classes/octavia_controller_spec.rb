@@ -13,7 +13,9 @@ describe 'octavia::controller' do
 
     context 'configured with specific parameters' do
       let :params do
-        { :amp_flavor_id               => '42',
+        { :amp_active_retries          => '30',
+          :amp_active_wait_sec         => '10',
+          :amp_flavor_id               => '42',
           :amp_image_tag               => 'amphorae1',
           :amp_secgroup_list           => ['lb-mgmt-sec-grp'],
           :amp_boot_network_list       => ['lbnet1', 'lbnet2'],
@@ -41,6 +43,8 @@ describe 'octavia::controller' do
         }
       end
 
+      it { is_expected.to contain_octavia_config('controller_worker/amp_active_retries').with_value('30') }
+      it { is_expected.to contain_octavia_config('controller_worker/amp_active_wait_sec').with_value('10') }
       it { is_expected.to contain_octavia_config('controller_worker/amp_flavor_id').with_value('42') }
       it { is_expected.to contain_octavia_config('controller_worker/amp_image_tag').with_value('amphorae1') }
       it { is_expected.to contain_octavia_config('controller_worker/amp_secgroup_list').with_value(['lb-mgmt-sec-grp']) }
@@ -69,6 +73,8 @@ describe 'octavia::controller' do
     end
 
     it 'configures worker parameters' do
+      is_expected.to contain_octavia_config('controller_worker/amp_active_retries').with_value('<SERVICE DEFAULT>')
+      is_expected.to contain_octavia_config('controller_worker/amp_active_wait_sec').with_value('<SERVICE DEFAULT>')
       is_expected.to contain_octavia_config('controller_worker/amp_flavor_id').with_value('65')
       is_expected.to contain_octavia_config('controller_worker/amphora_driver').with_value('amphora_haproxy_rest_driver')
       is_expected.to contain_octavia_config('controller_worker/compute_driver').with_value('compute_nova_driver')

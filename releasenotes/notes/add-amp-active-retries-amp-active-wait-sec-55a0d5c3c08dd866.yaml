@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    Added parameters octavia::controller::amp_active_retries and
+    octavia::controller::amp_active_wait_sec.

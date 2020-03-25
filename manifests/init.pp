@@ -201,10 +201,6 @@
 #   (Optional) Interval between retries of opening a database connection.
 #   Defaults to undef.
 #
-# [*database_min_pool_size*]
-#   (Optional) Minimum number of SQL connections to keep open in a pool.
-#   Defaults to undef.
-#
 # [*database_max_pool_size*]
 #   (Optional) Maximum number of SQL connections to keep open in a pool.
 #   Defaults to undef.
@@ -220,6 +216,12 @@
 # [*database_db_max_retries*]
 #   (Optional) Maximum retries in case of connection error or deadlock error
 #   before error is raised. Set to -1 to specify an infinite retry count.
+#   Defaults to undef.
+#
+# DEPRECATED PARAMETERS
+#
+# [*database_min_pool_size*]
+#   (Optional) Minimum number of SQL connections to keep open in a pool.
 #   Defaults to undef.
 #
 class octavia (
@@ -263,13 +265,14 @@ class octavia (
   $purge_config                       = false,
   $database_connection                = undef,
   $database_idle_timeout              = undef,
-  $database_min_pool_size             = undef,
   $database_max_pool_size             = undef,
   $database_max_retries               = undef,
   $database_retry_interval            = undef,
   $database_max_overflow              = undef,
   $database_pool_timeout              = undef,
   $database_db_max_retries            = undef,
+  # DEPRECATED PARAMETERS
+  $database_min_pool_size             = undef,
 ) inherits octavia::params {
 
   include octavia::deps

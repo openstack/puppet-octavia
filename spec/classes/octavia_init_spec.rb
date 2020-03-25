@@ -99,7 +99,6 @@ describe 'octavia' do
         :db_max_retries => '<SERVICE DEFAULT>',
         :connection     => 'sqlite:////var/lib/octavia/octavia.sqlite',
         :idle_timeout   => '<SERVICE DEFAULT>',
-        :min_pool_size  => '<SERVICE DEFAULT>',
         :max_pool_size  => '<SERVICE DEFAULT>',
         :max_retries    => '<SERVICE DEFAULT>',
         :retry_interval => '<SERVICE DEFAULT>',

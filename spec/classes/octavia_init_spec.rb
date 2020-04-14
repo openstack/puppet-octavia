@@ -87,7 +87,7 @@ describe 'octavia' do
         before { params.merge!( :notification_driver => ['ceilometer.compute.octavia_notifier', 'octavia.openstack.common.notifier.rpc_notifier']) }
 
         it { is_expected.to contain_octavia_config('oslo_messaging_notifications/driver').with_value(
-          'ceilometer.compute.octavia_notifier,octavia.openstack.common.notifier.rpc_notifier'
+          ['ceilometer.compute.octavia_notifier', 'octavia.openstack.common.notifier.rpc_notifier']
         ) }
       end
 

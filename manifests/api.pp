@@ -63,9 +63,11 @@
 #   (optional) Configure the loadbalancer provider drivers.
 #   Defaults to $::os_service_default
 #
+# DEPRECATED PARAMETERS
+#
 # [*ovn_nb_connection*]
 #   (optional) The connection string for the OVN_Northbound OVSDB.
-#   Defaults to $::os_service_default
+#   Defaults to undef
 #
 class octavia::api (
   $enabled                        = true,
@@ -82,7 +84,8 @@ class octavia::api (
   $sync_db                        = false,
   $default_provider_driver        = $::os_service_default,
   $provider_drivers               = $::os_service_default,
-  $ovn_nb_connection              = $::os_service_default,
+  # DEPRECATED PARAMETERS
+  $ovn_nb_connection              = undef
 ) inherits octavia::params {
 
   include ::octavia::deps
@@ -91,6 +94,10 @@ class octavia::api (
 
   if $auth_strategy == 'keystone' {
     include ::octavia::keystone::authtoken
+  }
+
+  if $ovn_nb_connection {
+      warning('The ovn_nb_connection parameter is deprecated from octavia::api. Use octavia::provider::ovn::ovn_nb_connection.')
   }
 
   package { 'octavia-api':
@@ -142,6 +149,5 @@ class octavia::api (
     'api_settings/allow_tls_terminated_listeners': value => $allow_tls_terminated_listeners;
     'api_settings/default_provider_driver':        value => $default_provider_driver;
     'api_settings/enabled_provider_drivers':       value => $provider_drivers;
-    'ovn/ovn_nb_connection':                       value => $ovn_nb_connection;
   }
 }

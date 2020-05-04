@@ -46,8 +46,8 @@ Puppet::Type.newtype(:octavia_ovn_provider_config) do
     defaultto('<SERVICE DEFAULT>')
   end
 
-  autorequire(:package) do
-    'octavia'
+  autorequire(:anchor) do
+    ['octavia::install::end']
   end
 
 end

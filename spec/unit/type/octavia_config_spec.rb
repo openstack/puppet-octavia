@@ -50,14 +50,14 @@ describe 'Puppet::Type.type(:octavia_config)' do
     }.to raise_error(Puppet::Error, /Invalid value/)
   end
 
-  it 'should autorequire the package that install the file' do
+  it 'should autorequire the anchor that install the file' do
     catalog = Puppet::Resource::Catalog.new
-    package = Puppet::Type.type(:package).new(:name => 'octavia')
-    catalog.add_resource package, @octavia_config
+    anchor = Puppet::Type.type(:anchor).new(:name => 'octavia::install::end')
+    catalog.add_resource anchor, @octavia_config
     dependency = @octavia_config.autorequire
     expect(dependency.size).to eq(1)
     expect(dependency[0].target).to eq(@octavia_config)
-    expect(dependency[0].source).to eq(package)
+    expect(dependency[0].source).to eq(anchor)
   end
 
 

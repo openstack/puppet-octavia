@@ -8,19 +8,19 @@ describe 'octavia::db::mysql' do
 
   let :params do
     {
-      :password => 'fooboozoo_default_password',
+      :password => 'octaviapass',
     }
   end
 
   shared_examples 'octavia::db::mysql' do
     context 'with only required params' do
       it { should contain_openstacklib__db__mysql('octavia').with(
-        :user          => 'octavia',
-        :password_hash => '*3DDF34A86854A312A8E2C65B506E21C91800D206',
-        :dbname        => 'octavia',
-        :host          => '127.0.0.1',
-        :charset       => 'utf8',
-        :collate       => 'utf8_general_ci',
+        :user     => 'octavia',
+        :password => 'octaviapass',
+        :dbname   => 'octavia',
+        :host     => '127.0.0.1',
+        :charset  => 'utf8',
+        :collate  => 'utf8_general_ci',
       )}
     end
 
@@ -31,7 +31,7 @@ describe 'octavia::db::mysql' do
 
       it { should contain_openstacklib__db__mysql('octavia').with(
         :user          => 'octavia',
-        :password_hash => '*3DDF34A86854A312A8E2C65B506E21C91800D206',
+        :password      => 'octaviapass',
         :dbname        => 'octavia',
         :host          => '127.0.0.1',
         :charset       => 'utf8',
@@ -47,7 +47,7 @@ describe 'octavia::db::mysql' do
 
       it { should contain_openstacklib__db__mysql('octavia').with(
         :user          => 'octavia',
-        :password_hash => '*3DDF34A86854A312A8E2C65B506E21C91800D206',
+        :password      => 'octaviapass',
         :dbname        => 'octavia',
         :host          => '127.0.0.1',
         :charset       => 'utf8',

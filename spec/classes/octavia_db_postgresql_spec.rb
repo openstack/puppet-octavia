@@ -4,7 +4,7 @@ describe 'octavia::db::postgresql' do
 
   shared_examples_for 'octavia::db::postgresql' do
     let :req_params do
-      { :password => 'pw' }
+      { :password => 'octaviapass' }
     end
 
     let :pre_condition do
@@ -16,9 +16,12 @@ describe 'octavia::db::postgresql' do
         req_params
       end
 
-      it { is_expected.to contain_postgresql__server__db('octavia').with(
-        :user     => 'octavia',
-        :password => 'md534abd2692c9eda8e0a8f3cb322c18c08'
+      it { is_expected.to contain_openstacklib__db__postgresql('octavia').with(
+        :user       => 'octavia',
+        :password   => 'octaviapass',
+        :dbname     => 'octavia',
+        :encoding   => nil,
+        :privileges => 'ALL',
       )}
     end
 

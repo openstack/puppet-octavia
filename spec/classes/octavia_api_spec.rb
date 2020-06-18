@@ -53,6 +53,9 @@ describe 'octavia::api' do
         is_expected.to contain_octavia_config('api_settings/allow_tls_terminated_listeners').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_octavia_config('api_settings/default_provider_driver').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_octavia_config('api_settings/enabled_provider_drivers').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_oslo__middleware('octavia_config').with(
+          :enable_proxy_headers_parsing => '<SERVICE DEFAULT>',
+        )
       end
       it 'does not sync the database' do
         is_expected.not_to contain_class('octavia::db::sync')
@@ -97,6 +100,18 @@ describe 'octavia::api' do
           :sync_db => true})
       end
       it { is_expected.to contain_class('octavia::db::sync') }
+    end
+
+    context 'with enable_proxy_headers_parsing set' do
+      before do
+        params.merge!({
+          :enable_proxy_headers_parsing => true})
+      end
+      it 'configures enable_proxy_headers_parsing' do
+        is_expected.to contain_oslo__middleware('octavia_config').with(
+          :enable_proxy_headers_parsing => true,
+        )
+      end
     end
 
     context 'with disabled service managing' do

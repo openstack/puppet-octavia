@@ -55,6 +55,11 @@
 #   (optional) Run octavia-db-manage upgrade head on api nodes after installing the package.
 #   Defaults to false
 #
+# [*enable_proxy_headers_parsing*]
+#   (Optional) Enable paste middleware to handle SSL requests through
+#   HTTPProxyToWSGI middleware.
+#   Defaults to $::os_service_default.
+#
 # [*default_provider_driver*]
 #   (optional) Configure the default provider driver.
 #   Defaults to $::os_service_default
@@ -82,6 +87,7 @@ class octavia::api (
   $api_v2_enabled                 = $::os_service_default,
   $allow_tls_terminated_listeners = $::os_service_default,
   $sync_db                        = false,
+  $enable_proxy_headers_parsing   = $::os_service_default,
   $default_provider_driver        = $::os_service_default,
   $provider_drivers               = $::os_service_default,
   # DEPRECATED PARAMETERS
@@ -149,5 +155,9 @@ class octavia::api (
     'api_settings/allow_tls_terminated_listeners': value => $allow_tls_terminated_listeners;
     'api_settings/default_provider_driver':        value => $default_provider_driver;
     'api_settings/enabled_provider_drivers':       value => $provider_drivers;
+  }
+
+  oslo::middleware { 'octavia_config':
+    enable_proxy_headers_parsing => $enable_proxy_headers_parsing
   }
 }

@@ -1,0 +1,3 @@
+---
+fixes:
+  - Octavia switched oslo.policy from JSON to YAML format output.

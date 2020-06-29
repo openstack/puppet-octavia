@@ -20,12 +20,12 @@
 #   Defaults to empty hash.
 #
 # [*policy_path*]
-#   (Optional) Path to the nova policy.json file
-#   Defaults to /etc/octavia/policy.json
+#   (Optional) Path to the octavia policy.yaml file
+#   Defaults to /etc/octavia/policy.yaml
 #
 class octavia::policy (
   $policies    = {},
-  $policy_path = '/etc/octavia/policy.json',
+  $policy_path = '/etc/octavia/policy.yaml',
 ) {
 
   include octavia::deps
@@ -34,9 +34,10 @@ class octavia::policy (
   validate_legacy(Hash, 'validate_hash', $policies)
 
   Openstacklib::Policy::Base {
-    file_path  => $policy_path,
-    file_user  => 'root',
-    file_group => $::octavia::params::group,
+    file_path   => $policy_path,
+    file_user   => 'root',
+    file_group  => $::octavia::params::group,
+    file_format => 'yaml',
   }
 
   create_resources('openstacklib::policy::base', $policies)

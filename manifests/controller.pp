@@ -207,29 +207,13 @@ class octavia::controller (
   include octavia::deps
   include octavia::db
 
-  # For backward compatibility
-  $amp_flavor_id_real          = pick($::octavia::worker::amp_flavor_id, $amp_flavor_id)
-  $amp_image_tag_real          = pick($::octavia::worker::amp_image_tag, $amp_image_tag)
-  $amp_secgroup_list_real      = pick($::octavia::worker::amp_secgroup_list, $amp_secgroup_list)
-  $amp_boot_network_list_real  = pick($::octavia::worker::amp_boot_network_list, $amp_boot_network_list)
-  $loadbalancer_topology_real  = pick($::octavia::worker::loadbalancer_topology, $loadbalancer_topology)
-  $amphora_driver_real         = pick($::octavia::worker::amphora_driver, $amphora_driver)
-  $compute_driver_real         = pick($::octavia::worker::compute_driver, $compute_driver)
-  $network_driver_real         = pick($::octavia::worker::network_driver, $network_driver)
-  $amp_ssh_key_name_real       = pick($::octavia::worker::amp_ssh_key_name, $amp_ssh_key_name)
-  $enable_ssh_access_real      = pick($::octavia::worker::enable_ssh_access, $enable_ssh_access)
-  $timeout_client_data_real    = pick($::octavia::worker::timeout_client_data, $timeout_client_data)
-  $timeout_member_connect_real = pick($::octavia::worker::timeout_member_connect, $timeout_member_connect)
-  $timeout_member_data_real    = pick($::octavia::worker::timeout_member_data, $timeout_member_data)
-  $timeout_tcp_inspect_real    = pick($::octavia::worker::timeout_tcp_inspect, $timeout_tcp_inspect)
-
-  if ! is_service_default($::octavia::controller::loadbalancer_topology_real) and
-      ! ($::octavia::controller::loadbalancer_topology_real in ['SINGLE', 'ACTIVE_STANDBY']) {
+  if ! is_service_default($loadbalancer_topology) and
+      ! ($loadbalancer_topology in ['SINGLE', 'ACTIVE_STANDBY']) {
     fail('load balancer topology must be one of SINGLE or ACTIVE_STANDBY')
   }
 
-  if $enable_ssh_access_real {
-    octavia_config { 'controller_worker/amp_ssh_key_name' : value => $amp_ssh_key_name_real; }
+  if $enable_ssh_access {
+    octavia_config { 'controller_worker/amp_ssh_key_name' : value => $amp_ssh_key_name; }
   }
   else {
     octavia_config { 'controller_worker/amp_ssh_key_name' : value => $::os_service_default }
@@ -238,19 +222,19 @@ class octavia::controller (
   octavia_config {
     'controller_worker/amp_active_retries'       : value => $amp_active_retries;
     'controller_worker/amp_active_wait_sec'      : value => $amp_active_wait_sec;
-    'controller_worker/amp_flavor_id'            : value => $amp_flavor_id_real;
-    'controller_worker/amp_image_tag'            : value => $amp_image_tag_real;
+    'controller_worker/amp_flavor_id'            : value => $amp_flavor_id;
+    'controller_worker/amp_image_tag'            : value => $amp_image_tag;
     'controller_worker/amp_image_owner_id'       : value => $amp_image_owner_id;
-    'controller_worker/amp_secgroup_list'        : value => $amp_secgroup_list_real;
-    'controller_worker/amp_boot_network_list'    : value => $amp_boot_network_list_real;
-    'controller_worker/loadbalancer_topology'    : value => $loadbalancer_topology_real;
-    'controller_worker/amphora_driver'           : value => $amphora_driver_real;
-    'controller_worker/compute_driver'           : value => $compute_driver_real;
-    'controller_worker/network_driver'           : value => $network_driver_real;
-    'haproxy_amphora/timeout_client_data'        : value => $timeout_client_data_real;
-    'haproxy_amphora/timeout_member_connect'     : value => $timeout_member_connect_real;
-    'haproxy_amphora/timeout_member_data'        : value => $timeout_member_data_real;
-    'haproxy_amphora/timeout_tcp_inspect'        : value => $timeout_tcp_inspect_real;
+    'controller_worker/amp_secgroup_list'        : value => $amp_secgroup_list;
+    'controller_worker/amp_boot_network_list'    : value => $amp_boot_network_list;
+    'controller_worker/loadbalancer_topology'    : value => $loadbalancer_topology;
+    'controller_worker/amphora_driver'           : value => $amphora_driver;
+    'controller_worker/compute_driver'           : value => $compute_driver;
+    'controller_worker/network_driver'           : value => $network_driver;
+    'haproxy_amphora/timeout_client_data'        : value => $timeout_client_data;
+    'haproxy_amphora/timeout_member_connect'     : value => $timeout_member_connect;
+    'haproxy_amphora/timeout_member_data'        : value => $timeout_member_data;
+    'haproxy_amphora/timeout_tcp_inspect'        : value => $timeout_tcp_inspect;
     'health_manager/controller_ip_port_list'     : value => $controller_ip_port_list;
     'haproxy_amphora/connection_max_retries'     : value => $connection_max_retries;
     'haproxy_amphora/connection_retry_interval'  : value => $connection_retry_interval;

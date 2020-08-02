@@ -55,8 +55,10 @@ describe 'basic octavia' do
         class { 'octavia::api':
           sync_db => true,
         }
-        class { 'octavia::worker':
+        class { 'octavia::controller':
           amp_flavor_id => '65',
+        }
+        class { 'octavia::worker':
         }
         class { 'octavia::health_manager':
           heartbeat_key => 'abcdefghijkl',

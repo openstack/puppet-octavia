@@ -1,0 +1,20 @@
+---
+upgrade:
+  - |
+    The following deprecated parameters of the ``octavia::worker`` class have
+    been removed. Use the same parameters in the ``octavia::controller`` class.
+
+    - ``amp_flavor_id``
+    - ``amp_image_tag``
+    - ``amp_secgroup_list``
+    - ``amp_boot_network_list``
+    - ``loadbalancer_topology``
+    - ``amphora_driver``
+    - ``compute_driver``
+    - ``network_driver``
+    - ``amp_ssh_key_name``
+    - ``enable_ssh_access``
+    - ``timeout_client_data``
+    - ``timeout_member_connect``
+    - ``timeout_member_data``
+    - ``timeout_tcp_inspect``

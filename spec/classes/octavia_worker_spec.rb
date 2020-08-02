@@ -15,25 +15,17 @@ describe 'octavia::worker' do
 
   shared_examples_for 'octavia-worker' do
 
-    context 'with invalid lb topology' do
-      before do
-        params.merge!({
-          :loadbalancer_topology => 'foo'
-        })
-      end
-      it { is_expected.to raise_error(Puppet::Error) }
-    end
-
     context 'configured with specific parameters' do
+      let :pre_condition do
+        "include nova
+         class { 'octavia::controller' :
+           amp_flavor_id => '42',
+         }"
+      end
+
       before do
         params.merge!({
           :workers               => 8,
-          :amp_flavor_id         => '42',
-          :amp_image_tag         => 'amphorae1',
-          :amp_secgroup_list     => ['lb-mgmt-sec-grp'],
-          :amp_boot_network_list => ['lbnet1', 'lbnet2'],
-          :loadbalancer_topology => 'SINGLE',
-          :amp_ssh_key_name      => 'custom-amphora-key',
           :key_path              => '/opt/octavia/ssh/amphora_key',
           :amp_project_name      => 'loadbalancers',
           :nova_flavor_config    => {
@@ -45,12 +37,6 @@ describe 'octavia::worker' do
       end
 
       it { is_expected.to contain_octavia_config('controller_worker/workers').with_value(8) }
-      it { is_expected.to contain_octavia_config('controller_worker/amp_flavor_id').with_value('42') }
-      it { is_expected.to contain_octavia_config('controller_worker/amp_image_tag').with_value('amphorae1') }
-      it { is_expected.to contain_octavia_config('controller_worker/amp_secgroup_list').with_value(['lb-mgmt-sec-grp']) }
-      it { is_expected.to contain_octavia_config('controller_worker/amp_boot_network_list').with_value(['lbnet1', 'lbnet2']) }
-      it { is_expected.to contain_octavia_config('controller_worker/loadbalancer_topology').with_value('SINGLE') }
-      it { is_expected.to contain_octavia_config('controller_worker/amp_ssh_key_name').with_value('custom-amphora-key') }
       it 'deploys a nova flavor for amphora' do
         is_expected.to contain_nova_flavor('octavia_42').with(
           :ensure    => 'present',
@@ -65,33 +51,17 @@ describe 'octavia::worker' do
       end
     end
 
-    it 'configures worker parameters' do
-      is_expected.to contain_octavia_config('controller_worker/workers').with_value(4)
-      is_expected.to contain_octavia_config('controller_worker/amp_flavor_id').with_value('65')
-      is_expected.to contain_octavia_config('controller_worker/amphora_driver').with_value('amphora_haproxy_rest_driver')
-      is_expected.to contain_octavia_config('controller_worker/compute_driver').with_value('compute_nova_driver')
-      is_expected.to contain_octavia_config('controller_worker/network_driver').with_value('allowed_address_pairs_driver')
-      is_expected.to contain_octavia_config('controller_worker/amp_ssh_key_name').with_value('octavia-ssh-key')
-      is_expected.to contain_octavia_config('haproxy_amphora/timeout_client_data').with_value('<SERVICE DEFAULT>')
-      is_expected.to contain_octavia_config('haproxy_amphora/timeout_member_connect').with_value('<SERVICE DEFAULT>')
-      is_expected.to contain_octavia_config('haproxy_amphora/timeout_member_data').with_value('<SERVICE DEFAULT>')
-      is_expected.to contain_octavia_config('haproxy_amphora/timeout_tcp_inspect').with_value('<SERVICE DEFAULT>')
-    end
-
-    context 'with ssh key access disabled' do
-      before do
-        params.merge!({ :enable_ssh_access => false }) end
-
-      it 'disables configuration of SSH key properties' do
-        is_expected.to contain_octavia_config('controller_worker/amp_ssh_key_name').with_value('<SERVICE DEFAULT>')
-      end
-    end
-
     context 'with ssh key access disabled and key management enabled' do
+      let :pre_condition do
+        "include nova
+         class { 'octavia::controller' :
+           manage_ssh_access = false,
+         }"
+      end
+
       before do
         params.merge!({
-          :enable_ssh_access => false,
-          :manage_keygen     => true,
+          :manage_keygen => true,
         })
       end
 
@@ -141,7 +111,10 @@ describe 'octavia::worker' do
 
     context 'with disabled service managing' do
       before do
-        params.merge!({ :manage_service => false, :enabled        => false }) end
+        params.merge!({
+          :manage_service => false,
+          :enabled        => false })
+      end
 
       it 'configures octavia-worker service' do
         is_expected.to contain_service('octavia-worker').with(

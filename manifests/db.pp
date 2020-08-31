@@ -79,9 +79,6 @@ class octavia::db (
   $database_pool_timeout_real = pick($::octavia::database_pool_timeout, $database_pool_timeout)
   $database_db_max_retries_real = pick($::octavia::database_db_max_retries, $database_db_max_retries)
 
-  validate_legacy(Oslo::Dbconn, 'validate_re', $database_connection_real,
-    ['^(sqlite|mysql(\+pymysql)?|postgresql):\/\/(\S+:\S+@\S+\/\S+)?'])
-
   oslo::db { 'octavia_config':
     connection              => $database_connection_real,
     connection_recycle_time => $database_connection_recycle_time_real,

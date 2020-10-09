@@ -13,6 +13,8 @@ describe 'octavia::db::mysql' do
   end
 
   shared_examples 'octavia::db::mysql' do
+    it { is_expected.to contain_class('octavia::deps') }
+
     context 'with only required params' do
       it { should contain_openstacklib__db__mysql('octavia').with(
         :user     => 'octavia',

@@ -4,6 +4,8 @@ describe 'octavia::db::sync' do
 
   shared_examples_for 'octavia-dbsync' do
 
+    it { is_expected.to contain_class('octavia::deps') }
+
     it 'runs octavia-manage db upgrade' do
       is_expected.to contain_exec('octavia-db-sync').with(
         :command     => 'octavia-db-manage upgrade head ',

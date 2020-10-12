@@ -6,5 +6,22 @@
       - release-notes-jobs-python3
     check:
       jobs:
-        - tripleo-ci-centos-8-scenario010-standalone:
+        - puppet-octavia-tripleo-standalone:
             voting: false
+
+- job:
+    name: puppet-octavia-tripleo-standalone
+    parent: tripleo-puppet-ci-centos-8-standalone
+    description: |
+      TripleO standalone Job running Octavia specific Tempest tests.
+    vars:
+      featureset_override:
+        standalone_environment_files:
+          - 'environments/low-memory-usage.yaml'
+          - 'ci/environments/scenario010-standalone.yaml'
+        run_tempest: false
+        tempest_services:
+          - octavia
+        tempest_test_whitelist:
+          - 'octavia_tempest_plugin.tests.api'
+        use_os_tempest: true

@@ -20,6 +20,7 @@
           - 'environments/low-memory-usage.yaml'
           - 'ci/environments/scenario010-standalone.yaml'
         run_tempest: false
+        tempest_private_net_seg_id: ''
         tempest_services:
           - octavia
         tempest_test_whitelist:

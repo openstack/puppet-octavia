@@ -1,0 +1,14 @@
+---
+deprecations:
+  - |
+    The following options have been deprecated, as those options have been
+    moved to octavia::db class.
+
+    - ``octavia::database_connection``
+    - ``octavia::database_idle_timeout``
+    - ``octavia::database_max_overflow``
+    - ``octavia::database_max_pool_size``
+    - ``octavia::database_max_retries``
+    - ``octavia::database_retry_interval``
+    - ``octavia::database_pool_timeout``
+    - ``octavia::database_db_max_retries``

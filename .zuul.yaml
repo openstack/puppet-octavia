@@ -15,6 +15,7 @@
     description: |
       TripleO standalone Job running Octavia specific Tempest tests.
     vars:
+      build_container_images: true
       featureset_override:
         standalone_environment_files:
           - 'environments/low-memory-usage.yaml'

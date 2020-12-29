@@ -1,0 +1,13 @@
+---
+deprecations:
+  - |
+    The following parameters in the ``octavia::housekeeping`` class have been
+    deprecated and will be removed in a future release.
+
+    - ``spare_check_interval``
+    - ``spare_amphora_pool_size``
+
+upgrade:
+  - |
+    The ``octavia::housekeeping::spare_amphorae_pool_size`` parameter has been
+    removed.

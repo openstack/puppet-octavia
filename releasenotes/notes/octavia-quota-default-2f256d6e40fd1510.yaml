@@ -1,0 +1,7 @@
+---
+deprecations:
+  - |
+    Now all parameters of the ``quota::class`` class are prefixed with
+    ``defualt_``, to be consistent with the parameter names in Octavia.
+    All exisitng parameters without the ``default_`` prefix are deprecated and
+    will be removed in a future release.

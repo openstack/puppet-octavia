@@ -14,6 +14,7 @@ describe 'octavia::api' do
       :default_provider_driver        => 'ovn',
       :provider_drivers               => { 'amphora' => 'Octavia Amphora Driver', 'ovn' => 'Octavia OVN driver' },
       :pagination_max_limit           => '1000',
+      :healthcheck_enabled            => true,
     }
   end
 
@@ -55,6 +56,7 @@ describe 'octavia::api' do
         is_expected.to contain_octavia_config('api_settings/default_provider_driver').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_octavia_config('api_settings/enabled_provider_drivers').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_octavia_config('api_settings/pagination_max_limit').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('api_settings/healthcheck_enabled').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_oslo__middleware('octavia_config').with(
           :enable_proxy_headers_parsing => '<SERVICE DEFAULT>',
         )
@@ -74,6 +76,7 @@ describe 'octavia::api' do
       is_expected.to contain_octavia_config('api_settings/default_provider_driver').with_value( params[:default_provider_driver] )
       is_expected.to contain_octavia_config('api_settings/enabled_provider_drivers').with_value( params[:provider_drivers] )
       is_expected.to contain_octavia_config('api_settings/pagination_max_limit').with_value( params[:pagination_max_limit] )
+      is_expected.to contain_octavia_config('api_settings/healthcheck_enabled').with_value( params[:healthcheck_enabled] )
     end
 
     [{:enabled => true}, {:enabled => false}].each do |param_hash|
@@ -129,6 +132,16 @@ describe 'octavia::api' do
       end
     end
 
+    context 'with healthcheck enabled' do
+      before do
+        params.merge!({
+          :healthcheck_enabled => true })
+      end
+
+      it 'configures healthcheck_enabled' do
+        is_expected.to contain_octavia_config('api_settings/healthcheck_enabled').with_value(true)
+      end
+    end
   end
 
   shared_examples 'octavia-api wsgi' do

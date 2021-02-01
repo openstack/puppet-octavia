@@ -72,6 +72,10 @@
 #   (optional) The maximum number of items returned in a single response.
 #   Defaults to $::os_service_default
 #
+# [*healthcheck_enabled*]
+#   (optional) Enable the oslo middleware healthcheck endppint.
+#   Defaults to $::os_service_default
+#
 # DEPRECATED PARAMETERS
 #
 # [*ovn_nb_connection*]
@@ -95,6 +99,7 @@ class octavia::api (
   $default_provider_driver        = $::os_service_default,
   $provider_drivers               = $::os_service_default,
   $pagination_max_limit           = $::os_service_default,
+  $healthcheck_enabled            = $::os_service_default,
   # DEPRECATED PARAMETERS
   $ovn_nb_connection              = undef
 ) inherits octavia::params {
@@ -161,6 +166,7 @@ class octavia::api (
     'api_settings/default_provider_driver':        value => $default_provider_driver;
     'api_settings/enabled_provider_drivers':       value => $provider_drivers;
     'api_settings/pagination_max_limit':           value => $pagination_max_limit;
+    'api_settings/healthcheck_enabled':            value => $healthcheck_enabled;
   }
 
   oslo::middleware { 'octavia_config':

@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    The new ``octaiva::api::pagination_max_limit`` parameter has been 
+    added to configure the pagination_max_limit parameter in octavia.

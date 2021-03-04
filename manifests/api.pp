@@ -68,6 +68,10 @@
 #   (optional) Configure the loadbalancer provider drivers.
 #   Defaults to $::os_service_default
 #
+# [*pagination_max_limit*]
+#   (optional) The maximum number of items returned in a single response.
+#   Defaults to $::os_service_default
+#
 # DEPRECATED PARAMETERS
 #
 # [*ovn_nb_connection*]
@@ -90,6 +94,7 @@ class octavia::api (
   $enable_proxy_headers_parsing   = $::os_service_default,
   $default_provider_driver        = $::os_service_default,
   $provider_drivers               = $::os_service_default,
+  $pagination_max_limit           = $::os_service_default,
   # DEPRECATED PARAMETERS
   $ovn_nb_connection              = undef
 ) inherits octavia::params {
@@ -155,6 +160,7 @@ class octavia::api (
     'api_settings/allow_tls_terminated_listeners': value => $allow_tls_terminated_listeners;
     'api_settings/default_provider_driver':        value => $default_provider_driver;
     'api_settings/enabled_provider_drivers':       value => $provider_drivers;
+    'api_settings/pagination_max_limit':           value => $pagination_max_limit;
   }
 
   oslo::middleware { 'octavia_config':

@@ -13,6 +13,7 @@ describe 'octavia::api' do
       :allow_tls_terminated_listeners => false,
       :default_provider_driver        => 'ovn',
       :provider_drivers               => { 'amphora' => 'Octavia Amphora Driver', 'ovn' => 'Octavia OVN driver' },
+      :pagination_max_limit           => '1000',
     }
   end
 
@@ -53,6 +54,7 @@ describe 'octavia::api' do
         is_expected.to contain_octavia_config('api_settings/allow_tls_terminated_listeners').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_octavia_config('api_settings/default_provider_driver').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_octavia_config('api_settings/enabled_provider_drivers').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('api_settings/pagination_max_limit').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_oslo__middleware('octavia_config').with(
           :enable_proxy_headers_parsing => '<SERVICE DEFAULT>',
         )
@@ -71,6 +73,7 @@ describe 'octavia::api' do
       is_expected.to contain_octavia_config('api_settings/allow_tls_terminated_listeners').with_value( params[:allow_tls_terminated_listeners] )
       is_expected.to contain_octavia_config('api_settings/default_provider_driver').with_value( params[:default_provider_driver] )
       is_expected.to contain_octavia_config('api_settings/enabled_provider_drivers').with_value( params[:provider_drivers] )
+      is_expected.to contain_octavia_config('api_settings/pagination_max_limit').with_value( params[:pagination_max_limit] )
     end
 
     [{:enabled => true}, {:enabled => false}].each do |param_hash|

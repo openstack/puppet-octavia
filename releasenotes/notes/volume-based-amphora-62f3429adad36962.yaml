@@ -1,0 +1,8 @@
+---
+features:
+  - |
+    The new ``octavia::cinder`` class has been added. This class manages
+    parameters of the ``[cinder]`` section.
+
+  - |
+    The new ``octavia::controller::volume_type`` parameter has been added.

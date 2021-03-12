@@ -42,16 +42,16 @@
 #
 # [*amphora_driver*]
 #   (optional) Name of driver for communicating with amphorae
-#   Defaults to 'amphora_haproxy_rest_driver'
+#   Defaults to $::os_service_default
 #
 # [*compute_driver*]
 #   (optional) Name of driver for managing amphorae VMs
-#   Defaults to 'compute_nova_driver'
+#   Defaults to $::os_service_default
 #
 # [*network_driver*]
 #   (optional) Name of network driver for configuring networking
 #   for amphorae.
-#   Defaults to 'allowed_address_pairs_driver' (neutron based)
+#   Defaults to $::os_service_default
 #
 # [*amp_ssh_key_name*]
 #   (optional) Name of Openstack SSH keypair for communicating with amphora
@@ -174,9 +174,9 @@ class octavia::controller (
   $amp_secgroup_list           = $::os_service_default,
   $amp_boot_network_list       = [],
   $loadbalancer_topology       = $::os_service_default,
-  $amphora_driver              = 'amphora_haproxy_rest_driver',
-  $compute_driver              = 'compute_nova_driver',
-  $network_driver              = 'allowed_address_pairs_driver',
+  $amphora_driver              = $::os_service_default,
+  $compute_driver              = $::os_service_default,
+  $network_driver              = $::os_service_default,
   $enable_ssh_access           = true,
   $amp_ssh_key_name            = 'octavia-ssh-key',
   $timeout_client_data         = $::os_service_default,

@@ -32,6 +32,7 @@ describe 'octavia::controller' do
           :connection_max_retries      => 240,
           :connection_retry_interval   => 10,
           :connection_logging          => false,
+          :build_rate_limit            => 10,
           :build_active_retries        => 5,
           :port_detach_timeout         => 15,
           :admin_log_targets           => '192.0.2.1:10514,2001:db8:1::10:10514',
@@ -70,6 +71,7 @@ describe 'octavia::controller' do
         is_expected.to contain_octavia_config('haproxy_amphora/connection_max_retries').with_value(240)
         is_expected.to contain_octavia_config('haproxy_amphora/connection_retry_interval').with_value(10)
         is_expected.to contain_octavia_config('haproxy_amphora/connection_logging').with_value(false)
+        is_expected.to contain_octavia_config('haproxy_amphora/build_rate_limit').with_value(10)
         is_expected.to contain_octavia_config('haproxy_amphora/build_active_retries').with_value(5)
         is_expected.to contain_octavia_config('networking/port_detach_timeout').with_value(15)
         is_expected.to contain_octavia_config('amphora_agent/admin_log_targets').with_value('192.0.2.1:10514,2001:db8:1::10:10514')
@@ -109,6 +111,7 @@ describe 'octavia::controller' do
       is_expected.to contain_octavia_config('haproxy_amphora/connection_max_retries').with_value('<SERVICE DEFAULT>')
       is_expected.to contain_octavia_config('haproxy_amphora/connection_retry_interval').with_value('<SERVICE DEFAULT>')
       is_expected.to contain_octavia_config('haproxy_amphora/connection_logging').with_value('<SERVICE DEFAULT>')
+      is_expected.to contain_octavia_config('haproxy_amphora/build_rate_limit').with_value('<SERVICE DEFAULT>')
       is_expected.to contain_octavia_config('haproxy_amphora/build_active_retries').with_value('<SERVICE DEFAULT>')
       is_expected.to contain_octavia_config('networking/port_detach_timeout').with_value('<SERVICE DEFAULT>')
       is_expected.to contain_octavia_config('amphora_agent/admin_log_targets').with_value('<SERVICE DEFAULT>')

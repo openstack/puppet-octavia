@@ -1,0 +1,4 @@
+---
+features:
+  - |
+    The new ``octavia::controller::image_driver`` parameter has been added.

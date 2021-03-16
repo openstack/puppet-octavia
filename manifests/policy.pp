@@ -4,6 +4,10 @@
 #
 # === Parameters
 #
+# [*enforce_scope*]
+#  (Optional) Whether or not to enforce scope when evaluating policies.
+#  Defaults to $::os_service_default.
+#
 # [*policies*]
 #   (Optional) Set of policies to configure for octavia
 #   Example :
@@ -24,8 +28,9 @@
 #   Defaults to /etc/octavia/policy.yaml
 #
 class octavia::policy (
-  $policies    = {},
-  $policy_path = '/etc/octavia/policy.yaml',
+  $enforce_scope = $::os_service_default,
+  $policies      = {},
+  $policy_path   = '/etc/octavia/policy.yaml',
 ) {
 
   include octavia::deps
@@ -42,6 +47,9 @@ class octavia::policy (
 
   create_resources('openstacklib::policy::base', $policies)
 
-  oslo::policy { 'octavia_config': policy_file => $policy_path }
+  oslo::policy { 'octavia_config':
+    enforce_scope => $enforce_scope,
+    policy_file   => $policy_path
+  }
 
 }

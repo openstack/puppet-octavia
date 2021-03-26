@@ -102,6 +102,11 @@
 #   endpoints.
 #   Defaults to $::os_service_default
 #
+# [*build_rate_limit*]
+#   (optional) Number of amphorae that could be build per controller worker,
+#   simultaneously.
+#   Defaults to $::os_service_default
+#
 # [*build_active_retries*]
 #   (optional) Retry threshold for waiting for a build slot for an amphorae.
 #   Defaults to $::os_service_default
@@ -192,6 +197,7 @@ class octavia::controller (
   $connection_max_retries      = $::os_service_default,
   $connection_retry_interval   = $::os_service_default,
   $connection_logging          = $::os_service_default,
+  $build_rate_limit            = $::os_service_default,
   $build_active_retries        = $::os_service_default,
   $port_detach_timeout         = $::os_service_default,
   $admin_log_targets           = $::os_service_default,
@@ -245,6 +251,7 @@ class octavia::controller (
     'haproxy_amphora/connection_max_retries'     : value => $connection_max_retries;
     'haproxy_amphora/connection_retry_interval'  : value => $connection_retry_interval;
     'haproxy_amphora/connection_logging'         : value => $connection_logging;
+    'haproxy_amphora/build_rate_limit'           : value => $build_rate_limit;
     'haproxy_amphora/build_active_retries'       : value => $build_active_retries;
     'networking/port_detach_timeout'             : value => $port_detach_timeout;
     'amphora_agent/admin_log_targets'            : value => $admin_log_targets;

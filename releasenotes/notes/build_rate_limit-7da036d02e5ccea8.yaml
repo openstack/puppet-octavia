@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    Support for the ``[haproxy_amphora] build_rate_limit`` parameter has been
+    added.

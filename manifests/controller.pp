@@ -57,6 +57,10 @@
 #   (optional) Name of volume driver for managing amphora volumes
 #   Defaults to $::os_service_default
 #
+# [*image_driver*]
+#   (optional) Name of volume driver for managing amphora image
+#   Defaults to $::os_service_default
+#
 # [*amp_ssh_key_name*]
 #   (optional) Name of Openstack SSH keypair for communicating with amphora
 #   Defaults to 'octavia-ssh-key'
@@ -187,6 +191,7 @@ class octavia::controller (
   $compute_driver              = $::os_service_default,
   $network_driver              = $::os_service_default,
   $volume_driver               = $::os_service_default,
+  $image_driver                = $::os_service_default,
   $enable_ssh_access           = true,
   $amp_ssh_key_name            = 'octavia-ssh-key',
   $timeout_client_data         = $::os_service_default,
@@ -243,6 +248,7 @@ class octavia::controller (
     'controller_worker/compute_driver'           : value => $compute_driver;
     'controller_worker/network_driver'           : value => $network_driver;
     'controller_worker/volume_driver'            : value => $volume_driver;
+    'controller_worker/image_driver'             : value => $image_driver;
     'haproxy_amphora/timeout_client_data'        : value => $timeout_client_data;
     'haproxy_amphora/timeout_member_connect'     : value => $timeout_member_connect;
     'haproxy_amphora/timeout_member_data'        : value => $timeout_member_data;

@@ -32,11 +32,16 @@
 #   (Optional) Path to the octavia policy.yaml file
 #   Defaults to /etc/octavia/policy.yaml
 #
+# [*policy_dirs*]
+#   (Optional) Path to the octavia policy folder
+#   Defaults to $::os_service_default
+#
 class octavia::policy (
   $enforce_scope        = $::os_service_default,
   $enforce_new_defaults = $::os_service_default,
   $policies             = {},
   $policy_path          = '/etc/octavia/policy.yaml',
+  $policy_dirs          = $::os_service_default,
 ) {
 
   include octavia::deps
@@ -56,7 +61,8 @@ class octavia::policy (
   oslo::policy { 'octavia_config':
     enforce_scope        => $enforce_scope,
     enforce_new_defaults => $enforce_new_defaults,
-    policy_file          => $policy_path
+    policy_file          => $policy_path,
+    policy_dirs          => $policy_dirs,
   }
 
 }

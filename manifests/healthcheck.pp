@@ -1,4 +1,4 @@
-# == Define: octavia::healthcheck
+# == Class: octavia::healthcheck
 #
 # Configure oslo_middleware options in healthcheck section
 #

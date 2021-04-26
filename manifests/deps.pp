@@ -32,6 +32,11 @@ class octavia::deps {
   -> Openstacklib::Policy::Base<||>
   ~> Anchor['octavia::config::end']
 
+  # On any uwsgi config change, we must restart Octavia API.
+  Anchor['octavia::config::begin']
+  -> Octavia_api_uwsgi_config<||>
+  ~> Anchor['octavia::config::end']
+
   # all db settings should be applied and all packages should be installed
   # before dbsync starts
   Oslo::Db<||> -> Anchor['octavia::dbsync::begin']

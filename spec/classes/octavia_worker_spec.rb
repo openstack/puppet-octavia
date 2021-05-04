@@ -116,15 +116,8 @@ describe 'octavia::worker' do
           :enabled        => false })
       end
 
-      it 'configures octavia-worker service' do
-        is_expected.to contain_service('octavia-worker').with(
-          :ensure     => nil,
-          :name       => platform_params[:worker_service_name],
-          :enable     => false,
-          :hasstatus  => true,
-          :hasrestart => true,
-          :tag        => ['octavia-service'],
-        )
+      it 'does not configure octavia-worker service' do
+        is_expected.to_not contain_service('octavia-worker')
       end
     end
 

@@ -86,7 +86,9 @@ class octavia::worker (
       }
       $nova_flavor_defaults = merge($octavia_flavor_defaults, $nova_flavor_config)
       create_resources('nova_flavor', $octavia_flavor, $nova_flavor_defaults)
-      Nova_flavor<| tag == 'octavia' |> ~> Service['octavia-worker']
+      if $manage_service {
+        Nova_flavor<| tag == 'octavia' |> ~> Service['octavia-worker']
+      }
     }
   }
 
@@ -102,15 +104,15 @@ class octavia::worker (
     } else {
       $service_ensure = 'stopped'
     }
-  }
 
-  service { 'octavia-worker':
-    ensure     => $service_ensure,
-    name       => $::octavia::params::worker_service_name,
-    enable     => $enabled,
-    hasstatus  => true,
-    hasrestart => true,
-    tag        => ['octavia-service'],
+    service { 'octavia-worker':
+      ensure     => $service_ensure,
+      name       => $::octavia::params::worker_service_name,
+      enable     => $enabled,
+      hasstatus  => true,
+      hasrestart => true,
+      tag        => ['octavia-service'],
+    }
   }
 
   if $manage_keygen and ! $::octavia::controller::enable_ssh_access {

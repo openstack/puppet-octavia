@@ -2,6 +2,18 @@
 #
 # == Parameters
 #
+# [*manage_service*]
+#   (optional) Whether the service should be managed by Puppet.
+#   Defaults to true.
+#
+# [*enabled*]
+#   (optional) Should the service be enabled.
+#   Defaults to true
+#
+# [*package_ensure*]
+#   (optional) ensure state for package.
+#   Defaults to 'present'
+#
 # [*status_socket_path*]
 #   (optional) Path to the driver status unix domain socket file.
 #   Defaults to $::os_service_default
@@ -57,6 +69,9 @@
 #   Defaults to $::os_service_default
 #
 class octavia::driver_agent (
+  $manage_service                  = true,
+  $enabled                         = true,
+  $package_ensure                  = 'present',
   $status_socket_path              = $::os_service_default,
   $stats_socket_path               = $::os_service_default,
   $get_socket_path                 = $::os_service_default,
@@ -69,11 +84,37 @@ class octavia::driver_agent (
   $max_process_warning_percent     = $::os_service_default,
   $provider_agent_shutdown_timeout = $::os_service_default,
   $enabled_provider_agents         = $::os_service_default,
-) inherits octavia::params {
+) {
 
   include octavia::deps
+  include octavia::params
 
-  # Octavia packaging does not currently provide a separate agent service or package.
+  if $::octavia::params::driver_agent_package_name {
+    package { 'octavia-driver-agent':
+      ensure => $package_ensure,
+      name   => $::octavia::params::driver_agent_package_name,
+      tag    => ['openstack', 'octavia-package'],
+    }
+  }
+
+  if $::octavia::params::driver_agent_service_name {
+    if $manage_service {
+      if $enabled {
+        $service_ensure = 'running'
+      } else {
+        $service_ensure = 'stopped'
+      }
+
+      service { 'octavia-driver-agent':
+        ensure     => $service_ensure,
+        name       => $::octavia::params::driver_agent_service_name,
+        enable     => $enabled,
+        hasstatus  => true,
+        hasrestart => true,
+        tag        => ['octavia-service']
+      }
+    }
+  }
 
   octavia_config {
     'driver_agent/status_socket_path':              value => $status_socket_path;

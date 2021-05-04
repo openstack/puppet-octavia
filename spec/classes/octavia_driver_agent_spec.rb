@@ -3,8 +3,7 @@ require 'spec_helper'
 describe 'octavia::driver_agent' do
 
   let :params do
-    {
-    }
+    {}
   end
 
   shared_examples_for 'octavia-driver-agent' do
@@ -57,6 +56,24 @@ describe 'octavia::driver_agent' do
     end
   end
 
+  shared_examples_for 'octavia-driver-agent on Debian' do
+    context 'with default parameters' do
+      it { is_expected.to contain_package('octavia-driver-agent').with(
+        :ensure => 'present',
+        :name   => 'octavia-driver-agent',
+        :tag    => ['openstack', 'octavia-package'],
+      ) }
+
+      it { is_expected.to contain_service('octavia-driver-agent').with(
+        :ensure     => 'running',
+        :name       => 'octavia-driver-agent',
+        :enable     => true,
+        :hasstatus  => true,
+        :hasrestart => true,
+        :tag        => ['octavia-service']
+      ) }
+    end
+  end
 
   on_supported_os({
     :supported_os => OSDefaults.get_supported_os
@@ -65,7 +82,11 @@ describe 'octavia::driver_agent' do
       let (:facts) do
         facts.merge!(OSDefaults.get_facts())
       end
+
       it_behaves_like 'octavia-driver-agent'
+      if facts[:osfamily] == 'Debian'
+        it_behaves_like 'octavia-driver-agent on Debian'
+      end
     end
   end
 

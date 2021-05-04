@@ -76,6 +76,10 @@
 #   (optional) Enable the oslo middleware healthcheck endppint.
 #   Defaults to $::os_service_default
 #
+# [*healthcheck_refresh_interval*]
+#   (optional) The interval healthcheck plugin should cache results, in seconds.
+#   Defaults to $::os_service_default
+#
 # DEPRECATED PARAMETERS
 #
 # [*ovn_nb_connection*]
@@ -100,6 +104,7 @@ class octavia::api (
   $provider_drivers               = $::os_service_default,
   $pagination_max_limit           = $::os_service_default,
   $healthcheck_enabled            = $::os_service_default,
+  $healthcheck_refresh_interval   = $::os_service_default,
   # DEPRECATED PARAMETERS
   $ovn_nb_connection              = undef
 ) inherits octavia::params {
@@ -167,6 +172,7 @@ class octavia::api (
     'api_settings/enabled_provider_drivers':       value => $provider_drivers;
     'api_settings/pagination_max_limit':           value => $pagination_max_limit;
     'api_settings/healthcheck_enabled':            value => $healthcheck_enabled;
+    'api_settings/healthcheck_refresh_interval':   value => $healthcheck_refresh_interval;
   }
 
   oslo::middleware { 'octavia_config':

@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    The new ``octavia::api::healthcheck_refresh_interval`` parameter has been
+    added.

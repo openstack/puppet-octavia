@@ -73,7 +73,7 @@
 #   Defaults to $::os_service_default
 #
 # [*healthcheck_enabled*]
-#   (optional) Enable the oslo middleware healthcheck endppint.
+#   (optional) Enable the oslo middleware healthcheck endpoint.
 #   Defaults to $::os_service_default
 #
 # DEPRECATED PARAMETERS

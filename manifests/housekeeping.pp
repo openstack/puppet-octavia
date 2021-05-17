@@ -77,15 +77,15 @@ class octavia::housekeeping (
     } else {
       $service_ensure = 'stopped'
     }
-  }
 
-  service { 'octavia-housekeeping':
-    ensure     => $service_ensure,
-    name       => $::octavia::params::housekeeping_service_name,
-    enable     => $enabled,
-    hasstatus  => true,
-    hasrestart => true,
-    tag        => ['octavia-service'],
+    service { 'octavia-housekeeping':
+      ensure     => $service_ensure,
+      name       => $::octavia::params::housekeeping_service_name,
+      enable     => $enabled,
+      hasstatus  => true,
+      hasrestart => true,
+      tag        => ['octavia-service'],
+    }
   }
 
   octavia_config {

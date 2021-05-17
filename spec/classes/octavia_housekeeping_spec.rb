@@ -77,15 +77,8 @@ describe 'octavia::housekeeping' do
           :enabled        => false })
       end
 
-      it 'configures octavia-housekeeping service' do
-        is_expected.to contain_service('octavia-housekeeping').with(
-          :ensure     => nil,
-          :name       => platform_params[:housekeeping_service_name],
-          :enable     => false,
-          :hasstatus  => true,
-          :hasrestart => true,
-          :tag        => ['octavia-service'],
-        )
+      it 'does not configure octavia-housekeeping service' do
+        is_expected.to_not contain_service('octavia-housekeeping')
       end
     end
 

@@ -71,15 +71,8 @@ describe 'octavia::health_manager' do
           :enabled        => false })
       end
 
-      it 'configures octavia-health-manager service' do
-        is_expected.to contain_service('octavia-health-manager').with(
-          :ensure     => nil,
-          :name       => platform_params[:health_manager_service_name],
-          :enable     => false,
-          :hasstatus  => true,
-          :hasrestart => true,
-          :tag        => ['octavia-service'],
-        )
+      it 'does not configure octavia-health-manager service' do
+        is_expected.to_not contain_service('octavia-health-manager')
       end
     end
 

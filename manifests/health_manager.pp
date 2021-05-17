@@ -68,15 +68,15 @@ class octavia::health_manager (
     } else {
       $service_ensure = 'stopped'
     }
-  }
 
-  service { 'octavia-health-manager':
-    ensure     => $service_ensure,
-    name       => $::octavia::params::health_manager_service_name,
-    enable     => $enabled,
-    hasstatus  => true,
-    hasrestart => true,
-    tag        => ['octavia-service'],
+    service { 'octavia-health-manager':
+      ensure     => $service_ensure,
+      name       => $::octavia::params::health_manager_service_name,
+      enable     => $enabled,
+      hasstatus  => true,
+      hasrestart => true,
+      tag        => ['octavia-service'],
+    }
   }
 
   octavia_config {

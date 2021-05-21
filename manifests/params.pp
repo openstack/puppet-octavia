@@ -2,13 +2,12 @@
 #
 class octavia::params {
   include openstacklib::defaults
-  $pyvers = $::openstacklib::defaults::pyvers
 
   $api_service_name            = 'octavia-api'
   $worker_service_name         = 'octavia-worker'
   $health_manager_service_name = 'octavia-health-manager'
   $housekeeping_service_name   = 'octavia-housekeeping'
-  $client_package_name         = "python${pyvers}-octaviaclient"
+  $client_package_name         = 'python3-octaviaclient'
   $group                       = 'octavia'
 
   case $::osfamily {

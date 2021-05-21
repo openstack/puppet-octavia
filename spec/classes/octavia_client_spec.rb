@@ -42,15 +42,7 @@ describe 'octavia::client' do
         when 'Debian'
           { :client_package_name => 'python3-octaviaclient' }
         when 'RedHat'
-          if facts[:operatingsystem] == 'Fedora'
-            { :client_package_name => 'python3-octaviaclient' }
-          else
-            if facts[:operatingsystemmajrelease] > '7'
-              { :client_package_name => 'python3-octaviaclient' }
-            else
-              { :client_package_name => 'python-octaviaclient' }
-            end
-          end
+          { :client_package_name => 'python3-octaviaclient' }
         end
       end
 

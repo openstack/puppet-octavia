@@ -23,7 +23,7 @@
         },
         {
             "name": "openstack/nova",
-            "version_requirement": ">=15.5.0 <16.0.0"
+            "version_requirement": ">=15.8.0 <16.0.0"
         },
         {
             "name": "openstack/openstacklib",

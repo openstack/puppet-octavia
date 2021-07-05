@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    The new ``octavia::cors`` class has been added.
+

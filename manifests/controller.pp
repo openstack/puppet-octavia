@@ -34,7 +34,7 @@
 #
 # [*amp_boot_network_list*]
 #   List of networks to attach to Amphorae.
-#   Defaults to []
+#   Defaults to $::os_service_default
 #
 # [*loadbalancer_topology*]
 #   (optional) Load balancer topology configuration
@@ -185,7 +185,7 @@ class octavia::controller (
   $amp_image_tag               = $::os_service_default,
   $amp_image_owner_id          = $::os_service_default,
   $amp_secgroup_list           = $::os_service_default,
-  $amp_boot_network_list       = [],
+  $amp_boot_network_list       = $::os_service_default,
   $loadbalancer_topology       = $::os_service_default,
   $amphora_driver              = $::os_service_default,
   $compute_driver              = $::os_service_default,
@@ -241,8 +241,8 @@ class octavia::controller (
     'controller_worker/amp_flavor_id'            : value => $amp_flavor_id;
     'controller_worker/amp_image_tag'            : value => $amp_image_tag;
     'controller_worker/amp_image_owner_id'       : value => $amp_image_owner_id;
-    'controller_worker/amp_secgroup_list'        : value => $amp_secgroup_list;
-    'controller_worker/amp_boot_network_list'    : value => $amp_boot_network_list;
+    'controller_worker/amp_secgroup_list'        : value => join(any2array($amp_secgroup_list), ',');
+    'controller_worker/amp_boot_network_list'    : value => join(any2array($amp_boot_network_list), ',');
     'controller_worker/loadbalancer_topology'    : value => $loadbalancer_topology;
     'controller_worker/amphora_driver'           : value => $amphora_driver;
     'controller_worker/compute_driver'           : value => $compute_driver;
@@ -253,17 +253,17 @@ class octavia::controller (
     'haproxy_amphora/timeout_member_connect'     : value => $timeout_member_connect;
     'haproxy_amphora/timeout_member_data'        : value => $timeout_member_data;
     'haproxy_amphora/timeout_tcp_inspect'        : value => $timeout_tcp_inspect;
-    'health_manager/controller_ip_port_list'     : value => $controller_ip_port_list;
+    'health_manager/controller_ip_port_list'     : value => join(any2array($controller_ip_port_list), ',');
     'haproxy_amphora/connection_max_retries'     : value => $connection_max_retries;
     'haproxy_amphora/connection_retry_interval'  : value => $connection_retry_interval;
     'haproxy_amphora/connection_logging'         : value => $connection_logging;
     'haproxy_amphora/build_rate_limit'           : value => $build_rate_limit;
     'haproxy_amphora/build_active_retries'       : value => $build_active_retries;
     'networking/port_detach_timeout'             : value => $port_detach_timeout;
-    'amphora_agent/admin_log_targets'            : value => $admin_log_targets;
+    'amphora_agent/admin_log_targets'            : value => join(any2array($admin_log_targets), ',');
     'amphora_agent/administrative_log_facility'  : value => $administrative_log_facility;
     'amphora_agent/forward_all_logs'             : value => $forward_all_logs;
-    'amphora_agent/tenant_log_targets'           : value => $tenant_log_targets;
+    'amphora_agent/tenant_log_targets'           : value => join(any2array($tenant_log_targets), ',');
     'amphora_agent/user_log_facility'            : value => $user_log_facility;
     'haproxy_amphora/user_log_format'            : value => $user_log_format;
     'amphora_agent/disable_local_log_storage'    : value => $disable_local_log_storage;

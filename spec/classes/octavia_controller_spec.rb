@@ -30,17 +30,17 @@ describe 'octavia::controller' do
           :timeout_client_data         => 60,
           :timeout_member_connect      => 5,
           :timeout_member_data         => 60,
-          :controller_ip_port_list     => '1.2.3.4:5555,4.3.2.1:5555',
+          :controller_ip_port_list     => ['1.2.3.4:5555', '4.3.2.1:5555'],
           :connection_max_retries      => 240,
           :connection_retry_interval   => 10,
           :connection_logging          => false,
           :build_rate_limit            => 10,
           :build_active_retries        => 5,
           :port_detach_timeout         => 15,
-          :admin_log_targets           => '192.0.2.1:10514,2001:db8:1::10:10514',
+          :admin_log_targets           => ['192.0.2.1:10514', '2001:db8:1::10:10514'],
           :administrative_log_facility => 2,
           :forward_all_logs            => true,
-          :tenant_log_targets          => '192.0.2.1:10514,2001:db8:1::10:10514',
+          :tenant_log_targets          => ['192.0.2.1:10514', '2001:db8:1::10:10514'],
           :user_log_facility           => 3,
           :user_log_format             => '{{ project_id }} {{ lb_id }}',
           :disable_local_log_storage   => true,
@@ -59,8 +59,8 @@ describe 'octavia::controller' do
         is_expected.to contain_octavia_config('controller_worker/amp_flavor_id').with_value('42')
         is_expected.to contain_octavia_config('controller_worker/amp_image_tag').with_value('amphorae1')
         is_expected.to contain_octavia_config('controller_worker/amp_image_owner_id').with_value('customowner')
-        is_expected.to contain_octavia_config('controller_worker/amp_secgroup_list').with_value(['lb-mgmt-sec-grp'])
-        is_expected.to contain_octavia_config('controller_worker/amp_boot_network_list').with_value(['lbnet1', 'lbnet2'])
+        is_expected.to contain_octavia_config('controller_worker/amp_secgroup_list').with_value('lb-mgmt-sec-grp')
+        is_expected.to contain_octavia_config('controller_worker/amp_boot_network_list').with_value('lbnet1,lbnet2')
         is_expected.to contain_octavia_config('controller_worker/loadbalancer_topology').with_value('SINGLE')
         is_expected.to contain_octavia_config('controller_worker/amphora_driver').with_value('sample_amphora_driver')
         is_expected.to contain_octavia_config('controller_worker/compute_driver').with_value('sample_compute_driver')
@@ -101,7 +101,7 @@ describe 'octavia::controller' do
       is_expected.to contain_octavia_config('controller_worker/amp_image_tag').with_value('<SERVICE DEFAULT>')
       is_expected.to contain_octavia_config('controller_worker/amp_image_owner_id').with_value('<SERVICE DEFAULT>')
       is_expected.to contain_octavia_config('controller_worker/amp_secgroup_list').with_value('<SERVICE DEFAULT>')
-      is_expected.to contain_octavia_config('controller_worker/amp_boot_network_list').with_value([])
+      is_expected.to contain_octavia_config('controller_worker/amp_boot_network_list').with_value('<SERVICE DEFAULT>')
       is_expected.to contain_octavia_config('controller_worker/loadbalancer_topology').with_value('<SERVICE DEFAULT>')
       is_expected.to contain_octavia_config('controller_worker/amphora_driver').with_value('<SERVICE DEFAULT>')
       is_expected.to contain_octavia_config('controller_worker/compute_driver').with_value('<SERVICE DEFAULT>')

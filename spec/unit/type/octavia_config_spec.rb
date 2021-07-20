@@ -1,5 +1,6 @@
 require 'puppet'
 require 'puppet/type/octavia_config'
+
 describe 'Puppet::Type.type(:octavia_config)' do
   before :each do
     @octavia_config = Puppet::Type.type(:octavia_config).new(:name => 'DEFAULT/foo', :value => 'bar')
@@ -29,12 +30,12 @@ describe 'Puppet::Type.type(:octavia_config)' do
 
   it 'should accept a valid value' do
     @octavia_config[:value] = 'bar'
-    expect(@octavia_config[:value]).to eq('bar')
+    expect(@octavia_config[:value]).to eq(['bar'])
   end
 
   it 'should not accept a value with whitespace' do
     @octavia_config[:value] = 'b ar'
-    expect(@octavia_config[:value]).to eq('b ar')
+    expect(@octavia_config[:value]).to eq(['b ar'])
   end
 
   it 'should accept valid ensure values' do
@@ -50,7 +51,7 @@ describe 'Puppet::Type.type(:octavia_config)' do
     }.to raise_error(Puppet::Error, /Invalid value/)
   end
 
-  it 'should autorequire the anchor that install the file' do
+  it 'should autorequire the package that install the file' do
     catalog = Puppet::Resource::Catalog.new
     anchor = Puppet::Type.type(:anchor).new(:name => 'octavia::install::end')
     catalog.add_resource anchor, @octavia_config
@@ -59,6 +60,5 @@ describe 'Puppet::Type.type(:octavia_config)' do
     expect(dependency[0].target).to eq(@octavia_config)
     expect(dependency[0].source).to eq(anchor)
   end
-
 
 end

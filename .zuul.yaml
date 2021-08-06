@@ -9,11 +9,24 @@
         - puppet-octavia-tripleo-standalone:
             voting: false
 
+- nodeset:
+    name: puppet-octavia-tripleo-single-node-centos-8-stream-nested-virt
+    nodes:
+      - name: primary
+        label: nested-virt-centos-8-stream
+    groups:
+      - name: switch
+        nodes:
+          - primary
+      - name: peers
+        nodes: []
+
 # redefine tripleo-ci-centos-8-scenario010-standalone with tripleo-puppet-ci
 # job as its base.
 - job:
     name: puppet-octavia-tripleo-standalone
     parent: tripleo-puppet-ci-centos-8-standalone
+    nodeset: puppet-octavia-tripleo-single-node-centos-8-stream-nested-virt
     description: |
       TripleO standalone Job running Octavia specific Tempest tests.
     vars:
@@ -22,6 +35,7 @@
         - build
         - standalone
         - octavia
+        - nested-virt
       featureset: '062'
       standalone_ceph: true
       featureset_override:
@@ -36,3 +50,4 @@
         standalone_environment_files:
           - 'environments/low-memory-usage.yaml'
           - 'ci/environments/scenario010-standalone.yaml'
+          - 'ci/environments/octavia-kvm.yaml'

@@ -48,26 +48,6 @@ describe 'octavia::quota' do
         is_expected.to contain_octavia_config('quotas/default_health_monitor_quota').with_value(p[:default_health_monitor_quota])
       end
     end
-
-    context 'configure quota with deprecated parameters' do
-      before :each do
-        params.merge!({
-          :load_balancer_quota  => 10,
-          :listener_quota       => 20,
-          :member_quota         => 30,
-          :pool_quota           => 40,
-          :health_monitor_quota => 50
-        })
-      end
-
-      it 'contains overrided values' do
-        is_expected.to contain_octavia_config('quotas/default_load_balancer_quota').with_value(p[:load_balancer_quota])
-        is_expected.to contain_octavia_config('quotas/default_listener_quota').with_value(p[:listener_quota])
-        is_expected.to contain_octavia_config('quotas/default_member_quota').with_value(p[:member_quota])
-        is_expected.to contain_octavia_config('quotas/default_pool_quota').with_value(p[:pool_quota])
-        is_expected.to contain_octavia_config('quotas/default_health_monitor_quota').with_value(p[:health_monitor_quota])
-      end
-    end
   end
 
   on_supported_os({

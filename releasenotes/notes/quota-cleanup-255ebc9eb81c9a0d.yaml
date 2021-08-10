@@ -1,0 +1,11 @@
+---
+features:
+  - |
+    The following deprecated parameters of the ``octavia::quota`` class have
+    been removed.
+
+    - ``load_balancer_quota``
+    - ``listener_quota``
+    - ``member_quota``
+    - ``pool_quota``
+    - ``health_monitor_quota``

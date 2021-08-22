@@ -25,6 +25,13 @@
       featureset: '062'
       standalone_ceph: true
       featureset_override:
+        run_tempest: false
+        tempest_test_whitelist:
+          - 'octavia_tempest_plugin.tests.scenario.v2.test_healthmonitor'
+          - 'octavia_tempest_plugin.tests.scenario.v2.test_listener'
+          - 'octavia_tempest_plugin.tests.scenario.v2.test_member'
+          - 'octavia_tempest_plugin.tests.scenario.v2.test_load_balancer'
+        use_os_tempest: true
         validate_services: false
         standalone_environment_files:
           - 'environments/low-memory-usage.yaml'

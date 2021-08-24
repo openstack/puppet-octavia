@@ -53,7 +53,7 @@ describe 'octavia::driver_agent' do
       it { is_expected.to contain_octavia_config('driver_agent/get_max_processes').with_value(10) }
       it { is_expected.to contain_octavia_config('driver_agent/max_process_warning_percent').with_value(0.60) }
       it { is_expected.to contain_octavia_config('driver_agent/provider_agent_shutdown_timeout').with_value(60) }
-      it { is_expected.to contain_octavia_config('driver_agent/enabled_provider_agents').with_value(['agent-a', 'agent-b']) }
+      it { is_expected.to contain_octavia_config('driver_agent/enabled_provider_agents').with_value('agent-a,agent-b') }
     end
   end
 

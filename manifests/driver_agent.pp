@@ -87,6 +87,6 @@ class octavia::driver_agent (
     'driver_agent/get_max_processes':               value => $get_max_processes;
     'driver_agent/max_process_warning_percent':     value => $max_process_warning_percent;
     'driver_agent/provider_agent_shutdown_timeout': value => $provider_agent_shutdown_timeout;
-    'driver_agent/enabled_provider_agents':         value => $enabled_provider_agents;
+    'driver_agent/enabled_provider_agents':         value => join(any2array($enabled_provider_agents), ',');
   }
 }

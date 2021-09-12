@@ -38,16 +38,6 @@
 #   (optional) Number of threads performing amphora certificate rotation.
 #   Defaults to $::os_service_default
 #
-# DEPRECATED PARAMETERS
-#
-# [*spare_check_interval*]
-#   (optional) spare check interval in seconds.
-#   Defaults to undef
-#
-# [*spare_amphora_pool_size*]
-#   (optional) Number of spare amphora.
-#   Defaults to undef
-#
 class octavia::housekeeping (
   $manage_service            = true,
   $enabled                   = true,
@@ -58,9 +48,6 @@ class octavia::housekeeping (
   $cert_interval             = $::os_service_default,
   $cert_expiry_buffer        = $::os_service_default,
   $cert_rotate_threads       = $::os_service_default,
-  # DEPRECATED PARAMETERS
-  $spare_check_interval      = undef,
-  $spare_amphora_pool_size   = undef,
 ) inherits octavia::params {
 
   include octavia::deps
@@ -95,27 +82,5 @@ class octavia::housekeeping (
     'house_keeping/cert_interval'              : value => $cert_interval;
     'house_keeping/cert_expiry_buffer'         : value => $cert_expiry_buffer;
     'house_keeping/cert_rotate_threads'        : value => $cert_rotate_threads;
-  }
-
-  if $spare_check_interval != undef {
-    warning('The spare_check_interval is deprecated and will be removed in a future release')
-    octavia_config {
-      'house_keeping/spare_check_interval': value => $spare_check_interval;
-    }
-  } else {
-    octavia_config {
-      'house_keeping/spare_check_interval': value => $::os_service_default;
-    }
-  }
-
-  if $spare_amphora_pool_size != undef {
-    warning('The spare_amphora_pool_size is deprecated and will be removed in a future release')
-    octavia_config {
-      'house_keeping/spare_amphora_pool_size' : value => $spare_amphora_pool_size;
-    }
-  } else {
-    octavia_config {
-      'house_keeping/spare_amphora_pool_size' : value => $::os_service_default;
-    }
   }
 }

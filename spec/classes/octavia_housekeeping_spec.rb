@@ -20,17 +20,14 @@ describe 'octavia::housekeeping' do
     end
 
     context 'check parameters with defaults' do
-      ['spare_check_interval', 'spare_amphora_pool_size', 'cleanup_interval',
-       'amphora_expiry_age', 'load_balancer_expiry_age', 'cert_interval',
-       'cert_expiry_buffer', 'cert_rotate_threads'].each do |param_with_default|
+      ['cleanup_interval', 'amphora_expiry_age', 'load_balancer_expiry_age',
+       'cert_interval', 'cert_expiry_buffer', 'cert_rotate_threads'].each do |param_with_default|
          it { is_expected.to contain_octavia_config("house_keeping/#{param_with_default}").with_value('<SERVICE DEFAULT>') }
       end
     end
 
     let :default_parameters do
-      { :spare_check_interval      => 60,
-        :spare_amphora_pool_size   => 20,
-        :cleanup_interval          => 26,
+      { :cleanup_interval          => 26,
         :amphora_expiry_age        => 200000,
         :load_balancer_expiry_age  => 23131,
         :cert_interval             => 200,
@@ -43,9 +40,8 @@ describe 'octavia::housekeeping' do
       before :each do
         params.merge!(default_parameters)
       end
-      ['spare_check_interval', 'spare_amphora_pool_size', 'cleanup_interval',
-       'amphora_expiry_age', 'load_balancer_expiry_age', 'cert_interval',
-       'cert_expiry_buffer', 'cert_rotate_threads'].each do |param_with_default|
+      ['cleanup_interval', 'amphora_expiry_age', 'load_balancer_expiry_age',
+       'cert_interval', 'cert_expiry_buffer', 'cert_rotate_threads'].each do |param_with_default|
          it { is_expected.to contain_octavia_config("house_keeping/#{param_with_default}").with_value(default_parameters[param_with_default.to_sym]) }
       end
     end

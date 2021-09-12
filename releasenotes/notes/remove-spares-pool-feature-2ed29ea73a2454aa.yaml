@@ -1,0 +1,7 @@
+---
+upgrade:
+  - |
+    The following parameters in the ``octavia::housekeeping`` class have been
+    removed.
+    - ``spare_check_interval``
+    - ``spare_amphora_pool_size``

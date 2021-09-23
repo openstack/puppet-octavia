@@ -52,7 +52,7 @@ class octavia::service_auth (
     'service_auth/auth_url'            : value => $auth_url;
     'service_auth/username'            : value => $username;
     'service_auth/project_name'        : value => $project_name;
-    'service_auth/password'            : value => $password;
+    'service_auth/password'            : value => $password, secret => true;
     'service_auth/user_domain_name'    : value => $user_domain_name;
     'service_auth/project_domain_name' : value => $project_domain_name;
     'service_auth/auth_type'           : value => $auth_type;

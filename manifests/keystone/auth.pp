@@ -45,7 +45,7 @@
 #
 # [*service_description*]
 #   (Optional) Description of the service.
-#   Default to 'Octavia Service'
+#   Default to 'OpenStack Load Balancing Service'
 #
 # [*public_url*]
 #   (0ptional) The endpoint's public url.
@@ -70,7 +70,7 @@ class octavia::keystone::auth (
   $configure_endpoint  = true,
   $configure_user      = true,
   $configure_user_role = true,
-  $service_description = 'Octavia Service',
+  $service_description = 'OpenStack Load Balancing Service',
   $service_name        = 'octavia',
   $service_type        = 'load-balancer',
   $region              = 'RegionOne',

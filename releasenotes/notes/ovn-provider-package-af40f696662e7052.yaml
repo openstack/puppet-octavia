@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    Now the ``octavia::provider::ovn`` can manage the package required to use
+    OVN Octavia provider.

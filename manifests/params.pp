@@ -8,6 +8,7 @@ class octavia::params {
   $health_manager_service_name = 'octavia-health-manager'
   $housekeeping_service_name   = 'octavia-housekeeping'
   $client_package_name         = 'python3-octaviaclient'
+  $ovn_provider_package_name   = 'python3-ovn-octavia-provider'
   $group                       = 'octavia'
 
   case $::osfamily {

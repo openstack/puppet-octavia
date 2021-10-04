@@ -3,8 +3,7 @@ require 'spec_helper'
 describe 'octavia::provider::ovn' do
 
   let :params do
-    {
-    }
+    {}
   end
 
   shared_examples_for 'octavia-ovn-provider' do
@@ -14,6 +13,12 @@ describe 'octavia::provider::ovn' do
       it { is_expected.to contain_octavia_config('ovn/ovn_nb_private_key').with_value('<SERVICE DEFAULT>') }
       it { is_expected.to contain_octavia_config('ovn/ovn_nb_certificate').with_value('<SERVICE DEFAULT>') }
       it { is_expected.to contain_octavia_config('ovn/ovn_nb_ca_cert').with_value('<SERVICE DEFAULT>') }
+
+      it { is_expected.to contain_package('ovn-octavia-provider').with(
+        :ensure => 'present',
+        :name   => 'python3-ovn-octavia-provider',
+        :tag    => ['openstack', 'octavia-package'],
+      ) }
     end
 
     context 'with specific parameters' do
@@ -40,6 +45,7 @@ describe 'octavia::provider::ovn' do
       let (:facts) do
         facts.merge!(OSDefaults.get_facts())
       end
+
       it_behaves_like 'octavia-ovn-provider'
     end
   end

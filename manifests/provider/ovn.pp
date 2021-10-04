@@ -2,6 +2,10 @@
 #
 # == Parameters
 #
+# [*package_ensure*]
+#   (optional) ensure state for package.
+#   Defaults to 'present'
+#
 # [*ovn_nb_connection*]
 #   (optional) The connection string for the OVN_Northbound OVSDB.
 #   Defaults to $::os_service_default
@@ -21,13 +25,21 @@
 #   Defaults to $::os_service_default
 #
 class octavia::provider::ovn (
+  $package_ensure     = 'present',
   $ovn_nb_connection  = $::os_service_default,
   $ovn_nb_private_key = $::os_service_default,
   $ovn_nb_certificate = $::os_service_default,
   $ovn_nb_ca_cert     = $::os_service_default
-) inherits octavia::params {
+) {
 
   include octavia::deps
+  include octavia::params
+
+  package { 'ovn-octavia-provider':
+    ensure => $package_ensure,
+    name   => $::octavia::params::ovn_provider_package_name,
+    tag    => ['openstack', 'octavia-package'],
+  }
 
   # For backward compatibility
   if $::octavia::api::ovn_nb_connection and !is_service_default($::octavia::api::ovn_nb_connection) {

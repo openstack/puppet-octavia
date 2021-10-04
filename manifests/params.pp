@@ -9,6 +9,7 @@ class octavia::params {
   $health_manager_service_name = 'octavia-health-manager'
   $housekeeping_service_name   = 'octavia-housekeeping'
   $client_package_name         = "python${pyvers}-octaviaclient"
+  $ovn_provider_package_name   = "python${pyvers}-ovn-octavia-provider"
   $group                       = 'octavia'
 
   case $::osfamily {

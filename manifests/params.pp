@@ -17,8 +17,10 @@ class octavia::params {
       $worker_package_name         = 'openstack-octavia-worker'
       $health_manager_package_name = 'openstack-octavia-health-manager'
       $housekeeping_package_name   = 'openstack-octavia-housekeeping'
+      $driver_agent_package_name   = false
       $octavia_wsgi_script_path    = '/var/www/cgi-bin/octavia'
       $octavia_wsgi_script_source  = '/usr/bin/octavia-wsgi'
+      $driver_agent_service_name   = false
     }
     'Debian': {
       $common_package_name         = 'octavia-common'
@@ -26,8 +28,10 @@ class octavia::params {
       $worker_package_name         = 'octavia-worker'
       $health_manager_package_name = 'octavia-health-manager'
       $housekeeping_package_name   = 'octavia-housekeeping'
+      $driver_agent_package_name   = 'octavia-driver-agent'
       $octavia_wsgi_script_path    = '/usr/lib/cgi-bin/octavia'
       $octavia_wsgi_script_source  = '/usr/bin/octavia-wsgi'
+      $driver_agent_service_name   = 'octavia-driver-agent'
     }
     default: {
       fail("Unsupported osfamily: ${::osfamily} operatingsystem: ${::operatingsystem}, \

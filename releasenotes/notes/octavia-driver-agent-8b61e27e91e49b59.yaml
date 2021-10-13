@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    Now the ``octavia::driver_agent`` class can manage the package and
+    the service required to run the octavia-driver-agent service.

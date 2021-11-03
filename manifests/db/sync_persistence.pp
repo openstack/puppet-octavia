@@ -1,5 +1,5 @@
 #
-# Class to execute octavia-db-manage upgrade head
+# Class to execute octavia-db-manage upgrade_persistence
 #
 # == Parameters
 #
@@ -12,7 +12,7 @@
 #   (Optional) Timeout for the execution of the db_sync
 #   Defaults to 300
 #
-class octavia::db::sync(
+class octavia::db::sync_persistence(
   $extra_params    = undef,
   $db_sync_timeout = 300,
 ) {
@@ -20,7 +20,7 @@ class octavia::db::sync(
   include octavia::deps
 
   exec { 'octavia-db-sync':
-    command     => "octavia-db-manage upgrade head ${extra_params}",
+    command     => "octavia-db-manage upgrade_persistence ${extra_params}",
     path        => '/usr/bin',
     user        => 'octavia',
     refreshonly => true,

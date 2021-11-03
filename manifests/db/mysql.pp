@@ -12,6 +12,10 @@
 #   (Optional) Name of the database.
 #   Defaults to 'octavia'.
 #
+# [*persistence_dbname*]
+#   (Optional) Name of the database dedicated to task_flow persistence.
+#   Defaults to 'undef'.
+#
 # [*user*]
 #   (Optional) User to connect to the database.
 #   Defaults to 'octavia'.
@@ -35,12 +39,13 @@
 #
 class octavia::db::mysql(
   $password,
-  $dbname        = 'octavia',
-  $user          = 'octavia',
-  $host          = '127.0.0.1',
-  $charset       = 'utf8',
-  $collate       = 'utf8_general_ci',
-  $allowed_hosts = undef
+  $dbname             = 'octavia',
+  $persistence_dbname = undef,
+  $user               = 'octavia',
+  $host               = '127.0.0.1',
+  $charset            = 'utf8',
+  $collate            = 'utf8_general_ci',
+  $allowed_hosts      = undef
 ) {
 
   include octavia::deps
@@ -55,6 +60,19 @@ class octavia::db::mysql(
     charset       => $charset,
     collate       => $collate,
     allowed_hosts => $allowed_hosts,
+  }
+
+  if $persistence_dbname {
+    ::openstacklib::db::mysql { 'octavia_persistence':
+      user          => $user,
+      password      => $password,
+      dbname        => $persistence_dbname,
+      host          => $host,
+      charset       => $charset,
+      collate       => $collate,
+      allowed_hosts => $allowed_hosts,
+      create_user   => false,
+    }
   }
 
   Anchor['octavia::db::begin']

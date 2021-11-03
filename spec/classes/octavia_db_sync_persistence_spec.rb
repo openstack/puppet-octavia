@@ -1,14 +1,14 @@
 require 'spec_helper'
 
-describe 'octavia::db::sync' do
+describe 'octavia::db::sync_persistence' do
 
-  shared_examples_for 'octavia::db::sync' do
+  shared_examples_for 'octavia::db::sync_persistenace' do
 
     it { is_expected.to contain_class('octavia::deps') }
 
     it 'runs octavia-manage db upgrade' do
       is_expected.to contain_exec('octavia-db-sync').with(
-        :command     => 'octavia-db-manage upgrade head ',
+        :command     => 'octavia-db-manage upgrade_persistence ',
         :user        => 'octavia',
         :path        => '/usr/bin',
         :refreshonly => 'true',
@@ -34,7 +34,7 @@ describe 'octavia::db::sync' do
 
       it {
         is_expected.to contain_exec('octavia-db-sync').with(
-          :command     => 'octavia-db-manage upgrade head --config-file /etc/octavia/octavia.conf',
+          :command     => 'octavia-db-manage upgrade_persistence --config-file /etc/octavia/octavia.conf',
           :user        => 'octavia',
           :path        => '/usr/bin',
           :refreshonly => 'true',
@@ -61,7 +61,7 @@ describe 'octavia::db::sync' do
         facts.merge(OSDefaults.get_facts())
       end
 
-      it_configures 'octavia::db::sync'
+      it_configures 'octavia::db::sync_persistenace'
     end
   end
 

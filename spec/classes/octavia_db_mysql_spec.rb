@@ -24,6 +24,7 @@ describe 'octavia::db::mysql' do
         :charset  => 'utf8',
         :collate  => 'utf8_general_ci',
       )}
+      it { should_not contain_openstacklib__db__mysql('octavia_persistence') }
     end
 
     context 'overriding allowed_hosts param to array' do
@@ -55,6 +56,30 @@ describe 'octavia::db::mysql' do
         :charset       => 'utf8',
         :collate       => 'utf8_general_ci',
         :allowed_hosts => '192.168.1.1'
+      )}
+    end
+
+    context 'with persistence database enabled' do
+      before do
+        params.merge!( :persistence_dbname => 'octavia_persistence'  )
+      end
+
+      it { should contain_openstacklib__db__mysql('octavia').with(
+        :user     => 'octavia',
+        :password => 'octaviapass',
+        :dbname   => 'octavia',
+        :host     => '127.0.0.1',
+        :charset  => 'utf8',
+        :collate  => 'utf8_general_ci',
+      )}
+      it { should contain_openstacklib__db__mysql('octavia_persistence').with(
+        :user        => 'octavia',
+        :password    => 'octaviapass',
+        :dbname      => 'octavia_persistence',
+        :host        => '127.0.0.1',
+        :charset     => 'utf8',
+        :collate     => 'utf8_general_ci',
+        :create_user => false,
       )}
     end
   end

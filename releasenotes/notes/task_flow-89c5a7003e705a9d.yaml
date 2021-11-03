@@ -1,0 +1,14 @@
+---
+features:
+  - |
+    The new ``octavia::task_flow`` class has been added. This class manages
+    parameters in the ``task_flow`` section, which are required to use
+    the amphora v2 driver.
+
+  - |
+    The ``octavia::db::mysql`` class and the ``octavia::db::postgresql`` class
+    now support creating a separate database for taskflow persistence.
+
+  - |
+    The ``octavia::db::sync_persistence`` class has been added. This class
+    invokes the command to initialize the taskflow persistence database.

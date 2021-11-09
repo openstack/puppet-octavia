@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    Support for the ``ovn_sb_*`` parameters has been added to
+    the ``octavia::provider::ovn`` class.

@@ -24,6 +24,24 @@
 #   verify certificates presented to it by SSL peers
 #   Defaults to $::os_service_default
 #
+# [*ovn_sb_connection*]
+#   (optional) The connection string for the OVN_Southbound OVSDB.
+#   Defaults to $::os_service_default
+#
+# [*ovn_sb_private_key*]
+#   (optional) The PEM file with private key for SSL connection to OVN-SB-DB
+#   Defaults to $::os_service_default
+#
+# [*ovn_sb_certificate*]
+#   (optional) The PEM file with certificate that certifies the private
+#   key specified in ovn_sb_private_key
+#   Defaults to $::os_service_default
+#
+# [*ovn_sb_ca_cert*]
+#   (optional) The PEM file with CA certificate that OVN should use to
+#   verify certificates presented to it by SSL peers
+#   Defaults to $::os_service_default
+#
 # [*ovsdb_connection_timeout*]
 #   (optional) Timeout in seconds for the OVSDB connection transaction.
 #   Defaults to $::os_service_default
@@ -43,6 +61,10 @@ class octavia::provider::ovn (
   $ovn_nb_private_key       = $::os_service_default,
   $ovn_nb_certificate       = $::os_service_default,
   $ovn_nb_ca_cert           = $::os_service_default,
+  $ovn_sb_connection        = $::os_service_default,
+  $ovn_sb_private_key       = $::os_service_default,
+  $ovn_sb_certificate       = $::os_service_default,
+  $ovn_sb_ca_cert           = $::os_service_default,
   $ovsdb_connection_timeout = $::os_service_default,
   $ovsdb_retry_max_interval = $::os_service_default,
   $ovsdb_probe_interval     = $::os_service_default,
@@ -72,6 +94,10 @@ class octavia::provider::ovn (
     'ovn/ovn_nb_private_key':       value => $ovn_nb_private_key;
     'ovn/ovn_nb_certificate':       value => $ovn_nb_certificate;
     'ovn/ovn_nb_ca_cert':           value => $ovn_nb_ca_cert;
+    'ovn/ovn_sb_connection':        value => $ovn_sb_connection;
+    'ovn/ovn_sb_private_key':       value => $ovn_sb_private_key;
+    'ovn/ovn_sb_certificate':       value => $ovn_sb_certificate;
+    'ovn/ovn_sb_ca_cert':           value => $ovn_sb_ca_cert;
     'ovn/ovsdb_connection_timeout': value => $ovsdb_connection_timeout;
     'ovn/ovsdb_retry_max_interval': value => $ovsdb_retry_max_interval;
     'ovn/ovsdb_probe_interval':     value => $ovsdb_probe_interval;

@@ -13,6 +13,10 @@ describe 'octavia::provider::ovn' do
       it { is_expected.to contain_octavia_config('ovn/ovn_nb_private_key').with_value('<SERVICE DEFAULT>') }
       it { is_expected.to contain_octavia_config('ovn/ovn_nb_certificate').with_value('<SERVICE DEFAULT>') }
       it { is_expected.to contain_octavia_config('ovn/ovn_nb_ca_cert').with_value('<SERVICE DEFAULT>') }
+      it { is_expected.to contain_octavia_config('ovn/ovn_sb_connection').with_value('<SERVICE DEFAULT>') }
+      it { is_expected.to contain_octavia_config('ovn/ovn_sb_private_key').with_value('<SERVICE DEFAULT>') }
+      it { is_expected.to contain_octavia_config('ovn/ovn_sb_certificate').with_value('<SERVICE DEFAULT>') }
+      it { is_expected.to contain_octavia_config('ovn/ovn_sb_ca_cert').with_value('<SERVICE DEFAULT>') }
       it { is_expected.to contain_octavia_config('ovn/ovsdb_connection_timeout').with_value('<SERVICE DEFAULT>') }
       it { is_expected.to contain_octavia_config('ovn/ovsdb_retry_max_interval').with_value('<SERVICE DEFAULT>') }
       it { is_expected.to contain_octavia_config('ovn/ovsdb_probe_interval').with_value('<SERVICE DEFAULT>') }
@@ -31,6 +35,10 @@ describe 'octavia::provider::ovn' do
           :ovn_nb_private_key       => '/foo.key',
           :ovn_nb_certificate       => '/foo.pem',
           :ovn_nb_ca_cert           => '/ca_foo.pem',
+          :ovn_sb_connection        => 'tcp:127.0.0.1:6642',
+          :ovn_sb_private_key       => '/bar.key',
+          :ovn_sb_certificate       => '/bar.pem',
+          :ovn_sb_ca_cert           => '/ca_bar.pem',
           :ovsdb_connection_timeout => 180,
           :ovsdb_retry_max_interval => 180,
           :ovsdb_probe_interval     => 60000,
@@ -41,6 +49,10 @@ describe 'octavia::provider::ovn' do
       it { is_expected.to contain_octavia_config('ovn/ovn_nb_private_key').with_value('/foo.key') }
       it { is_expected.to contain_octavia_config('ovn/ovn_nb_certificate').with_value('/foo.pem') }
       it { is_expected.to contain_octavia_config('ovn/ovn_nb_ca_cert').with_value('/ca_foo.pem') }
+      it { is_expected.to contain_octavia_config('ovn/ovn_sb_connection').with_value('tcp:127.0.0.1:6642') }
+      it { is_expected.to contain_octavia_config('ovn/ovn_sb_private_key').with_value('/bar.key') }
+      it { is_expected.to contain_octavia_config('ovn/ovn_sb_certificate').with_value('/bar.pem') }
+      it { is_expected.to contain_octavia_config('ovn/ovn_sb_ca_cert').with_value('/ca_bar.pem') }
       it { is_expected.to contain_octavia_config('ovn/ovsdb_connection_timeout').with_value(180) }
       it { is_expected.to contain_octavia_config('ovn/ovsdb_retry_max_interval').with_value(180) }
       it { is_expected.to contain_octavia_config('ovn/ovsdb_probe_interval').with_value(60000) }

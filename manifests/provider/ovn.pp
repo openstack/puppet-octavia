@@ -24,12 +24,28 @@
 #   verify certificates presented to it by SSL peers
 #   Defaults to $::os_service_default
 #
+# [*ovsdb_connection_timeout*]
+#   (optional) Timeout in seconds for the OVSDB connection transaction.
+#   Defaults to $::os_service_default
+#
+# [*ovsdb_retry_max_interval*]
+#   (optional) Max interval in seconds between each retry to get the OVN NB and
+#   SB IDLs.
+#   Defaults to $::os_service_default
+#
+# [*ovsdb_probe_interval*]
+#   (optional) The probe interval for the OVSDB session in milliseconds.
+#   Defaults to $::os_service_default
+#
 class octavia::provider::ovn (
-  $package_ensure     = 'present',
-  $ovn_nb_connection  = $::os_service_default,
-  $ovn_nb_private_key = $::os_service_default,
-  $ovn_nb_certificate = $::os_service_default,
-  $ovn_nb_ca_cert     = $::os_service_default
+  $package_ensure           = 'present',
+  $ovn_nb_connection        = $::os_service_default,
+  $ovn_nb_private_key       = $::os_service_default,
+  $ovn_nb_certificate       = $::os_service_default,
+  $ovn_nb_ca_cert           = $::os_service_default,
+  $ovsdb_connection_timeout = $::os_service_default,
+  $ovsdb_retry_max_interval = $::os_service_default,
+  $ovsdb_probe_interval     = $::os_service_default,
 ) {
 
   include octavia::deps
@@ -52,9 +68,12 @@ class octavia::provider::ovn (
   # For now, the config below uses octavia_config until we can figure out how to pass extra
   # configuration files to the api running as wsgi process.
   octavia_config {
-    'ovn/ovn_nb_connection':  value => $ovn_nb_connection_real;
-    'ovn/ovn_nb_private_key': value => $ovn_nb_private_key;
-    'ovn/ovn_nb_certificate': value => $ovn_nb_certificate;
-    'ovn/ovn_nb_ca_cert':     value => $ovn_nb_ca_cert;
+    'ovn/ovn_nb_connection':        value => $ovn_nb_connection_real;
+    'ovn/ovn_nb_private_key':       value => $ovn_nb_private_key;
+    'ovn/ovn_nb_certificate':       value => $ovn_nb_certificate;
+    'ovn/ovn_nb_ca_cert':           value => $ovn_nb_ca_cert;
+    'ovn/ovsdb_connection_timeout': value => $ovsdb_connection_timeout;
+    'ovn/ovsdb_retry_max_interval': value => $ovsdb_retry_max_interval;
+    'ovn/ovsdb_probe_interval':     value => $ovsdb_probe_interval;
   }
 }

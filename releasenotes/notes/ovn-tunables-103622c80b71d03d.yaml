@@ -1,0 +1,9 @@
+---
+features:
+  - |
+    The following parameters have been added to the ``octavia::provider::ovn``
+    class.
+
+    - ``ovsdb_connection_timeout``
+    - ``ovsdb_retry_max_interval``
+    - ``ovsdb_probe_interval``

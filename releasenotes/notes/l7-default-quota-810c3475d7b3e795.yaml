@@ -1,0 +1,7 @@
+---
+features:
+  - |
+    The ``octavia::quota`` class now supports the following two parameters.
+
+    - ``default_l7policy_quota``
+    - ``default_l7rule_quota``

@@ -1,0 +1,10 @@
+---
+features:
+  - |
+    The following parameters have been added to the ``octavia::health_manager``
+    class.
+
+    - ``failover_threads``
+    - ``hearteat_timeout``
+    - ``health_check_interval``
+    - ``sock_rlimit``

@@ -1,0 +1,4 @@
+---
+upgrade:
+  - |
+    The ``octavia::api::ovn_nb_connection`` parameter has been removed.

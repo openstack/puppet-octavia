@@ -79,18 +79,11 @@ class octavia::provider::ovn (
     tag    => ['openstack', 'octavia-package'],
   }
 
-  # For backward compatibility
-  if $::octavia::api::ovn_nb_connection and !is_service_default($::octavia::api::ovn_nb_connection) {
-    $ovn_nb_connection_real = $::octavia::api::ovn_nb_connection
-  } else {
-    $ovn_nb_connection_real = $ovn_nb_connection
-  }
-
   # TODO(flaviof): We need to replace octavia_config with octavia_ovn_provider_config in the future.
   # For now, the config below uses octavia_config until we can figure out how to pass extra
   # configuration files to the api running as wsgi process.
   octavia_config {
-    'ovn/ovn_nb_connection':        value => $ovn_nb_connection_real;
+    'ovn/ovn_nb_connection':        value => $ovn_nb_connection;
     'ovn/ovn_nb_private_key':       value => $ovn_nb_private_key;
     'ovn/ovn_nb_certificate':       value => $ovn_nb_certificate;
     'ovn/ovn_nb_ca_cert':           value => $ovn_nb_ca_cert;

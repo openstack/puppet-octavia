@@ -35,6 +35,10 @@ describe 'octavia::health_manager' do
       it { is_expected.to contain_octavia_config('health_manager/heartbeat_key').with_value('abcdefghi') }
       it { is_expected.to contain_octavia_config('health_manager/health_update_threads').with_value('2') }
       it { is_expected.to contain_octavia_config('health_manager/stats_update_threads').with_value('2') }
+      it { is_expected.to contain_octavia_config('health_manager/failover_threads').with_value('<SERVICE DEFAULT>') }
+      it { is_expected.to contain_octavia_config('health_manager/heartbeat_timeout').with_value('<SERVICE DEFAULT>') }
+      it { is_expected.to contain_octavia_config('health_manager/health_check_interval').with_value('<SERVICE DEFAULT>') }
+      it { is_expected.to contain_octavia_config('health_manager/sock_rlimit').with_value('<SERVICE DEFAULT>') }
     end
 
     it 'installs octavia-health-manager package' do
@@ -95,11 +99,19 @@ describe 'octavia::health_manager' do
     context 'configured with specific parameters' do
       before do
         params.merge!({
-          :workers => 8,
-          })
+          :workers               => 8,
+          :failover_threads      => 10,
+          :heartbeat_timeout     => 60,
+          :health_check_interval => 3,
+          :sock_rlimit           => 1,
+        })
       end
       it { is_expected.to contain_octavia_config('health_manager/health_update_threads').with_value(8) }
       it { is_expected.to contain_octavia_config('health_manager/stats_update_threads').with_value(8) }
+      it { is_expected.to contain_octavia_config('health_manager/failover_threads').with_value(10) }
+      it { is_expected.to contain_octavia_config('health_manager/heartbeat_timeout').with_value(60) }
+      it { is_expected.to contain_octavia_config('health_manager/health_check_interval').with_value(3) }
+      it { is_expected.to contain_octavia_config('health_manager/sock_rlimit').with_value(1) }
     end
   end
 

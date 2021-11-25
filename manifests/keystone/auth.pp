@@ -19,6 +19,18 @@
 #   (Optional) Tenant for octavia user.
 #   Defaults to 'services'.
 #
+# [*roles*]
+#   (Optional) List of roles assigned to octavia user.
+#   Defaults to ['admin']
+#
+# [*system_scope*]
+#   (Optional) Scope for system operations.
+#   Defaults to 'all'
+#
+# [*system_roles*]
+#   (Optional) List of system roles assigned to octavia user.
+#   Defaults to []
+#
 # [*configure_endpoint*]
 #   (Optional) Should octavia endpoint be configured?
 #   Defaults to true.
@@ -67,6 +79,9 @@ class octavia::keystone::auth (
   $auth_name           = 'octavia',
   $email               = 'octavia@localhost',
   $tenant              = 'services',
+  $roles               = ['admin'],
+  $system_scope        = 'all',
+  $system_roles        = [],
   $configure_endpoint  = true,
   $configure_user      = true,
   $configure_user_role = true,
@@ -81,6 +96,13 @@ class octavia::keystone::auth (
 
   include octavia::deps
 
+  Keystone_user_role<| name == "${auth_name}@${tenant}" |> -> Anchor['octavia::service::end']
+  Keystone_user_role<| name == "${auth_name}@::::${system_scope}" |> -> Anchor['octavia::service::end']
+
+  if $configure_endpoint {
+    Keystone_endpoint["${region}/${service_name}::${service_type}"] -> Anchor['octavia::service::end']
+  }
+
   keystone::resource::service_identity { 'octavia':
     configure_user      => $configure_user,
     configure_user_role => $configure_user_role,
@@ -93,6 +115,9 @@ class octavia::keystone::auth (
     password            => $password,
     email               => $email,
     tenant              => $tenant,
+    roles               => $roles,
+    system_scope        => $system_scope,
+    system_roles        => $system_roles,
     public_url          => $public_url,
     internal_url        => $internal_url,
     admin_url           => $admin_url,

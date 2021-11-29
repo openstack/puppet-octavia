@@ -1,0 +1,10 @@
+---
+features:
+  - |
+    The new ``octavia::networking`` class has been added.
+
+deprecations:
+  - |
+    The ``octavia::controller::port_detach_timeout`` parameter has been
+    deprecated in favor of the new ``octavia::networking::port_detach_timeout``
+    parameter.

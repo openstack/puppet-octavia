@@ -115,10 +115,6 @@
 #   (optional) Retry threshold for waiting for a build slot for an amphorae.
 #   Defaults to $::os_service_default
 #
-# [*port_detach_timeout*]
-#   (optional) Seconds to wait for a port to detach from an amphora.
-#   Defaults to $::os_service_default
-#
 # [*admin_log_targets*]
 #   (optional) The list of syslog endpoints, host:port comma separated list,
 #   to receive administrative log messages.
@@ -178,6 +174,12 @@
 #   (optional) Number of gratuitous ARP announcements to make on each refresh interval.
 #   Defaults to $::os_service_default
 #
+# DEPRECATED PARAMETERS
+#
+# [*port_detach_timeout*]
+#   (optional) Seconds to wait for a port to detach from an amphora.
+#   Defaults to undef
+#
 class octavia::controller (
   $amp_active_retries          = $::os_service_default,
   $amp_active_wait_sec         = $::os_service_default,
@@ -204,7 +206,6 @@ class octavia::controller (
   $connection_logging          = $::os_service_default,
   $build_rate_limit            = $::os_service_default,
   $build_active_retries        = $::os_service_default,
-  $port_detach_timeout         = $::os_service_default,
   $admin_log_targets           = $::os_service_default,
   $administrative_log_facility = $::os_service_default,
   $forward_all_logs            = $::os_service_default,
@@ -218,10 +219,18 @@ class octavia::controller (
   $vrrp_success_count          = $::os_service_default,
   $vrrp_garp_refresh_interval  = $::os_service_default,
   $vrrp_garp_refresh_count     = $::os_service_default,
+  # DEPRECATED PARAMETERS
+  $port_detach_timeout         = undef,
 ) inherits octavia::params {
 
   include octavia::deps
   include octavia::db
+
+  if $port_detach_timeout != undef {
+    warning('The octavia::controller::port_detach_timeout parameter is deprecated. \
+Use the octavia::networking class instead')
+  }
+  include octavia::networking
 
   if ! is_service_default($loadbalancer_topology) and
       ! ($loadbalancer_topology in ['SINGLE', 'ACTIVE_STANDBY']) {
@@ -259,7 +268,6 @@ class octavia::controller (
     'haproxy_amphora/connection_logging'         : value => $connection_logging;
     'haproxy_amphora/build_rate_limit'           : value => $build_rate_limit;
     'haproxy_amphora/build_active_retries'       : value => $build_active_retries;
-    'networking/port_detach_timeout'             : value => $port_detach_timeout;
     'amphora_agent/admin_log_targets'            : value => join(any2array($admin_log_targets), ',');
     'amphora_agent/administrative_log_facility'  : value => $administrative_log_facility;
     'amphora_agent/forward_all_logs'             : value => $forward_all_logs;

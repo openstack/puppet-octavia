@@ -132,7 +132,6 @@ class octavia::api (
         tag        => ['octavia-service', 'octavia-db-sync-service'],
       }
     } elsif $service_name == 'httpd' {
-      include apache::params
       service { 'octavia-api':
         ensure => 'stopped',
         name   => $::octavia::params::api_service_name,

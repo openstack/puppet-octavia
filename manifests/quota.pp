@@ -24,12 +24,22 @@
 #   (optional) Default per project health monitor quota.
 #   Defaults to $::os_service_default
 #
+# [*default_l7policy_quota*]
+#   (optional) Default per project l7policy quota.
+#   Defaults to $::os_service_default
+#
+# [*default_l7rule_quota*]
+#   (optional) Default per project l7rule quota.
+#   Defaults to $::os_service_default
+#
 class octavia::quota (
   $default_load_balancer_quota   = $::os_service_default,
   $default_listener_quota        = $::os_service_default,
   $default_member_quota          = $::os_service_default,
   $default_pool_quota            = $::os_service_default,
   $default_health_monitor_quota  = $::os_service_default,
+  $default_l7policy_quota        = $::os_service_default,
+  $default_l7rule_quota          = $::os_service_default,
 ) {
 
   include octavia::deps
@@ -40,5 +50,7 @@ class octavia::quota (
     'quotas/default_member_quota':         value => $default_member_quota;
     'quotas/default_pool_quota':           value => $default_pool_quota;
     'quotas/default_health_monitor_quota': value => $default_health_monitor_quota;
+    'quotas/default_l7policy_quota':       value => $default_l7policy_quota;
+    'quotas/default_l7rule_quota':         value => $default_l7rule_quota;
   }
 }

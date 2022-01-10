@@ -13,44 +13,48 @@ describe 'octavia::controller' do
 
     context 'configured with specific parameters' do
       let :params do
-        { :amp_active_retries          => '30',
-          :amp_active_wait_sec         => '10',
-          :amp_flavor_id               => '42',
-          :amp_image_tag               => 'amphorae1',
-          :amp_image_owner_id          => 'customowner',
-          :amp_secgroup_list           => ['lb-mgmt-sec-grp'],
-          :amp_boot_network_list       => ['lbnet1', 'lbnet2'],
-          :loadbalancer_topology       => 'SINGLE',
-          :amphora_driver              => 'sample_amphora_driver',
-          :compute_driver              => 'sample_compute_driver',
-          :network_driver              => 'sample_network_driver',
-          :volume_driver               => 'sample_volume_driver',
-          :image_driver                => 'sample_image_driver',
-          :amp_ssh_key_name            => 'custom-amphora-key',
-          :timeout_client_data         => 60,
-          :timeout_member_connect      => 5,
-          :timeout_member_data         => 60,
-          :controller_ip_port_list     => ['1.2.3.4:5555', '4.3.2.1:5555'],
-          :connection_max_retries      => 240,
-          :connection_retry_interval   => 10,
-          :connection_logging          => false,
-          :build_rate_limit            => 10,
-          :build_active_retries        => 120,
-          :build_retry_interval        => 5,
-          :port_detach_timeout         => 15,
-          :admin_log_targets           => ['192.0.2.1:10514', '2001:db8:1::10:10514'],
-          :administrative_log_facility => 2,
-          :forward_all_logs            => true,
-          :tenant_log_targets          => ['192.0.2.1:10514', '2001:db8:1::10:10514'],
-          :user_log_facility           => 3,
-          :user_log_format             => '{{ project_id }} {{ lb_id }}',
-          :disable_local_log_storage   => true,
-          :vrrp_advert_int             => 1,
-          :vrrp_check_interval         => 5,
-          :vrrp_fail_count             => 2,
-          :vrrp_success_count          => 2,
-          :vrrp_garp_refresh_interval  => 5,
-          :vrrp_garp_refresh_count     => 2
+        { :amp_active_retries                 => '30',
+          :amp_active_wait_sec                => '10',
+          :amp_flavor_id                      => '42',
+          :amp_image_tag                      => 'amphorae1',
+          :amp_image_owner_id                 => 'customowner',
+          :amp_secgroup_list                  => ['lb-mgmt-sec-grp'],
+          :amp_boot_network_list              => ['lbnet1', 'lbnet2'],
+          :loadbalancer_topology              => 'SINGLE',
+          :amphora_driver                     => 'sample_amphora_driver',
+          :compute_driver                     => 'sample_compute_driver',
+          :network_driver                     => 'sample_network_driver',
+          :volume_driver                      => 'sample_volume_driver',
+          :image_driver                       => 'sample_image_driver',
+          :amp_ssh_key_name                   => 'custom-amphora-key',
+          :timeout_client_data                => 60,
+          :timeout_member_connect             => 5,
+          :timeout_member_data                => 60,
+          :controller_ip_port_list            => ['1.2.3.4:5555', '4.3.2.1:5555'],
+          :connection_max_retries             => 240,
+          :connection_retry_interval          => 10,
+          :active_connection_max_retries      => 15,
+          :active_connection_retry_interval   => 2,
+          :failover_connection_max_retries    => 2,
+          :failover_connection_retry_interval => 5,
+          :connection_logging                 => false,
+          :build_rate_limit                   => 10,
+          :build_active_retries               => 120,
+          :build_retry_interval               => 5,
+          :port_detach_timeout                => 15,
+          :admin_log_targets                  => ['192.0.2.1:10514', '2001:db8:1::10:10514'],
+          :administrative_log_facility        => 2,
+          :forward_all_logs                   => true,
+          :tenant_log_targets                 => ['192.0.2.1:10514', '2001:db8:1::10:10514'],
+          :user_log_facility                  => 3,
+          :user_log_format                    => '{{ project_id }} {{ lb_id }}',
+          :disable_local_log_storage          => true,
+          :vrrp_advert_int                    => 1,
+          :vrrp_check_interval                => 5,
+          :vrrp_fail_count                    => 2,
+          :vrrp_success_count                 => 2,
+          :vrrp_garp_refresh_interval         => 5,
+          :vrrp_garp_refresh_count            => 2
         }
       end
 
@@ -76,6 +80,10 @@ describe 'octavia::controller' do
         is_expected.to contain_octavia_config('haproxy_amphora/connection_max_retries').with_value(240)
         is_expected.to contain_octavia_config('haproxy_amphora/connection_retry_interval').with_value(10)
         is_expected.to contain_octavia_config('haproxy_amphora/connection_logging').with_value(false)
+        is_expected.to contain_octavia_config('haproxy_amphora/active_connection_max_retries').with_value(15)
+        is_expected.to contain_octavia_config('haproxy_amphora/active_connection_retry_interval').with_value(2)
+        is_expected.to contain_octavia_config('haproxy_amphora/failover_connection_max_retries').with_value(2)
+        is_expected.to contain_octavia_config('haproxy_amphora/failover_connection_retry_interval').with_value(5)
         is_expected.to contain_octavia_config('haproxy_amphora/build_rate_limit').with_value(10)
         is_expected.to contain_octavia_config('haproxy_amphora/build_active_retries').with_value(120)
         is_expected.to contain_octavia_config('haproxy_amphora/build_retry_interval').with_value(5)
@@ -119,6 +127,10 @@ describe 'octavia::controller' do
       is_expected.to contain_octavia_config('haproxy_amphora/connection_max_retries').with_value('<SERVICE DEFAULT>')
       is_expected.to contain_octavia_config('haproxy_amphora/connection_retry_interval').with_value('<SERVICE DEFAULT>')
       is_expected.to contain_octavia_config('haproxy_amphora/connection_logging').with_value('<SERVICE DEFAULT>')
+      is_expected.to contain_octavia_config('haproxy_amphora/active_connection_max_retries').with_value('<SERVICE DEFAULT>')
+      is_expected.to contain_octavia_config('haproxy_amphora/active_connection_retry_interval').with_value('<SERVICE DEFAULT>')
+      is_expected.to contain_octavia_config('haproxy_amphora/failover_connection_max_retries').with_value('<SERVICE DEFAULT>')
+      is_expected.to contain_octavia_config('haproxy_amphora/failover_connection_retry_interval').with_value('<SERVICE DEFAULT>')
       is_expected.to contain_octavia_config('haproxy_amphora/build_rate_limit').with_value('<SERVICE DEFAULT>')
       is_expected.to contain_octavia_config('haproxy_amphora/build_active_retries').with_value('<SERVICE DEFAULT>')
       is_expected.to contain_octavia_config('haproxy_amphora/build_retry_interval').with_value('<SERVICE DEFAULT>')

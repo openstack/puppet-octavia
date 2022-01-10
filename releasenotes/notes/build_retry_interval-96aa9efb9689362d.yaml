@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    The new ``octavia::controller::build_retry_interval`` parameter has been
+    added.

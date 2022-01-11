@@ -124,6 +124,8 @@ class octavia::wsgi::apache (
   include octavia::deps
   include octavia::params
 
+  Anchor['octavia::install::end'] -> Class['apache']
+
   ::openstacklib::wsgi::apache { 'octavia_wsgi':
     bind_host                   => $bind_host,
     bind_port                   => $port,
@@ -153,6 +155,5 @@ class octavia::wsgi::apache (
     access_log_format           => $access_log_format,
     error_log_file              => $error_log_file,
     custom_wsgi_process_options => $custom_wsgi_process_options,
-    require                     => Anchor['octavia::install::end'],
   }
 }

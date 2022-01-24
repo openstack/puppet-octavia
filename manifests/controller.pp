@@ -100,6 +100,24 @@
 #   (optional) Number of seconds to wait between connection attempts to amphora.
 #   Defaults to $::os_service_default
 #
+# [*active_connection_max_retries*]
+#   (optional) Retry threshold for connecting to active amphorae.
+#   Defaults to $::os_service_default
+#
+# [*active_connection_retry_interval*]
+#   (optional) Retry timeout between connection attempts in seconds for active
+#   amphora.
+#   Defaults to $::os_service_default
+#
+# [*failover_connection_max_retries*]
+#   (optional) Retry threshold for connecting to an amphora in failover.
+#   Defaults to $::os_service_default
+#
+# [*failover_connection_retry_interval*]
+#   (optional) Retry timeout between connection attempts in seconds for amphora
+#   in failover.
+#   Defaults to $::os_service_default
+#
 # [*connection_logging*]
 #   (optional) When false, disables logging of tenant connection flows. This
 #   includes storing them locally and sending them to the tenant syslog
@@ -185,47 +203,51 @@
 #   Defaults to undef
 #
 class octavia::controller (
-  $amp_active_retries          = $::os_service_default,
-  $amp_active_wait_sec         = $::os_service_default,
-  $amp_flavor_id               = '65',
-  $amp_image_tag               = $::os_service_default,
-  $amp_image_owner_id          = $::os_service_default,
-  $amp_secgroup_list           = $::os_service_default,
-  $amp_boot_network_list       = $::os_service_default,
-  $loadbalancer_topology       = $::os_service_default,
-  $amphora_driver              = $::os_service_default,
-  $compute_driver              = $::os_service_default,
-  $network_driver              = $::os_service_default,
-  $volume_driver               = $::os_service_default,
-  $image_driver                = $::os_service_default,
-  $enable_ssh_access           = true,
-  $amp_ssh_key_name            = 'octavia-ssh-key',
-  $timeout_client_data         = $::os_service_default,
-  $timeout_member_connect      = $::os_service_default,
-  $timeout_member_data         = $::os_service_default,
-  $timeout_tcp_inspect         = $::os_service_default,
-  $controller_ip_port_list     = $::os_service_default,
-  $connection_max_retries      = $::os_service_default,
-  $connection_retry_interval   = $::os_service_default,
-  $connection_logging          = $::os_service_default,
-  $build_rate_limit            = $::os_service_default,
-  $build_active_retries        = $::os_service_default,
-  $build_retry_interval        = $::os_service_default,
-  $admin_log_targets           = $::os_service_default,
-  $administrative_log_facility = $::os_service_default,
-  $forward_all_logs            = $::os_service_default,
-  $tenant_log_targets          = $::os_service_default,
-  $user_log_facility           = $::os_service_default,
-  $user_log_format             = $::os_service_default,
-  $disable_local_log_storage   = $::os_service_default,
-  $vrrp_advert_int             = $::os_service_default,
-  $vrrp_check_interval         = $::os_service_default,
-  $vrrp_fail_count             = $::os_service_default,
-  $vrrp_success_count          = $::os_service_default,
-  $vrrp_garp_refresh_interval  = $::os_service_default,
-  $vrrp_garp_refresh_count     = $::os_service_default,
+  $amp_active_retries                 = $::os_service_default,
+  $amp_active_wait_sec                = $::os_service_default,
+  $amp_flavor_id                      = '65',
+  $amp_image_tag                      = $::os_service_default,
+  $amp_image_owner_id                 = $::os_service_default,
+  $amp_secgroup_list                  = $::os_service_default,
+  $amp_boot_network_list              = $::os_service_default,
+  $loadbalancer_topology              = $::os_service_default,
+  $amphora_driver                     = $::os_service_default,
+  $compute_driver                     = $::os_service_default,
+  $network_driver                     = $::os_service_default,
+  $volume_driver                      = $::os_service_default,
+  $image_driver                       = $::os_service_default,
+  $enable_ssh_access                  = true,
+  $amp_ssh_key_name                   = 'octavia-ssh-key',
+  $timeout_client_data                = $::os_service_default,
+  $timeout_member_connect             = $::os_service_default,
+  $timeout_member_data                = $::os_service_default,
+  $timeout_tcp_inspect                = $::os_service_default,
+  $controller_ip_port_list            = $::os_service_default,
+  $connection_max_retries             = $::os_service_default,
+  $connection_retry_interval          = $::os_service_default,
+  $connection_logging                 = $::os_service_default,
+  $active_connection_max_retries      = $::os_service_default,
+  $active_connection_retry_interval   = $::os_service_default,
+  $failover_connection_max_retries    = $::os_service_default,
+  $failover_connection_retry_interval = $::os_service_default,
+  $build_rate_limit                   = $::os_service_default,
+  $build_active_retries               = $::os_service_default,
+  $build_retry_interval               = $::os_service_default,
+  $admin_log_targets                  = $::os_service_default,
+  $administrative_log_facility        = $::os_service_default,
+  $forward_all_logs                   = $::os_service_default,
+  $tenant_log_targets                 = $::os_service_default,
+  $user_log_facility                  = $::os_service_default,
+  $user_log_format                    = $::os_service_default,
+  $disable_local_log_storage          = $::os_service_default,
+  $vrrp_advert_int                    = $::os_service_default,
+  $vrrp_check_interval                = $::os_service_default,
+  $vrrp_fail_count                    = $::os_service_default,
+  $vrrp_success_count                 = $::os_service_default,
+  $vrrp_garp_refresh_interval         = $::os_service_default,
+  $vrrp_garp_refresh_count            = $::os_service_default,
   # DEPRECATED PARAMETERS
-  $port_detach_timeout         = undef,
+  $port_detach_timeout                = undef,
 ) inherits octavia::params {
 
   include octavia::deps
@@ -250,42 +272,46 @@ Use the octavia::networking class instead')
   }
 
   octavia_config {
-    'controller_worker/amp_active_retries'       : value => $amp_active_retries;
-    'controller_worker/amp_active_wait_sec'      : value => $amp_active_wait_sec;
-    'controller_worker/amp_flavor_id'            : value => $amp_flavor_id;
-    'controller_worker/amp_image_tag'            : value => $amp_image_tag;
-    'controller_worker/amp_image_owner_id'       : value => $amp_image_owner_id;
-    'controller_worker/amp_secgroup_list'        : value => join(any2array($amp_secgroup_list), ',');
-    'controller_worker/amp_boot_network_list'    : value => join(any2array($amp_boot_network_list), ',');
-    'controller_worker/loadbalancer_topology'    : value => $loadbalancer_topology;
-    'controller_worker/amphora_driver'           : value => $amphora_driver;
-    'controller_worker/compute_driver'           : value => $compute_driver;
-    'controller_worker/network_driver'           : value => $network_driver;
-    'controller_worker/volume_driver'            : value => $volume_driver;
-    'controller_worker/image_driver'             : value => $image_driver;
-    'haproxy_amphora/timeout_client_data'        : value => $timeout_client_data;
-    'haproxy_amphora/timeout_member_connect'     : value => $timeout_member_connect;
-    'haproxy_amphora/timeout_member_data'        : value => $timeout_member_data;
-    'haproxy_amphora/timeout_tcp_inspect'        : value => $timeout_tcp_inspect;
-    'health_manager/controller_ip_port_list'     : value => join(any2array($controller_ip_port_list), ',');
-    'haproxy_amphora/connection_max_retries'     : value => $connection_max_retries;
-    'haproxy_amphora/connection_retry_interval'  : value => $connection_retry_interval;
-    'haproxy_amphora/connection_logging'         : value => $connection_logging;
-    'haproxy_amphora/build_rate_limit'           : value => $build_rate_limit;
-    'haproxy_amphora/build_active_retries'       : value => $build_active_retries;
-    'haproxy_amphora/build_retry_interval'       : value => $build_retry_interval;
-    'amphora_agent/admin_log_targets'            : value => join(any2array($admin_log_targets), ',');
-    'amphora_agent/administrative_log_facility'  : value => $administrative_log_facility;
-    'amphora_agent/forward_all_logs'             : value => $forward_all_logs;
-    'amphora_agent/tenant_log_targets'           : value => join(any2array($tenant_log_targets), ',');
-    'amphora_agent/user_log_facility'            : value => $user_log_facility;
-    'haproxy_amphora/user_log_format'            : value => $user_log_format;
-    'amphora_agent/disable_local_log_storage'    : value => $disable_local_log_storage;
-    'keepalived_vrrp/vrrp_advert_int'            : value => $vrrp_advert_int;
-    'keepalived_vrrp/vrrp_check_interval'        : value => $vrrp_check_interval;
-    'keepalived_vrrp/vrrp_fail_count'            : value => $vrrp_fail_count;
-    'keepalived_vrrp/vrrp_success_count'         : value => $vrrp_success_count;
-    'keepalived_vrrp/vrrp_garp_refresh_interval' : value => $vrrp_garp_refresh_interval;
-    'keepalived_vrrp/vrrp_garp_refresh_count'    : value => $vrrp_garp_refresh_count;
+    'controller_worker/amp_active_retries'               : value => $amp_active_retries;
+    'controller_worker/amp_active_wait_sec'              : value => $amp_active_wait_sec;
+    'controller_worker/amp_flavor_id'                    : value => $amp_flavor_id;
+    'controller_worker/amp_image_tag'                    : value => $amp_image_tag;
+    'controller_worker/amp_image_owner_id'               : value => $amp_image_owner_id;
+    'controller_worker/amp_secgroup_list'                : value => join(any2array($amp_secgroup_list), ',');
+    'controller_worker/amp_boot_network_list'            : value => join(any2array($amp_boot_network_list), ',');
+    'controller_worker/loadbalancer_topology'            : value => $loadbalancer_topology;
+    'controller_worker/amphora_driver'                   : value => $amphora_driver;
+    'controller_worker/compute_driver'                   : value => $compute_driver;
+    'controller_worker/network_driver'                   : value => $network_driver;
+    'controller_worker/volume_driver'                    : value => $volume_driver;
+    'controller_worker/image_driver'                     : value => $image_driver;
+    'haproxy_amphora/timeout_client_data'                : value => $timeout_client_data;
+    'haproxy_amphora/timeout_member_connect'             : value => $timeout_member_connect;
+    'haproxy_amphora/timeout_member_data'                : value => $timeout_member_data;
+    'haproxy_amphora/timeout_tcp_inspect'                : value => $timeout_tcp_inspect;
+    'health_manager/controller_ip_port_list'             : value => join(any2array($controller_ip_port_list), ',');
+    'haproxy_amphora/connection_max_retries'             : value => $connection_max_retries;
+    'haproxy_amphora/connection_retry_interval'          : value => $connection_retry_interval;
+    'haproxy_amphora/connection_logging'                 : value => $connection_logging;
+    'haproxy_amphora/active_connection_max_retries'      : value => $active_connection_max_retries;
+    'haproxy_amphora/active_connection_retry_interval'   : value => $active_connection_retry_interval;
+    'haproxy_amphora/failover_connection_max_retries'    : value => $failover_connection_max_retries;
+    'haproxy_amphora/failover_connection_retry_interval' : value => $failover_connection_retry_interval;
+    'haproxy_amphora/build_rate_limit'                   : value => $build_rate_limit;
+    'haproxy_amphora/build_active_retries'               : value => $build_active_retries;
+    'haproxy_amphora/build_retry_interval'               : value => $build_retry_interval;
+    'amphora_agent/admin_log_targets'                    : value => join(any2array($admin_log_targets), ',');
+    'amphora_agent/administrative_log_facility'          : value => $administrative_log_facility;
+    'amphora_agent/forward_all_logs'                     : value => $forward_all_logs;
+    'amphora_agent/tenant_log_targets'                   : value => join(any2array($tenant_log_targets), ',');
+    'amphora_agent/user_log_facility'                    : value => $user_log_facility;
+    'haproxy_amphora/user_log_format'                    : value => $user_log_format;
+    'amphora_agent/disable_local_log_storage'            : value => $disable_local_log_storage;
+    'keepalived_vrrp/vrrp_advert_int'                    : value => $vrrp_advert_int;
+    'keepalived_vrrp/vrrp_check_interval'                : value => $vrrp_check_interval;
+    'keepalived_vrrp/vrrp_fail_count'                    : value => $vrrp_fail_count;
+    'keepalived_vrrp/vrrp_success_count'                 : value => $vrrp_success_count;
+    'keepalived_vrrp/vrrp_garp_refresh_interval'         : value => $vrrp_garp_refresh_interval;
+    'keepalived_vrrp/vrrp_garp_refresh_count'            : value => $vrrp_garp_refresh_count;
   }
 }

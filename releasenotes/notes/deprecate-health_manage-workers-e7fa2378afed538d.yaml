@@ -1,0 +1,6 @@
+---
+deprecations:
+  - |
+    The ``octavia::health_manager::workers`` parameter has been deprecated.
+    Use the ``health_update_threads`` parameter and
+    the ``stats_update_threads`` parameter instead.

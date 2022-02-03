@@ -1,0 +1,6 @@
+---
+features:
+  - |
+    It is now possible to specify `octavia::wsgi::apache::wsgi_script_dir`
+    and `octavia::wsgi::apache::wsgi_script_source` to override operating
+    system defaults.

@@ -87,8 +87,16 @@
 #   { python-path => '/my/python/virtualenv' }
 #   Defaults to {}
 #
+# [*wsgi_script_dir*]
+#   (Optional) The directory to install the WSGI script for apache to read.
+#   Defaults to $::octavia::params::octavia_wsgi_script_dir
+#
+# [*wsgi_script_source*]
+#   (Optional) The location of the octavia WSGI script.
+#   Defaults to $::octavia::params::octavia_wsgi_script_source
+#
 # [*vhost_custom_fragment*]
-#   (optional) Passes a string of custom configuration
+#   (Optional) Passes a string of custom configuration.
 #   directives to be placed at the end of the vhost configuration.
 #   Defaults to undef.
 #
@@ -118,11 +126,12 @@ class octavia::wsgi::apache (
   $access_log_format           = false,
   $error_log_file              = undef,
   $custom_wsgi_process_options = {},
+  $wsgi_script_dir             = $::octavia::params::octavia_wsgi_script_path,
+  $wsgi_script_source          = $::octavia::params::octavia_wsgi_script_source,
   $vhost_custom_fragment       = undef,
-) {
+) inherits octavia::params {
 
   include octavia::deps
-  include octavia::params
 
   Anchor['octavia::install::end'] -> Class['apache']
 
@@ -148,9 +157,9 @@ class octavia::wsgi::apache (
     wsgi_daemon_process         => 'octavia',
     wsgi_process_display_name   => $wsgi_process_display_name,
     wsgi_process_group          => 'octavia',
-    wsgi_script_dir             => $::octavia::params::octavia_wsgi_script_path,
+    wsgi_script_dir             => $wsgi_script_dir,
     wsgi_script_file            => 'app',
-    wsgi_script_source          => $::octavia::params::octavia_wsgi_script_source,
+    wsgi_script_source          => $wsgi_script_source,
     access_log_file             => $access_log_file,
     access_log_format           => $access_log_format,
     error_log_file              => $error_log_file,

@@ -14,14 +14,10 @@ class octavia::client (
   include octavia::deps
   include octavia::params
 
-  if $::octavia::params::client_package_name {
-    package { 'python-octaviaclient':
-      ensure => $ensure,
-      name   => $::octavia::params::client_package_name,
-      tag    => 'openstack',
-    }
-    include openstacklib::openstackclient
-  } else {
-    fail("There is no avaiable client package in osfamily: ${::osfamily}.")
+  package { 'python-octaviaclient':
+    ensure => $ensure,
+    name   => $::octavia::params::client_package_name,
+    tag    => 'openstack',
   }
+  include openstacklib::openstackclient
 }

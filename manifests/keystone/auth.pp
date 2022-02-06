@@ -96,12 +96,7 @@ class octavia::keystone::auth (
 
   include octavia::deps
 
-  Keystone_user_role<| name == "${auth_name}@${tenant}" |> -> Anchor['octavia::service::end']
-  Keystone_user_role<| name == "${auth_name}@::::${system_scope}" |> -> Anchor['octavia::service::end']
-
-  if $configure_endpoint {
-    Keystone_endpoint["${region}/${service_name}::${service_type}"] -> Anchor['octavia::service::end']
-  }
+  Keystone::Resource::Service_identity['octavia'] -> Anchor['octavia::service::end']
 
   keystone::resource::service_identity { 'octavia':
     configure_user      => $configure_user,

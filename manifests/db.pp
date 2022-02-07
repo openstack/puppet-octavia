@@ -43,12 +43,6 @@
 #   before error is raised. Set to -1 to specify an infinite retry count.
 #   Defaults to $::os_service_default
 #
-# DEPRECATED PARAMETERS
-#
-# [*database_min_pool_size*]
-#   (Optional) Minimum number of SQL connections to keep open in a pool.
-#   Defaults to undef
-#
 class octavia::db (
   $database_connection              = 'sqlite:////var/lib/octavia/octavia.sqlite',
   $database_connection_recycle_time = $::os_service_default,
@@ -59,36 +53,20 @@ class octavia::db (
   $database_pool_timeout            = $::os_service_default,
   $mysql_enable_ndb                 = $::os_service_default,
   $database_db_max_retries          = $::os_service_default,
-  # DEPRECATED PARAMETERS
-  $database_min_pool_size           = undef,
 ) {
 
   include octavia::deps
 
-  if $::octavia::database_min_pool_size or $database_min_pool_size {
-    warning('The database_min_pool_size parameter is deprecated, and will be removed in a future release.')
-  }
-
-  $database_connection_real = pick($::octavia::database_connection, $database_connection)
-  $database_connection_recycle_time_real = pick($::octavia::database_idle_timeout,
-                                                $database_connection_recycle_time)
-  $database_max_pool_size_real = pick($::octavia::database_max_pool_size, $database_max_pool_size)
-  $database_max_retries_real = pick($::octavia::database_max_retries, $database_max_retries)
-  $database_retry_interval_real = pick($::octavia::database_retry_interval, $database_retry_interval)
-  $database_max_overflow_real = pick($::octavia::database_max_overflow, $database_max_overflow)
-  $database_pool_timeout_real = pick($::octavia::database_pool_timeout, $database_pool_timeout)
-  $database_db_max_retries_real = pick($::octavia::database_db_max_retries, $database_db_max_retries)
-
   oslo::db { 'octavia_config':
-    connection              => $database_connection_real,
-    connection_recycle_time => $database_connection_recycle_time_real,
-    max_pool_size           => $database_max_pool_size_real,
-    max_retries             => $database_max_retries_real,
-    retry_interval          => $database_retry_interval_real,
-    max_overflow            => $database_max_overflow_real,
-    pool_timeout            => $database_pool_timeout_real,
+    connection              => $database_connection,
+    connection_recycle_time => $database_connection_recycle_time,
+    max_pool_size           => $database_max_pool_size,
+    max_retries             => $database_max_retries,
+    retry_interval          => $database_retry_interval,
+    max_overflow            => $database_max_overflow,
+    pool_timeout            => $database_pool_timeout,
     mysql_enable_ndb        => $mysql_enable_ndb,
-    db_max_retries          => $database_db_max_retries_real,
+    db_max_retries          => $database_db_max_retries,
   }
 
 }

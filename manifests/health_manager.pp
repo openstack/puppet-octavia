@@ -40,6 +40,10 @@
 #  (optional) Sleep time between health checks in seconds.
 #  Defaults to $::os_service_default
 #
+# [*heartbeat_interval*]
+#  (optional) Sleep time between sending heartbeats.
+#  Defaults to $::os_service_default
+#
 # [*sock_rlimit*]
 #  (optional) Sets the value of the heartbeat recv buffer
 #  Defaults to $::os_service_default
@@ -61,6 +65,7 @@ class octavia::health_manager (
   $failover_threads      = $::os_service_default,
   $heartbeat_timeout     = $::os_service_default,
   $health_check_interval = $::os_service_default,
+  $heartbeat_interval    = $::os_service_default,
   $sock_rlimit           = $::os_service_default,
   # DEPRECATED PARAMETERS
   $event_streamer_driver = undef,
@@ -107,6 +112,7 @@ class octavia::health_manager (
     'health_manager/failover_threads'       : value => $failover_threads;
     'health_manager/heartbeat_timeout'      : value => $heartbeat_timeout;
     'health_manager/health_check_interval'  : value => $health_check_interval;
+    'health_manager/heartbeat_interval'     : value => $heartbeat_interval;
     'health_manager/sock_rlimit'            : value => $sock_rlimit;
   }
 }

@@ -180,12 +180,6 @@
 #   in the octavia config.
 #   Defaults to false.
 #
-# DEPRECATED PARAMETERS
-#
-# [*amqp_allow_insecure_clients*]
-#   (Optional) Accept clients using either SSL or plain TCP
-#   Defaults to undef.
-#
 class octavia (
   $package_ensure                     = 'present',
   $default_transport_url              = $::os_service_default,
@@ -224,17 +218,10 @@ class octavia (
   $notification_topics                = $::os_service_default,
   $topic                              = 'octavia-rpc',
   $purge_config                       = false,
-  # DEPRECATED PARAMETERS
-  $amqp_allow_insecure_clients        = undef,
 ) inherits octavia::params {
 
   include octavia::deps
   include octavia::db
-
-  if $amqp_allow_insecure_clients != undef {
-    warning('The amqp_allow_insecure_clients parameter is deprecated and \
-will be removed in a future release.')
-  }
 
   package { 'octavia':
     ensure => $package_ensure,

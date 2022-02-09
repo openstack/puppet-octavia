@@ -80,6 +80,33 @@
 #   (optional) The interval healthcheck plugin should cache results, in seconds.
 #   Defaults to $::os_service_default
 #
+# [*default_listener_ciphers*]
+#   (optional) Default OpenSSL cipher string (colon-separated) for new
+#   TLS-enabled pools.
+#   Defaults to $::os_service_default
+#
+# [*default_pool_ciphers*]
+#   (optional) Default OpenSSL cipher string (colon-separated) for new
+#   TLS-enabled pools.
+#   Defaults to $::os_service_default
+#
+# [*tls_cipher_prohibit_list*]
+#   (optional) Colon separated list of OpenSSL ciphers. Usage of these ciphers
+#   will be blocked.
+#   Defaults to $::os_service_default
+#
+# [*default_listener_tls_versions*]
+#   (optional) List of TLS versions to use for new TLS-enabled listeners.
+#   Defaults to $::os_service_default
+#
+# [*default_pool_tls_versions*]
+#   (optional) List of TLS versions to use for new TLS-enabled pools.
+#   Defaults to $::os_service_default
+#
+# [*minimum_tls_version*]
+#   (optional) Minimum allowed TLS version for listeners and pools.
+#   Defaults to $::os_service_default
+#
 class octavia::api (
   $enabled                        = true,
   $manage_service                 = true,
@@ -99,6 +126,12 @@ class octavia::api (
   $pagination_max_limit           = $::os_service_default,
   $healthcheck_enabled            = $::os_service_default,
   $healthcheck_refresh_interval   = $::os_service_default,
+  $default_listener_ciphers       = $::os_service_default,
+  $default_pool_ciphers           = $::os_service_default,
+  $tls_cipher_prohibit_list       = $::os_service_default,
+  $default_listener_tls_versions  = $::os_service_default,
+  $default_pool_tls_versions      = $::os_service_default,
+  $minimum_tls_version            = $::os_service_default,
 ) inherits octavia::params {
 
   include octavia::deps
@@ -160,6 +193,12 @@ class octavia::api (
     'api_settings/pagination_max_limit':           value => $pagination_max_limit;
     'api_settings/healthcheck_enabled':            value => $healthcheck_enabled;
     'api_settings/healthcheck_refresh_interval':   value => $healthcheck_refresh_interval;
+    'api_settings/default_listener_ciphers':       value => join(any2array($default_listener_ciphers), ':');
+    'api_settings/default_pool_ciphers':           value => join(any2array($default_pool_ciphers), ':');
+    'api_settings/tls_cipher_prohibit_list':       value => join(any2array($tls_cipher_prohibit_list), ':');
+    'api_settings/default_listener_tls_versions':  value => join(any2array($default_listener_tls_versions), ',');
+    'api_settings/default_pool_tls_versions':      value => join(any2array($default_pool_tls_versions), ',');
+    'api_settings/minimum_tls_version':            value => $minimum_tls_version;
   }
 
   oslo::middleware { 'octavia_config':

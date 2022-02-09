@@ -1,0 +1,13 @@
+---
+features:
+  - |
+    The following parameters have been added to the ``octavia::api`` class.
+    These parameters allows customizing the same parameters in
+    the ``[api_setting]`` section.
+
+    - ``default_listener_ciphers``
+    - ``default_pool_ciphers``
+    - ``tls_cipher_prohibit_list``
+    - ``default_listener_tls_versions``
+    - ``default_pool_tls_versions``
+    - ``minimum_tls_version``

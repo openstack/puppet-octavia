@@ -59,6 +59,12 @@ describe 'octavia::api' do
         is_expected.to contain_octavia_config('api_settings/pagination_max_limit').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_octavia_config('api_settings/healthcheck_enabled').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_octavia_config('api_settings/healthcheck_refresh_interval').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('api_settings/default_listener_ciphers').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('api_settings/default_pool_ciphers').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('api_settings/tls_cipher_prohibit_list').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('api_settings/default_listener_tls_versions').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('api_settings/default_pool_tls_versions').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('api_settings/minimum_tls_version').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_oslo__middleware('octavia_config').with(
           :enable_proxy_headers_parsing => '<SERVICE DEFAULT>',
         )
@@ -143,6 +149,34 @@ describe 'octavia::api' do
 
       it 'configures healthcheck_enabled' do
         is_expected.to contain_octavia_config('api_settings/healthcheck_enabled').with_value(true)
+      end
+    end
+
+    context 'with tls cipher/version set' do
+      before do
+        params.merge!({
+          :default_listener_ciphers      => ['TLS_AES_256_GCM_SHA384', 'TLS_CHACHA20_POLY1305_SHA256', 'TLS_AES_128_GCM_SHA256'],
+          :default_pool_ciphers          => ['TLS_AES_256_GCM_SHA384', 'TLS_CHACHA20_POLY1305_SHA256'],
+          :tls_cipher_prohibit_list      => ['ECDHE-RSA-AES256-SHA384', 'ECDHE-RSA-AES128-SHA256'],
+          :default_listener_tls_versions => ['TLSv1.1', 'TLSv1.2', 'TLSv1.3'],
+          :default_pool_tls_versions     => ['TLSv1.2', 'TLSv1.3'],
+          :minimum_tls_version           => 'TLSv1',
+        })
+      end
+
+      it 'configures tls parameters' do
+        is_expected.to contain_octavia_config('api_settings/default_listener_ciphers')\
+          .with_value('TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256:TLS_AES_128_GCM_SHA256')
+        is_expected.to contain_octavia_config('api_settings/default_pool_ciphers')\
+          .with_value('TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256')
+        is_expected.to contain_octavia_config('api_settings/tls_cipher_prohibit_list')\
+          .with_value('ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES128-SHA256')
+        is_expected.to contain_octavia_config('api_settings/default_listener_tls_versions')\
+          .with_value('TLSv1.1,TLSv1.2,TLSv1.3')
+        is_expected.to contain_octavia_config('api_settings/default_pool_tls_versions')\
+          .with_value('TLSv1.2,TLSv1.3')
+        is_expected.to contain_octavia_config('api_settings/minimum_tls_version')\
+          .with_value('TLSv1')
       end
     end
   end

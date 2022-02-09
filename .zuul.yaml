@@ -10,10 +10,10 @@
             voting: false
 
 - nodeset:
-    name: puppet-octavia-tripleo-single-node-centos-8-stream-nested-virt
+    name: puppet-octavia-tripleo-single-node-centos-9-stream-nested-virt
     nodes:
       - name: primary
-        label: nested-virt-centos-8-stream
+        label: nested-virt-centos-9-stream
     groups:
       - name: switch
         nodes:
@@ -21,12 +21,12 @@
       - name: peers
         nodes: []
 
-# redefine tripleo-ci-centos-8-scenario010-standalone with tripleo-puppet-ci
+# redefine tripleo-ci-centos-9-scenario010-standalone with tripleo-puppet-ci
 # job as its base.
 - job:
     name: puppet-octavia-tripleo-standalone
-    parent: tripleo-puppet-ci-centos-8-standalone
-    nodeset: puppet-octavia-tripleo-single-node-centos-8-stream-nested-virt
+    parent: tripleo-puppet-ci-centos-9-standalone
+    nodeset: puppet-octavia-tripleo-single-node-centos-9-stream-nested-virt
     description: |
       TripleO standalone Job running Octavia specific Tempest tests.
     vars:

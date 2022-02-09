@@ -38,6 +38,7 @@ describe 'octavia::health_manager' do
       it { is_expected.to contain_octavia_config('health_manager/failover_threads').with_value('<SERVICE DEFAULT>') }
       it { is_expected.to contain_octavia_config('health_manager/heartbeat_timeout').with_value('<SERVICE DEFAULT>') }
       it { is_expected.to contain_octavia_config('health_manager/health_check_interval').with_value('<SERVICE DEFAULT>') }
+      it { is_expected.to contain_octavia_config('health_manager/heartbeat_interval').with_value('<SERVICE DEFAULT>') }
       it { is_expected.to contain_octavia_config('health_manager/sock_rlimit').with_value('<SERVICE DEFAULT>') }
     end
 
@@ -103,6 +104,7 @@ describe 'octavia::health_manager' do
           :failover_threads      => 10,
           :heartbeat_timeout     => 60,
           :health_check_interval => 3,
+          :heartbeat_interval    => 42,
           :sock_rlimit           => 1,
         })
       end
@@ -111,6 +113,7 @@ describe 'octavia::health_manager' do
       it { is_expected.to contain_octavia_config('health_manager/failover_threads').with_value(10) }
       it { is_expected.to contain_octavia_config('health_manager/heartbeat_timeout').with_value(60) }
       it { is_expected.to contain_octavia_config('health_manager/health_check_interval').with_value(3) }
+      it { is_expected.to contain_octavia_config('health_manager/heartbeat_interval').with_value(42) }
       it { is_expected.to contain_octavia_config('health_manager/sock_rlimit').with_value(1) }
     end
   end

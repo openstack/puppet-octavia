@@ -48,12 +48,6 @@
 #  (optional) Sets the value of the heartbeat recv buffer
 #  Defaults to $::os_service_default
 #
-# DEPRECATED PARAMETERS
-#
-# [*event_streamer_driver*]
-#   (optional) Driver to use for synchronizing octavia and lbaas databases.
-#   Defaults to $::os_service_default
-#
 class octavia::health_manager (
   $heartbeat_key,
   $manage_service        = true,
@@ -67,18 +61,12 @@ class octavia::health_manager (
   $health_check_interval = $::os_service_default,
   $heartbeat_interval    = $::os_service_default,
   $sock_rlimit           = $::os_service_default,
-  # DEPRECATED PARAMETERS
-  $event_streamer_driver = undef,
 
 ) inherits octavia::params {
 
   include octavia::deps
 
   validate_legacy(String, 'validate_string', $heartbeat_key)
-
-  if $event_streamer_driver {
-      warning('The event_streamer_driver parameter is deprecated as result of neutron-lbaas retirement.')
-  }
 
   package { 'octavia-health-manager':
     ensure => $package_ensure,

@@ -1,0 +1,5 @@
+---
+upgrade:
+  - |
+    The ``octavia::health_manager::event_streamer_driver`` parameter has been
+    removed.

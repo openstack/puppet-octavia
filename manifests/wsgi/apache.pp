@@ -138,7 +138,7 @@ class octavia::wsgi::apache (
   ::openstacklib::wsgi::apache { 'octavia_wsgi':
     bind_host                   => $bind_host,
     bind_port                   => $port,
-    group                       => 'octavia',
+    group                       => $::octavia::params::group,
     path                        => $path,
     priority                    => $priority,
     servername                  => $servername,
@@ -151,7 +151,7 @@ class octavia::wsgi::apache (
     ssl_crl_path                => $ssl_crl_path,
     ssl_key                     => $ssl_key,
     threads                     => $threads,
-    user                        => 'octavia',
+    user                        => $::octavia::params::user,
     vhost_custom_fragment       => $vhost_custom_fragment,
     workers                     => $workers,
     wsgi_daemon_process         => 'octavia',

@@ -3,46 +3,45 @@
 #
 # === Parameters:
 #
+# [*password*]
+#   (required) Password for user
+#
 # [*auth_url*]
 #   (optional) Keystone Authentication URL
-#   Defaults to $::os_service_default
+#   Defaults to 'http://localhost:5000'
 #
 # [*username*]
 #   (optional) User for accessing neutron and other services.
-#   Defaults to $::os_service_default
+#   Defaults to 'octavia'
 #
 # [*project_name*]
 #   (optional) Tenant for accessing neutron and other services
-#   Defaults to $::os_service_default
-#
-# [*password*]
-#   (optional) Password for user
-#   Defaults to $::os_service_default
+#   Defaults to 'services'
 #
 # [*user_domain_name*]
 #   (optional) keystone user domain
-#   Defaults to $::os_service_default
+#   Defaults to 'Default'
 #
 # [*project_domain_name*]
 #   (optional) keystone project domain
-#   Defaults to $::os_service_default
+#   Defaults to 'Default'
 #
 # [*auth_type*]
 #   (optional) keystone authentication type
-#   Defaults to $::os_service_default
+#   Defaults to 'password'
 #
 # [*region_name*]
 #   (Optional) The region in which the identity server can be found.
 #   Defaults to $::os_service_default.
 #
 class octavia::service_auth (
-  $auth_url            = $::os_service_default,
-  $username            = $::os_service_default,
-  $project_name        = $::os_service_default,
-  $password            = $::os_service_default,
-  $user_domain_name    = $::os_service_default,
-  $project_domain_name = $::os_service_default,
-  $auth_type           = $::os_service_default,
+  $password,
+  $auth_url            = 'http://localhost:5000',
+  $username            = 'octavia',
+  $project_name        = 'services',
+  $user_domain_name    = 'Default',
+  $project_domain_name = 'Default',
+  $auth_type           = 'password',
   $region_name         = $::os_service_default,
 ) {
 

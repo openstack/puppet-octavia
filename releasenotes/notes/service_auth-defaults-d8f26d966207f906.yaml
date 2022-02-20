@@ -1,0 +1,9 @@
+---
+upgrade:
+  - |
+    The ``octavia::service_auth::password`` parameter is now required.
+
+  - |
+    Default values of the ``octavia::service_auth`` parameeters have been
+    updated, so that standalone deployment can be set up with less parameters
+    set.

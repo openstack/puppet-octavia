@@ -18,11 +18,12 @@ class octavia::db::sync(
 ) {
 
   include octavia::deps
+  include octavia::params
 
   exec { 'octavia-db-sync':
     command     => "octavia-db-manage upgrade head ${extra_params}",
     path        => '/usr/bin',
-    user        => 'octavia',
+    user        => $::octavia::params::user,
     refreshonly => true,
     try_sleep   => 5,
     tries       => 10,

@@ -130,12 +130,12 @@ class octavia::worker (
       ensure => directory,
       path   => $key_path,
       mode   => '0700',
-      group  => 'octavia',
-      owner  => 'octavia'
+      group  => $::octavia::params::group,
+      owner  => $::octavia::params::user
     }
 
     ssh_keygen { $::octavia::controller::amp_ssh_key_name:
-      user     => 'octavia',
+      user     => $::octavia::params::user,
       type     => 'rsa',
       bits     => 2048,
       filename => "${key_path}/${::octavia::controller::amp_ssh_key_name}",

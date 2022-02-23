@@ -12,7 +12,7 @@ describe 'octavia::api' do
       :api_v2_enabled                 => true,
       :allow_tls_terminated_listeners => false,
       :default_provider_driver        => 'ovn',
-      :provider_drivers               => { 'amphora' => 'Octavia Amphora Driver', 'ovn' => 'Octavia OVN driver' },
+      :provider_drivers               => 'amphora:Octavia Amphora Driver,ovn:Octavia OVN driver',
       :pagination_max_limit           => '1000',
       :healthcheck_enabled            => true,
       :healthcheck_refresh_interval   => 5,
@@ -76,7 +76,7 @@ describe 'octavia::api' do
       end
     end
 
-    it 'configures bind_host and bind_port' do
+    it 'configures parameters' do
       is_expected.to contain_octavia_config('api_settings/bind_host').with_value( params[:host] )
       is_expected.to contain_octavia_config('api_settings/bind_port').with_value( params[:port] )
       is_expected.to contain_octavia_config('api_settings/api_handler').with_value( params[:api_handler] )
@@ -180,6 +180,36 @@ describe 'octavia::api' do
           .with_value('TLSv1.2,TLSv1.3')
         is_expected.to contain_octavia_config('api_settings/minimum_tls_version')\
           .with_value('TLSv1')
+      end
+    end
+
+    context 'with provider_drivers in array' do
+      before do
+        params.merge!({
+          :provider_drivers => [
+            'amphora:Octavia Amphora driver',
+            'ovn:Octavia OVN driver'
+          ]
+        })
+      end
+      it 'configures parameters' do
+        is_expected.to contain_octavia_config('api_settings/enabled_provider_drivers')\
+          .with_value('amphora:Octavia Amphora driver,ovn:Octavia OVN driver')
+      end
+    end
+
+    context 'with provider_drivers in hash' do
+      before do
+        params.merge!({
+          :provider_drivers => {
+            'amphora' => 'Octavia Amphora driver',
+            'ovn'     => 'Octavia OVN driver'
+          }
+        })
+      end
+      it 'configures parameters' do
+        is_expected.to contain_octavia_config('api_settings/enabled_provider_drivers')\
+          .with_value('amphora:Octavia Amphora driver,ovn:Octavia OVN driver')
       end
     end
   end

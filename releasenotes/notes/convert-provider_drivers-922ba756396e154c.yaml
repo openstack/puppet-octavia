@@ -1,0 +1,6 @@
+---
+features:
+  - |
+    The ``octavia::api::provider_drivers`` parameter now supports array or hash
+    value, and the given value is conveted to correctly formatted string when
+    being put into octavia.conf.

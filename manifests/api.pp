@@ -193,6 +193,12 @@ class octavia::api (
     include octavia::db::sync
   }
 
+  if $provider_drivers =~ Hash {
+    $provider_drivers_real = join(join_keys_to_values($provider_drivers, ':'), ',')
+  } else {
+    $provider_drivers_real = join(any2array($provider_drivers), ',')
+  }
+
   octavia_config {
     'api_settings/bind_host':                      value => $host;
     'api_settings/bind_port':                      value => $port;
@@ -202,7 +208,7 @@ class octavia::api (
     'api_settings/api_v2_enabled':                 value => $api_v2_enabled;
     'api_settings/allow_tls_terminated_listeners': value => $allow_tls_terminated_listeners;
     'api_settings/default_provider_driver':        value => $default_provider_driver;
-    'api_settings/enabled_provider_drivers':       value => $provider_drivers;
+    'api_settings/enabled_provider_drivers':       value => $provider_drivers_real;
     'api_settings/pagination_max_limit':           value => $pagination_max_limit;
     'api_settings/healthcheck_enabled':            value => $healthcheck_enabled;
     'api_settings/healthcheck_refresh_interval':   value => $healthcheck_refresh_interval;

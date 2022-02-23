@@ -64,7 +64,7 @@
 #   (optional) Configure the default provider driver.
 #   Defaults to $::os_service_default
 #
-# [*provider_drivers*]
+# [*enabled_provider_drivers*]
 #   (optional) Configure the loadbalancer provider drivers.
 #   Defaults to $::os_service_default
 #
@@ -107,6 +107,12 @@
 #   (optional) Minimum allowed TLS version for listeners and pools.
 #   Defaults to $::os_service_default
 #
+# DEPRECATED PARAMETERS
+#
+# [*provider_drivers*]
+#   (optional) Configure the loadbalancer provider drivers.
+#   Defaults to undef
+#
 class octavia::api (
   $enabled                        = true,
   $manage_service                 = true,
@@ -122,7 +128,7 @@ class octavia::api (
   $sync_db                        = false,
   $enable_proxy_headers_parsing   = $::os_service_default,
   $default_provider_driver        = $::os_service_default,
-  $provider_drivers               = $::os_service_default,
+  $enabled_provider_drivers       = $::os_service_default,
   $pagination_max_limit           = $::os_service_default,
   $healthcheck_enabled            = $::os_service_default,
   $healthcheck_refresh_interval   = $::os_service_default,
@@ -132,11 +138,18 @@ class octavia::api (
   $default_listener_tls_versions  = $::os_service_default,
   $default_pool_tls_versions      = $::os_service_default,
   $minimum_tls_version            = $::os_service_default,
+  # DEPRECATED PARAMETERS
+  $provider_drivers               = undef,
 ) inherits octavia::params {
 
   include octavia::deps
   include octavia::policy
   include octavia::db
+
+  if $provider_drivers != undef {
+    warning('The provider_drivers parameter is deprecated. \
+Use the enabled_provider_drivers parameter instead.')
+  }
 
   if $auth_strategy == 'keystone' {
     include octavia::keystone::authtoken
@@ -180,10 +193,11 @@ class octavia::api (
     include octavia::db::sync
   }
 
-  if $provider_drivers =~ Hash {
-    $provider_drivers_real = join(join_keys_to_values($provider_drivers, ':'), ',')
+  $enabled_provider_drivers_raw = pick($provider_drivers, $enabled_provider_drivers)
+  if $enabled_provider_drivers_raw =~ Hash {
+    $enabled_provider_drivers_real = join(join_keys_to_values($enabled_provider_drivers_raw, ':'), ',')
   } else {
-    $provider_drivers_real = join(any2array($provider_drivers), ',')
+    $enabled_provider_drivers_real = join(any2array($enabled_provider_drivers_raw), ',')
   }
 
   octavia_config {
@@ -195,7 +209,7 @@ class octavia::api (
     'api_settings/api_v2_enabled':                 value => $api_v2_enabled;
     'api_settings/allow_tls_terminated_listeners': value => $allow_tls_terminated_listeners;
     'api_settings/default_provider_driver':        value => $default_provider_driver;
-    'api_settings/enabled_provider_drivers':       value => $provider_drivers_real;
+    'api_settings/enabled_provider_drivers':       value => $enabled_provider_drivers_real;
     'api_settings/pagination_max_limit':           value => $pagination_max_limit;
     'api_settings/healthcheck_enabled':            value => $healthcheck_enabled;
     'api_settings/healthcheck_refresh_interval':   value => $healthcheck_refresh_interval;

@@ -12,7 +12,7 @@ describe 'octavia::api' do
       :api_v2_enabled                 => true,
       :allow_tls_terminated_listeners => false,
       :default_provider_driver        => 'ovn',
-      :provider_drivers               => 'amphora:Octavia Amphora Driver,ovn:Octavia OVN driver',
+      :enabled_provider_drivers       => 'amphora:Octavia Amphora driver,ovn:Octavia OVN driver',
       :pagination_max_limit           => '1000',
       :healthcheck_enabled            => true,
       :healthcheck_refresh_interval   => 5,
@@ -82,7 +82,7 @@ describe 'octavia::api' do
       is_expected.to contain_octavia_config('api_settings/api_v2_enabled').with_value( params[:api_v2_enabled] )
       is_expected.to contain_octavia_config('api_settings/allow_tls_terminated_listeners').with_value( params[:allow_tls_terminated_listeners] )
       is_expected.to contain_octavia_config('api_settings/default_provider_driver').with_value( params[:default_provider_driver] )
-      is_expected.to contain_octavia_config('api_settings/enabled_provider_drivers').with_value( params[:provider_drivers] )
+      is_expected.to contain_octavia_config('api_settings/enabled_provider_drivers').with_value( params[:enabled_provider_drivers] )
       is_expected.to contain_octavia_config('api_settings/pagination_max_limit').with_value( params[:pagination_max_limit] )
       is_expected.to contain_octavia_config('api_settings/healthcheck_enabled').with_value( params[:healthcheck_enabled] )
       is_expected.to contain_octavia_config('api_settings/healthcheck_refresh_interval').with_value( params[:healthcheck_refresh_interval] )
@@ -180,10 +180,10 @@ describe 'octavia::api' do
       end
     end
 
-    context 'with provider_drivers in array' do
+    context 'with enabled_provider_drivers in array' do
       before do
         params.merge!({
-          :provider_drivers => [
+          :enabled_provider_drivers => [
             'amphora:Octavia Amphora driver',
             'ovn:Octavia OVN driver'
           ]
@@ -195,13 +195,25 @@ describe 'octavia::api' do
       end
     end
 
-    context 'with provider_drivers in hash' do
+    context 'with enabled_provider_drivers in hash' do
       before do
         params.merge!({
-          :provider_drivers => {
+          :enabled_provider_drivers => {
             'amphora' => 'Octavia Amphora driver',
             'ovn'     => 'Octavia OVN driver'
           }
+        })
+      end
+      it 'configures parameters' do
+        is_expected.to contain_octavia_config('api_settings/enabled_provider_drivers')\
+          .with_value('amphora:Octavia Amphora driver,ovn:Octavia OVN driver')
+      end
+    end
+
+    context 'with deprecated provider_drivers in hash' do
+      before do
+        params.merge!({
+          :provider_drivers => 'amphora:Octavia Amphora driver,ovn:Octavia OVN driver'
         })
       end
       it 'configures parameters' do

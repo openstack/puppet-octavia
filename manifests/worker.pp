@@ -40,7 +40,7 @@
 #
 # [*amp_project_name*]
 #   (optional) Set the project to be used for creating load balancer instances.
-#   Defaults to undef
+#   Defaults to 'services'
 #
 class octavia::worker (
   $manage_service         = true,
@@ -51,7 +51,7 @@ class octavia::worker (
   $nova_flavor_config     = {},
   $key_path               = '/etc/octavia/.ssh/octavia_ssh_key',
   $manage_keygen          = false,
-  $amp_project_name       = undef,
+  $amp_project_name       = 'services',
 ) inherits octavia::params {
 
   include octavia::deps
@@ -71,8 +71,8 @@ class octavia::worker (
   } else {
     if $manage_nova_flavor {
       $octavia_flavor = { "octavia_${::octavia::controller::amp_flavor_id}" =>
-        { 'id'      => $::octavia::controller::amp_flavor_id,
-          'project' => $amp_project_name
+        { 'id'           => $::octavia::controller::amp_flavor_id,
+          'project_name' => $amp_project_name
         }
       }
 

@@ -27,7 +27,6 @@ describe 'octavia::worker' do
         params.merge!({
           :workers               => 8,
           :key_path              => '/opt/octavia/ssh/amphora_key',
-          :amp_project_name      => 'loadbalancers',
           :nova_flavor_config    => {
             'ram'     => '2048',
             'disk'    => '3',
@@ -39,14 +38,14 @@ describe 'octavia::worker' do
       it { is_expected.to contain_octavia_config('controller_worker/workers').with_value(8) }
       it 'deploys a nova flavor for amphora' do
         is_expected.to contain_nova_flavor('octavia_42').with(
-          :ensure    => 'present',
-          :id        => '42',
-          :ram       => '2048',
-          :disk      => '3',
-          :vcpus     => '4',
-          :is_public => false,
-          :project   => 'loadbalancers',
-          :tag       => ['octavia'],
+          :ensure       => 'present',
+          :id           => '42',
+          :ram          => '2048',
+          :disk         => '3',
+          :vcpus        => '4',
+          :is_public    => false,
+          :project_name => 'services',
+          :tag          => ['octavia'],
         )
       end
     end
@@ -72,13 +71,14 @@ describe 'octavia::worker' do
 
     it 'deploys nova flavor for octavia worker' do
       is_expected.to contain_nova_flavor('octavia_65').with(
-        :ensure    => 'present',
-        :id        => '65',
-        :ram       => '1024',
-        :disk      => '2',
-        :vcpus     => '1',
-        :is_public => false,
-        :tag       => ['octavia'],
+        :ensure       => 'present',
+        :id           => '65',
+        :ram          => '1024',
+        :disk         => '2',
+        :vcpus        => '1',
+        :is_public    => false,
+        :project_name => 'services',
+        :tag          => ['octavia'],
       )
     end
 

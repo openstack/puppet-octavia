@@ -18,6 +18,7 @@ describe 'octavia::service_auth' do
         is_expected.to contain_octavia_config('service_auth/password').with_value('secrete').with_secret(true)
         is_expected.to contain_octavia_config('service_auth/user_domain_name').with_value('Default')
         is_expected.to contain_octavia_config('service_auth/project_domain_name').with_value('Default')
+        is_expected.to contain_octavia_config('service_auth/system_scope').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_octavia_config('service_auth/auth_type').with_value('password')
         is_expected.to contain_octavia_config('service_auth/region_name').with_value('<SERVICE DEFAULT>')
       end
@@ -43,8 +44,22 @@ describe 'octavia::service_auth' do
         is_expected.to contain_octavia_config('service_auth/password').with_value('secrete').with_secret(true)
         is_expected.to contain_octavia_config('service_auth/user_domain_name').with_value('my_domain_name')
         is_expected.to contain_octavia_config('service_auth/project_domain_name').with_value('our_domain_name')
+        is_expected.to contain_octavia_config('service_auth/system_scope').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_octavia_config('service_auth/auth_type').with_value('v3password')
         is_expected.to contain_octavia_config('service_auth/region_name').with_value('regionOne')
+      end
+    end
+
+    context 'when system_scope is set' do
+      before do
+        params.merge!(
+          :system_scope => 'all'
+        )
+      end
+      it 'configures system-scoped credential' do
+        is_expected.to contain_octavia_config('service_auth/project_domain_name').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('service_auth/project_name').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('service_auth/system_scope').with_value('all')
       end
     end
   end

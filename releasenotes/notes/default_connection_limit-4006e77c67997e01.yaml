@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    The new ``octavia::controller::default_connection_limit`` parameter has been
+    added.

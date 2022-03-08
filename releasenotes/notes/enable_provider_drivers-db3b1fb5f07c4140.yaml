@@ -1,0 +1,5 @@
+---
+deprecations:
+  - |
+    The ``octavia::api::provider_drivers`` parameter has been deprecated in
+    favor of the new ``octavia::api::enabled_provider_drivers`` parameter.

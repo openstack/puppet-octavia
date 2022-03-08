@@ -25,8 +25,31 @@ describe 'octavia::db::postgresql' do
         :encoding   => nil,
         :privileges => 'ALL',
       )}
+      it { is_expected.to_not contain_openstacklib__db__postgresql('octavia_persistence') }
     end
 
+    context 'with persistence database enabled' do
+      let :params do
+        req_params.merge!(:persistence_dbname => 'octavia_persistence')
+      end
+
+      it { is_expected.to contain_class('octavia::deps') }
+
+      it { is_expected.to contain_openstacklib__db__postgresql('octavia').with(
+        :user       => 'octavia',
+        :password   => 'octaviapass',
+        :dbname     => 'octavia',
+        :encoding   => nil,
+        :privileges => 'ALL',
+      )}
+      it { is_expected.to contain_openstacklib__db__postgresql('octavia_persistence').with(
+        :user       => 'octavia',
+        :password   => 'octaviapass',
+        :dbname     => 'octavia_persistence',
+        :encoding   => nil,
+        :privileges => 'ALL',
+      )}
+    end
   end
 
   on_supported_os({

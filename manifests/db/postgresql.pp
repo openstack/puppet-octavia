@@ -12,6 +12,10 @@
 #   (Optional) Name of the database.
 #   Defaults to 'octavia'.
 #
+# [*persistence_dbname*]
+#   (Optional) Name of the database dedicated to task_flow persistence.
+#   Defaults to 'undef'.
+#
 # [*user*]
 #   (Optional) User to connect to the database.
 #   Defaults to 'octavia'.
@@ -26,10 +30,11 @@
 #
 class octavia::db::postgresql(
   $password,
-  $dbname     = 'octavia',
-  $user       = 'octavia',
-  $encoding   = undef,
-  $privileges = 'ALL',
+  $dbname             = 'octavia',
+  $persistence_dbname = undef,
+  $user               = 'octavia',
+  $encoding           = undef,
+  $privileges         = 'ALL',
 ) {
 
   include octavia::deps
@@ -40,6 +45,16 @@ class octavia::db::postgresql(
     user       => $user,
     encoding   => $encoding,
     privileges => $privileges,
+  }
+
+  if $persistence_dbname {
+    ::openstacklib::db::postgresql { 'octavia_persistence':
+      password   => $password,
+      dbname     => $persistence_dbname,
+      user       => $user,
+      encoding   => $encoding,
+      privileges => $privileges,
+    }
   }
 
   Anchor['octavia::db::begin']

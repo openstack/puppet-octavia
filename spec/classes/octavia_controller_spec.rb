@@ -41,6 +41,7 @@ describe 'octavia::controller' do
           :build_rate_limit                   => 10,
           :build_active_retries               => 120,
           :build_retry_interval               => 5,
+          :default_connection_limit           => 50000,
           :port_detach_timeout                => 15,
           :admin_log_targets                  => ['192.0.2.1:10514', '2001:db8:1::10:10514'],
           :administrative_log_facility        => 2,
@@ -87,6 +88,7 @@ describe 'octavia::controller' do
         is_expected.to contain_octavia_config('haproxy_amphora/build_rate_limit').with_value(10)
         is_expected.to contain_octavia_config('haproxy_amphora/build_active_retries').with_value(120)
         is_expected.to contain_octavia_config('haproxy_amphora/build_retry_interval').with_value(5)
+        is_expected.to contain_octavia_config('haproxy_amphora/default_connection_limit').with_value(50000)
         is_expected.to contain_octavia_config('networking/port_detach_timeout').with_value(15)
         is_expected.to contain_octavia_config('amphora_agent/admin_log_targets').with_value('192.0.2.1:10514,2001:db8:1::10:10514')
         is_expected.to contain_octavia_config('amphora_agent/administrative_log_facility').with_value(2)
@@ -134,6 +136,7 @@ describe 'octavia::controller' do
       is_expected.to contain_octavia_config('haproxy_amphora/build_rate_limit').with_value('<SERVICE DEFAULT>')
       is_expected.to contain_octavia_config('haproxy_amphora/build_active_retries').with_value('<SERVICE DEFAULT>')
       is_expected.to contain_octavia_config('haproxy_amphora/build_retry_interval').with_value('<SERVICE DEFAULT>')
+      is_expected.to contain_octavia_config('haproxy_amphora/default_connection_limit').with_value('<SERVICE DEFAULT>')
       is_expected.to contain_octavia_config('networking/port_detach_timeout').with_value('<SERVICE DEFAULT>')
       is_expected.to contain_octavia_config('amphora_agent/admin_log_targets').with_value('<SERVICE DEFAULT>')
       is_expected.to contain_octavia_config('amphora_agent/administrative_log_facility').with_value('<SERVICE DEFAULT>')

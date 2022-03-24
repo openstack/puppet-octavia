@@ -1,0 +1,8 @@
+---
+features:
+  - |
+    The ``octavia::certificates`` class now supports the following parameters.
+
+    - ``barbican_auth``
+    - ``service_name``
+    - ``endpoint`` 

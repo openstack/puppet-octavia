@@ -12,6 +12,18 @@
 #   (Optional) Certificate manager to use.
 #   Defaults to $::os_service_default
 #
+# [*barbican_auth*]
+#   (Optional) Name of the Barbican authentication method to use.
+#   Defaults to $::os_service_default
+#
+# [*service_name*]
+#   (Optional) The name of the certificate service in the keystone catalog.
+#   Defaults to $::os_service_default
+#
+# [*endpoint*]
+#   (Optional) A new endpoint to override the endpoint in the keystone catalog.
+#   Defaults to $::os_service_default
+#
 # [*region_name*]
 #   (Optional) Region name to use when connecting to cert manager.
 #   Defaults to $::os_service_default
@@ -76,6 +88,9 @@
 class octavia::certificates (
   $cert_generator              = $::os_service_default,
   $cert_manager                = $::os_service_default,
+  $barbican_auth               = $::os_service_default,
+  $service_name                = $::os_service_default,
+  $endpoint                    = $::os_service_default,
   $region_name                 = $::os_service_default,
   $endpoint_type               = $::os_service_default,
   $ca_certificate              = $::os_service_default,
@@ -99,6 +114,9 @@ class octavia::certificates (
   octavia_config {
     'certificates/cert_generator'              : value => $cert_generator;
     'certificates/cert_manager'                : value => $cert_manager;
+    'certificates/barbican_auth'               : value => $barbican_auth;
+    'certificates/service_name'                : value => $service_name;
+    'certificates/endpoint'                    : value => $endpoint;
     'certificates/region_name'                 : value => $region_name;
     'certificates/endpoint_type'               : value => $endpoint_type;
     'certificates/ca_certificate'              : value => $ca_certificate;

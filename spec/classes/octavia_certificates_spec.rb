@@ -7,6 +7,9 @@ describe 'octavia::certificates' do
       it 'configures octavia certificate manager' do
         is_expected.to contain_octavia_config('certificates/cert_generator').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_octavia_config('certificates/cert_manager').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('certificates/barbican_auth').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('certificates/service_name').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('certificates/endpoint').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_octavia_config('certificates/region_name').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_octavia_config('certificates/endpoint_type').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_octavia_config('certificates/ca_certificate').with_value('<SERVICE DEFAULT>')
@@ -25,6 +28,9 @@ describe 'octavia::certificates' do
       let :params do
         { :cert_generator              => 'local_cert_generator',
           :cert_manager                => 'barbican_cert_manager',
+          :barbican_auth               => 'barbican_acl_auth',
+          :service_name                => 'barbican',
+          :endpoint                    => 'http://localhost:9311',
           :region_name                 => 'RegionOne',
           :endpoint_type               => 'internalURL',
           :ca_certificate              => '/etc/octavia/ca.pem',
@@ -38,6 +44,9 @@ describe 'octavia::certificates' do
       it 'configures octavia certificate manager' do
         is_expected.to contain_octavia_config('certificates/cert_generator').with_value('local_cert_generator')
         is_expected.to contain_octavia_config('certificates/cert_manager').with_value('barbican_cert_manager')
+        is_expected.to contain_octavia_config('certificates/barbican_auth').with_value('barbican_acl_auth')
+        is_expected.to contain_octavia_config('certificates/service_name').with_value('barbican')
+        is_expected.to contain_octavia_config('certificates/endpoint').with_value('http://localhost:9311')
         is_expected.to contain_octavia_config('certificates/region_name').with_value('RegionOne')
         is_expected.to contain_octavia_config('certificates/endpoint_type').with_value('internalURL')
         is_expected.to contain_octavia_config('certificates/ca_certificate').with_value('/etc/octavia/ca.pem')

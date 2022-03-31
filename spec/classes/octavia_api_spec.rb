@@ -16,6 +16,7 @@ describe 'octavia::api' do
       :pagination_max_limit           => '1000',
       :healthcheck_enabled            => true,
       :healthcheck_refresh_interval   => 5,
+      :allow_ping_health_monitors     => true,
     }
   end
 
@@ -65,6 +66,7 @@ describe 'octavia::api' do
         is_expected.to contain_octavia_config('api_settings/default_listener_tls_versions').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_octavia_config('api_settings/default_pool_tls_versions').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_octavia_config('api_settings/minimum_tls_version').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('api_settings/allow_ping_health_monitors').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_oslo__middleware('octavia_config').with(
           :enable_proxy_headers_parsing => '<SERVICE DEFAULT>',
         )
@@ -86,6 +88,7 @@ describe 'octavia::api' do
       is_expected.to contain_octavia_config('api_settings/pagination_max_limit').with_value( params[:pagination_max_limit] )
       is_expected.to contain_octavia_config('api_settings/healthcheck_enabled').with_value( params[:healthcheck_enabled] )
       is_expected.to contain_octavia_config('api_settings/healthcheck_refresh_interval').with_value( params[:healthcheck_refresh_interval] )
+      is_expected.to contain_octavia_config('api_settings/allow_ping_health_monitors').with_value( params[:allow_ping_health_monitors] )
     end
 
     [{:enabled => true}, {:enabled => false}].each do |param_hash|

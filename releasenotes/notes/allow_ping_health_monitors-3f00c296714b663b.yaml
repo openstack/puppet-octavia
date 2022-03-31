@@ -1,0 +1,4 @@
+---
+features:
+  - |
+    Added parameter ``allow_ping_health_monitors`` to the ``octavia::api`` class

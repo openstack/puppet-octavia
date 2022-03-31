@@ -107,6 +107,10 @@
 #   (optional) Minimum allowed TLS version for listeners and pools.
 #   Defaults to $::os_service_default
 #
+# [*allow_ping_health_monitors*]
+#   (optional) Allow PING type Health Monitors.
+#   Defaults to $::os_service_default
+#
 # DEPRECATED PARAMETERS
 #
 # [*provider_drivers*]
@@ -138,6 +142,7 @@ class octavia::api (
   $default_listener_tls_versions  = $::os_service_default,
   $default_pool_tls_versions      = $::os_service_default,
   $minimum_tls_version            = $::os_service_default,
+  $allow_ping_health_monitors     = $::os_service_default,
   # DEPRECATED PARAMETERS
   $provider_drivers               = undef,
 ) inherits octavia::params {
@@ -219,6 +224,7 @@ Use the enabled_provider_drivers parameter instead.')
     'api_settings/default_listener_tls_versions':  value => join(any2array($default_listener_tls_versions), ',');
     'api_settings/default_pool_tls_versions':      value => join(any2array($default_pool_tls_versions), ',');
     'api_settings/minimum_tls_version':            value => $minimum_tls_version;
+    'api_settings/allow_ping_health_monitors':     value => $allow_ping_health_monitors;
   }
 
   oslo::middleware { 'octavia_config':

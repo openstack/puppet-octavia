@@ -103,9 +103,9 @@ class octavia::certificates (
   $ca_private_key_data         = undef,
   $client_ca_data              = undef,
   $client_cert_data            = undef,
-  $file_permission_owner       = 'octavia',
-  $file_permission_group       = 'octavia'
-) {
+  $file_permission_owner       = $::octavia::params::user,
+  $file_permission_group       = $::octavia::params::group,
+) inherits octavia::params {
 
   include octavia::deps
 

@@ -15,6 +15,8 @@ describe 'octavia::certificates' do
         is_expected.to contain_octavia_config('certificates/ca_certificate').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_octavia_config('certificates/ca_private_key').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_octavia_config('certificates/ca_private_key_passphrase').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('certificates/signing_digest').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('certificates/cert_validity_time').with_value('<SERVICE DEFAULT>')
       end
 
       it 'configures octavia authentication credentials' do
@@ -37,6 +39,8 @@ describe 'octavia::certificates' do
           :ca_private_key              => '/etc/octavia/key.pem',
           :server_certs_key_passphrase => 'insecure-key-do-not-use-this-key',
           :ca_private_key_passphrase   => 'secure123',
+          :signing_digest              => 'sha256',
+          :cert_validity_time          => 2592000,
           :client_cert                 => '/etc/octavia/client.pem'
         }
       end
@@ -53,6 +57,8 @@ describe 'octavia::certificates' do
         is_expected.to contain_octavia_config('certificates/ca_private_key').with_value('/etc/octavia/key.pem')
         is_expected.to contain_octavia_config('certificates/server_certs_key_passphrase').with_value('insecure-key-do-not-use-this-key')
         is_expected.to contain_octavia_config('certificates/ca_private_key_passphrase').with_value('secure123')
+        is_expected.to contain_octavia_config('certificates/signing_digest').with_value('sha256')
+        is_expected.to contain_octavia_config('certificates/cert_validity_time').with_value(2592000)
       end
 
       it 'configures octavia authentication credentials' do

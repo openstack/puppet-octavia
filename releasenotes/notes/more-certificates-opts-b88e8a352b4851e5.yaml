@@ -1,0 +1,8 @@
+---
+features:
+  - |
+    The ``octavia::certificates`` class now supports the following two new
+    parameters.
+
+    - ``signing_digest``
+    - ``cert_validity_time``

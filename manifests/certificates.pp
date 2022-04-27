@@ -109,13 +109,15 @@ class octavia::certificates (
     'haproxy_amphora/client_cert'              : value => $client_cert;
     'haproxy_amphora/server_ca'                : value => $ca_certificate;
   }
+
   if !$server_certs_key_passphrase  {
     fail('server_certs_key_passphrase is required for Octavia. Please provide a 32 characters passphrase.')
   }
+
   if length($server_certs_key_passphrase)!=32 {
-      fail("The passphrase '${server_certs_key_passphrase}' is invalid for server_certs_key_passphrase. Please provide a 32 characters
-      passphrase.")
+    fail('server_certs_key_passphrase must be 32 characters long.')
   }
+
   # The file creation will create the parent directory for each file if necessary, but
   # only to one level.
   if $ca_certificate_data {

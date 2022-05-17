@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    Adds support for the ``[controller_worker] amp_timezone`` configuration 
+    parameter. It allows to configure the timezone of the amphora.

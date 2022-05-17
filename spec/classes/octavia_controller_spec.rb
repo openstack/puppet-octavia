@@ -27,6 +27,7 @@ describe 'octavia::controller' do
           :volume_driver                      => 'sample_volume_driver',
           :image_driver                       => 'sample_image_driver',
           :amp_ssh_key_name                   => 'custom-amphora-key',
+          :amp_timezone                       => 'UTC',
           :timeout_client_data                => 60,
           :timeout_member_connect             => 5,
           :timeout_member_data                => 60,
@@ -74,6 +75,7 @@ describe 'octavia::controller' do
         is_expected.to contain_octavia_config('controller_worker/volume_driver').with_value('sample_volume_driver')
         is_expected.to contain_octavia_config('controller_worker/image_driver').with_value('sample_image_driver')
         is_expected.to contain_octavia_config('controller_worker/amp_ssh_key_name').with_value('custom-amphora-key')
+        is_expected.to contain_octavia_config('controller_worker/amp_timezone').with_value('UTC')
         is_expected.to contain_octavia_config('haproxy_amphora/timeout_client_data').with_value(60)
         is_expected.to contain_octavia_config('haproxy_amphora/timeout_member_connect').with_value(5)
         is_expected.to contain_octavia_config('haproxy_amphora/timeout_member_data').with_value(60)
@@ -121,6 +123,7 @@ describe 'octavia::controller' do
       is_expected.to contain_octavia_config('controller_worker/volume_driver').with_value('<SERVICE DEFAULT>')
       is_expected.to contain_octavia_config('controller_worker/image_driver').with_value('<SERVICE DEFAULT>')
       is_expected.to contain_octavia_config('controller_worker/amp_ssh_key_name').with_value('octavia-ssh-key')
+      is_expected.to contain_octavia_config('controller_worker/amp_timezone').with_value('<SERVICE DEFAULT>')
       is_expected.to contain_octavia_config('haproxy_amphora/timeout_client_data').with_value('<SERVICE DEFAULT>')
       is_expected.to contain_octavia_config('haproxy_amphora/timeout_member_connect').with_value('<SERVICE DEFAULT>')
       is_expected.to contain_octavia_config('haproxy_amphora/timeout_member_data').with_value('<SERVICE DEFAULT>')

@@ -146,6 +146,10 @@
 #   run before terminating the socket.
 #   Defaults to $::os_service_default
 #
+# [*agent_tls_protocol*]
+#   (optional) Minimum TLS protocol for communication with the amphora agent.
+#   Defaults to $::os_service_default
+#
 # [*admin_log_targets*]
 #   (optional) The list of syslog endpoints, host:port comma separated list,
 #   to receive administrative log messages.
@@ -244,6 +248,7 @@ class octavia::controller (
   $build_retry_interval               = $::os_service_default,
   $default_connection_limit           = $::os_service_default,
   $agent_request_read_timeout         = $::os_service_default,
+  $agent_tls_protocol                 = $::os_service_default,
   $admin_log_targets                  = $::os_service_default,
   $administrative_log_facility        = $::os_service_default,
   $forward_all_logs                   = $::os_service_default,
@@ -313,6 +318,7 @@ Use the octavia::networking class instead')
     'haproxy_amphora/build_retry_interval'               : value => $build_retry_interval;
     'haproxy_amphora/default_connection_limit'           : value => $default_connection_limit;
     'amphora_agent/agent_request_read_timeout'           : value => $agent_request_read_timeout;
+    'amphora_agent/agent_tls_protocol'                   : value => $agent_tls_protocol;
     'amphora_agent/admin_log_targets'                    : value => join(any2array($admin_log_targets), ',');
     'amphora_agent/administrative_log_facility'          : value => $administrative_log_facility;
     'amphora_agent/forward_all_logs'                     : value => $forward_all_logs;

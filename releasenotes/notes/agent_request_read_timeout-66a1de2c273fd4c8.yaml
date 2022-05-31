@@ -1,0 +1,6 @@
+---
+features:
+  - |
+    The new ``octavia::controller::agent_read_timeout`` parameter has been
+    added. This paraemeter controls the ``[amphora_agent] agent_read_timeout``
+    option in octavia.conf.

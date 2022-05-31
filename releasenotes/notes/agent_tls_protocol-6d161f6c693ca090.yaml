@@ -1,0 +1,6 @@
+---
+features:
+  - |
+    The new ``octavia::controller::agent_tls_protocol`` parameter has been
+    added. This parameter controls the [amphora_agent] agent_tls_protocol``
+    option in octavia.conf.

@@ -45,6 +45,7 @@ describe 'octavia::controller' do
           :default_connection_limit           => 50000,
           :port_detach_timeout                => 15,
           :agent_request_read_timeout         => 180,
+          :agent_tls_protocol                 => 'TLSv1.2',
           :admin_log_targets                  => ['192.0.2.1:10514', '2001:db8:1::10:10514'],
           :administrative_log_facility        => 2,
           :forward_all_logs                   => true,
@@ -94,6 +95,7 @@ describe 'octavia::controller' do
         is_expected.to contain_octavia_config('haproxy_amphora/default_connection_limit').with_value(50000)
         is_expected.to contain_octavia_config('networking/port_detach_timeout').with_value(15)
         is_expected.to contain_octavia_config('amphora_agent/agent_request_read_timeout').with_value(180)
+        is_expected.to contain_octavia_config('amphora_agent/agent_tls_protocol').with_value('TLSv1.2')
         is_expected.to contain_octavia_config('amphora_agent/admin_log_targets').with_value('192.0.2.1:10514,2001:db8:1::10:10514')
         is_expected.to contain_octavia_config('amphora_agent/administrative_log_facility').with_value(2)
         is_expected.to contain_octavia_config('amphora_agent/forward_all_logs').with_value(true)
@@ -144,6 +146,7 @@ describe 'octavia::controller' do
       is_expected.to contain_octavia_config('haproxy_amphora/default_connection_limit').with_value('<SERVICE DEFAULT>')
       is_expected.to contain_octavia_config('networking/port_detach_timeout').with_value('<SERVICE DEFAULT>')
       is_expected.to contain_octavia_config('amphora_agent/agent_request_read_timeout').with_value('<SERVICE DEFAULT>')
+      is_expected.to contain_octavia_config('amphora_agent/agent_tls_protocol').with_value('<SERVICE DEFAULT>')
       is_expected.to contain_octavia_config('amphora_agent/admin_log_targets').with_value('<SERVICE DEFAULT>')
       is_expected.to contain_octavia_config('amphora_agent/administrative_log_facility').with_value('<SERVICE DEFAULT>')
       is_expected.to contain_octavia_config('amphora_agent/forward_all_logs').with_value('<SERVICE DEFAULT>')

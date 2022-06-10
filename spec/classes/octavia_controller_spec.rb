@@ -31,7 +31,6 @@ describe 'octavia::controller' do
           :timeout_client_data                => 60,
           :timeout_member_connect             => 5,
           :timeout_member_data                => 60,
-          :controller_ip_port_list            => ['1.2.3.4:5555', '4.3.2.1:5555'],
           :connection_max_retries             => 240,
           :connection_retry_interval          => 10,
           :active_connection_max_retries      => 15,
@@ -58,7 +57,10 @@ describe 'octavia::controller' do
           :vrrp_fail_count                    => 2,
           :vrrp_success_count                 => 2,
           :vrrp_garp_refresh_interval         => 5,
-          :vrrp_garp_refresh_count            => 2
+          :vrrp_garp_refresh_count            => 2,
+          :controller_ip_port_list            => ['1.2.3.4:5555', '4.3.2.1:5555'],
+          :heartbeat_interval                 => 10,
+          :heartbeat_key                      => 'default_key',
         }
       end
 
@@ -81,7 +83,6 @@ describe 'octavia::controller' do
         is_expected.to contain_octavia_config('haproxy_amphora/timeout_client_data').with_value(60)
         is_expected.to contain_octavia_config('haproxy_amphora/timeout_member_connect').with_value(5)
         is_expected.to contain_octavia_config('haproxy_amphora/timeout_member_data').with_value(60)
-        is_expected.to contain_octavia_config('health_manager/controller_ip_port_list').with_value('1.2.3.4:5555,4.3.2.1:5555')
         is_expected.to contain_octavia_config('haproxy_amphora/connection_max_retries').with_value(240)
         is_expected.to contain_octavia_config('haproxy_amphora/connection_retry_interval').with_value(10)
         is_expected.to contain_octavia_config('haproxy_amphora/connection_logging').with_value(false)
@@ -109,6 +110,9 @@ describe 'octavia::controller' do
         is_expected.to contain_octavia_config('keepalived_vrrp/vrrp_success_count').with_value(2)
         is_expected.to contain_octavia_config('keepalived_vrrp/vrrp_garp_refresh_interval').with_value(5)
         is_expected.to contain_octavia_config('keepalived_vrrp/vrrp_garp_refresh_count').with_value(2)
+        is_expected.to contain_octavia_config('health_manager/controller_ip_port_list').with_value('1.2.3.4:5555,4.3.2.1:5555')
+        is_expected.to contain_octavia_config('health_manager/heartbeat_interval').with_value(10)
+        is_expected.to contain_octavia_config('health_manager/heartbeat_key').with_value('default_key')
       end
     end
 
@@ -132,7 +136,6 @@ describe 'octavia::controller' do
       is_expected.to contain_octavia_config('haproxy_amphora/timeout_member_connect').with_value('<SERVICE DEFAULT>')
       is_expected.to contain_octavia_config('haproxy_amphora/timeout_member_data').with_value('<SERVICE DEFAULT>')
       is_expected.to contain_octavia_config('haproxy_amphora/timeout_tcp_inspect').with_value('<SERVICE DEFAULT>')
-      is_expected.to contain_octavia_config('health_manager/controller_ip_port_list').with_value('<SERVICE DEFAULT>')
       is_expected.to contain_octavia_config('haproxy_amphora/connection_max_retries').with_value('<SERVICE DEFAULT>')
       is_expected.to contain_octavia_config('haproxy_amphora/connection_retry_interval').with_value('<SERVICE DEFAULT>')
       is_expected.to contain_octavia_config('haproxy_amphora/connection_logging').with_value('<SERVICE DEFAULT>')
@@ -160,6 +163,9 @@ describe 'octavia::controller' do
       is_expected.to contain_octavia_config('keepalived_vrrp/vrrp_success_count').with_value('<SERVICE DEFAULT>')
       is_expected.to contain_octavia_config('keepalived_vrrp/vrrp_garp_refresh_interval').with_value('<SERVICE DEFAULT>')
       is_expected.to contain_octavia_config('keepalived_vrrp/vrrp_garp_refresh_count').with_value('<SERVICE DEFAULT>')
+      is_expected.to contain_octavia_config('health_manager/controller_ip_port_list').with_value('<SERVICE DEFAULT>')
+      #is_expected.to contain_octavia_config('health_manager/heartbeat_interval').with_value('<SERVICE DEFAULT>')
+      #is_expected.to contain_octavia_config('health_manager/heartbeat_key').with_value('<SERVICE DEFAULT>')
     end
 
     context 'with ssh key access disabled' do

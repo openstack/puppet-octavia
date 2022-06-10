@@ -1,0 +1,9 @@
+---
+deprecations:
+  - |
+    The following parameters of the ``octavia::health_manager`` class have been
+    deprecated. Use the same parameters of the ``octavia::controller`` class
+    instead.
+
+    - ``heartbeat_interval``
+    - ``heartbeat_key``

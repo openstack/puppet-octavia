@@ -91,12 +91,6 @@
 #   (optional) Time to wait for TCP packets for content inspection.
 #   Defaults to $::os_service_default
 #
-# [*controller_ip_port_list*]
-#   (optional) The list of controllers in a host:port comma separated
-#   list if multiple. This is added to the amphora config and is used
-#   when it connects back to the controllers to report its health.
-#   Defaults to $::os_service_default
-#
 # [*connection_max_retries*]
 #   (optional) Maximum number of retries when contacting amphora.
 #   Defaults to $::os_service_default
@@ -214,6 +208,20 @@
 #   (optional) Number of gratuitous ARP announcements to make on each refresh interval.
 #   Defaults to $::os_service_default
 #
+# [*controller_ip_port_list*]
+#   (optional) The list of controllers in a host:port comma separated
+#   list if multiple. This is added to the amphora config and is used
+#   when it connects back to the controllers to report its health.
+#   Defaults to $::os_service_default
+#
+# [*heartbeat_key*]
+#   (optional) Key to validate amphora messages.
+#   Defaults to undef
+#
+# [*heartbeat_interval*]
+#   (optional) Sleep time between sending heartbeats.
+#   Defaults to undef
+#
 # DEPRECATED PARAMETERS
 #
 # [*port_detach_timeout*]
@@ -241,7 +249,6 @@ class octavia::controller (
   $timeout_member_connect             = $::os_service_default,
   $timeout_member_data                = $::os_service_default,
   $timeout_tcp_inspect                = $::os_service_default,
-  $controller_ip_port_list            = $::os_service_default,
   $connection_max_retries             = $::os_service_default,
   $connection_retry_interval          = $::os_service_default,
   $connection_logging                 = $::os_service_default,
@@ -268,6 +275,11 @@ class octavia::controller (
   $vrrp_success_count                 = $::os_service_default,
   $vrrp_garp_refresh_interval         = $::os_service_default,
   $vrrp_garp_refresh_count            = $::os_service_default,
+  $controller_ip_port_list            = $::os_service_default,
+  # TODO(tkainam): Make this parameter required when we remove
+  #                health_manager::heartbeat_key
+  $heartbeat_key                      = undef,
+  $heartbeat_interval                 = undef,
   # DEPRECATED PARAMETERS
   $port_detach_timeout                = undef,
 ) inherits octavia::params {
@@ -312,7 +324,6 @@ Use the octavia::networking class instead')
     'haproxy_amphora/timeout_member_connect'             : value => $timeout_member_connect;
     'haproxy_amphora/timeout_member_data'                : value => $timeout_member_data;
     'haproxy_amphora/timeout_tcp_inspect'                : value => $timeout_tcp_inspect;
-    'health_manager/controller_ip_port_list'             : value => join(any2array($controller_ip_port_list), ',');
     'haproxy_amphora/connection_max_retries'             : value => $connection_max_retries;
     'haproxy_amphora/connection_retry_interval'          : value => $connection_retry_interval;
     'haproxy_amphora/connection_logging'                 : value => $connection_logging;
@@ -339,5 +350,19 @@ Use the octavia::networking class instead')
     'keepalived_vrrp/vrrp_success_count'                 : value => $vrrp_success_count;
     'keepalived_vrrp/vrrp_garp_refresh_interval'         : value => $vrrp_garp_refresh_interval;
     'keepalived_vrrp/vrrp_garp_refresh_count'            : value => $vrrp_garp_refresh_count;
+    'health_manager/controller_ip_port_list'             : value => join(any2array($controller_ip_port_list), ',');
+  }
+
+  # TODO(tkajinam): Remove these if-condition when octavia::health_manager
+  #                 parameters are removed.
+  if $heartbeat_key != undef {
+    octavia_config{
+      'health_manager/heartbeat_key' : value => $heartbeat_key, secret => true;
+    }
+  }
+  if $heartbeat_interval != undef {
+    octavia_config{
+      'health_manager/heartbeat_interval' : value => $heartbeat_interval;
+    }
   }
 }

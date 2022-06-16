@@ -90,11 +90,11 @@ class octavia::provider::ovn (
   # For now, the config below uses octavia_config until we can figure out how to pass extra
   # configuration files to the api running as wsgi process.
   octavia_config {
-    'ovn/ovn_nb_connection':        value => $ovn_nb_connection_real;
+    'ovn/ovn_nb_connection':        value => join(any2array($ovn_nb_connection_real), ',');
     'ovn/ovn_nb_private_key':       value => $ovn_nb_private_key;
     'ovn/ovn_nb_certificate':       value => $ovn_nb_certificate;
     'ovn/ovn_nb_ca_cert':           value => $ovn_nb_ca_cert;
-    'ovn/ovn_sb_connection':        value => $ovn_sb_connection;
+    'ovn/ovn_sb_connection':        value => join(any2array($ovn_sb_connection), ',');
     'ovn/ovn_sb_private_key':       value => $ovn_sb_private_key;
     'ovn/ovn_sb_certificate':       value => $ovn_sb_certificate;
     'ovn/ovn_sb_ca_cert':           value => $ovn_sb_ca_cert;

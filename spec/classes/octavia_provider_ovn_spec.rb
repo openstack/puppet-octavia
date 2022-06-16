@@ -57,6 +57,22 @@ describe 'octavia::provider::ovn' do
       it { is_expected.to contain_octavia_config('ovn/ovsdb_retry_max_interval').with_value(180) }
       it { is_expected.to contain_octavia_config('ovn/ovsdb_probe_interval').with_value(60000) }
     end
+
+    context 'with specific parameters' do
+      before do
+        params.merge!({
+          :ovn_nb_connection => ['tcp:192.0.2.11:6641', 'tcp:192.0.2.12:6641'],
+          :ovn_sb_connection => ['tcp:192.0.2.11:6642', 'tcp:192.0.2.12:6642'],
+        })
+      end
+
+      it { is_expected.to contain_octavia_config('ovn/ovn_nb_connection').with_value(
+        'tcp:192.0.2.11:6641,tcp:192.0.2.12:6641'
+      ) }
+      it { is_expected.to contain_octavia_config('ovn/ovn_sb_connection').with_value(
+        'tcp:192.0.2.11:6642,tcp:192.0.2.12:6642'
+      ) }
+    end
   end
 
   on_supported_os({

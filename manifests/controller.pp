@@ -161,7 +161,7 @@
 #
 # [*forward_all_logs*]
 #   (optional) When true, all log messages from the amphora will be forwarded
-#   to the administrative log endponts, including non-load balancing related
+#   to the administrative log endpoints, including non-load balancing related
 #   logs.
 #   Defaults to $::os_service_default
 #

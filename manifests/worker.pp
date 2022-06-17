@@ -25,7 +25,7 @@
 # [*nova_flavor_config*]
 #   (optional) Nova flavor config hash.
 #   Should be an hash.
-#   Exemple:
+#   Example:
 #   $nova_flavor_config = { 'ram' => '2048' }
 #   Possible options are documented in puppet-nova nova_flavor type.
 #   Defaults to {}.

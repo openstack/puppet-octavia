@@ -29,7 +29,7 @@
 #   Defaults to $::os_service_default
 #
 # [*volume_type*]
-#   (Optional) Type of volume for Amphorae voume root disk
+#   (Optional) Type of volume for Amphorae volume root disk
 #   Defaults to $::os_service_default
 #
 # [*volume_create_retry_interval*]

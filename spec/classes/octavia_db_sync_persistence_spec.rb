@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'octavia::db::sync_persistence' do
 
-  shared_examples_for 'octavia::db::sync_persistenace' do
+  shared_examples_for 'octavia::db::sync_persistence' do
 
     it { is_expected.to contain_class('octavia::deps') }
 
@@ -61,7 +61,7 @@ describe 'octavia::db::sync_persistence' do
         facts.merge(OSDefaults.get_facts())
       end
 
-      it_configures 'octavia::db::sync_persistenace'
+      it_configures 'octavia::db::sync_persistence'
     end
   end
 

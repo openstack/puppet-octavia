@@ -9,6 +9,21 @@ describe 'octavia::driver_agent' do
   shared_examples_for 'octavia-driver-agent' do
 
     context 'with default parameters' do
+      it { is_expected.to contain_package('octavia-driver-agent').with(
+        :ensure => 'present',
+        :name   => platform_params[:driver_agent_package_name],
+        :tag    => ['openstack', 'octavia-package'],
+      ) }
+
+      it { is_expected.to contain_service('octavia-driver-agent').with(
+        :ensure     => 'running',
+        :name       => platform_params[:driver_agent_service_name],
+        :enable     => true,
+        :hasstatus  => true,
+        :hasrestart => true,
+        :tag        => ['octavia-service']
+      ) }
+
       it { is_expected.to contain_octavia_config('driver_agent/status_socket_path').with_value('<SERVICE DEFAULT>') }
       it { is_expected.to contain_octavia_config('driver_agent/stats_socket_path').with_value('<SERVICE DEFAULT>') }
       it { is_expected.to contain_octavia_config('driver_agent/get_socket_path').with_value('<SERVICE DEFAULT>') }
@@ -56,25 +71,6 @@ describe 'octavia::driver_agent' do
     end
   end
 
-  shared_examples_for 'octavia-driver-agent on Debian' do
-    context 'with default parameters' do
-      it { is_expected.to contain_package('octavia-driver-agent').with(
-        :ensure => 'present',
-        :name   => 'octavia-driver-agent',
-        :tag    => ['openstack', 'octavia-package'],
-      ) }
-
-      it { is_expected.to contain_service('octavia-driver-agent').with(
-        :ensure     => 'running',
-        :name       => 'octavia-driver-agent',
-        :enable     => true,
-        :hasstatus  => true,
-        :hasrestart => true,
-        :tag        => ['octavia-service']
-      ) }
-    end
-  end
-
   on_supported_os({
     :supported_os => OSDefaults.get_supported_os
   }).each do |os,facts|
@@ -83,10 +79,18 @@ describe 'octavia::driver_agent' do
         facts.merge!(OSDefaults.get_facts())
       end
 
-      it_behaves_like 'octavia-driver-agent'
-      if facts[:osfamily] == 'Debian'
-        it_behaves_like 'octavia-driver-agent on Debian'
+      let(:platform_params) do
+        case facts[:osfamily]
+        when 'Debian'
+          { :driver_agent_package_name => 'octavia-driver-agent',
+            :driver_agent_service_name => 'octavia-driver-agent' }
+        when 'RedHat'
+          { :driver_agent_package_name => 'openstack-octavia-driver-agent',
+            :driver_agent_service_name => 'octavia-driver-agent' }
+        end
       end
+
+      it_behaves_like 'octavia-driver-agent'
     end
   end
 

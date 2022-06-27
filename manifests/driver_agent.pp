@@ -89,30 +89,26 @@ class octavia::driver_agent (
   include octavia::deps
   include octavia::params
 
-  if $::octavia::params::driver_agent_package_name {
-    package { 'octavia-driver-agent':
-      ensure => $package_ensure,
-      name   => $::octavia::params::driver_agent_package_name,
-      tag    => ['openstack', 'octavia-package'],
-    }
+  package { 'octavia-driver-agent':
+    ensure => $package_ensure,
+    name   => $::octavia::params::driver_agent_package_name,
+    tag    => ['openstack', 'octavia-package'],
   }
 
-  if $::octavia::params::driver_agent_service_name {
-    if $manage_service {
-      if $enabled {
-        $service_ensure = 'running'
-      } else {
-        $service_ensure = 'stopped'
-      }
+  if $manage_service {
+    if $enabled {
+      $service_ensure = 'running'
+    } else {
+      $service_ensure = 'stopped'
+    }
 
-      service { 'octavia-driver-agent':
-        ensure     => $service_ensure,
-        name       => $::octavia::params::driver_agent_service_name,
-        enable     => $enabled,
-        hasstatus  => true,
-        hasrestart => true,
-        tag        => ['octavia-service']
-      }
+    service { 'octavia-driver-agent':
+      ensure     => $service_ensure,
+      name       => $::octavia::params::driver_agent_service_name,
+      enable     => $enabled,
+      hasstatus  => true,
+      hasrestart => true,
+      tag        => ['octavia-service']
     }
   }
 

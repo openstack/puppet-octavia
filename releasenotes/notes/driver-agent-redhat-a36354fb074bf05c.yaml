@@ -1,0 +1,6 @@
+---
+features:
+  - |
+    The ``octavia::driver_agent`` class now supports managing the package and
+    the service required to run the ``octavia-driver-agent`` process in Cent OS
+    and RHEL.

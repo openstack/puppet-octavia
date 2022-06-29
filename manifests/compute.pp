@@ -5,12 +5,12 @@
 # === Parameters:
 #
 # [*max_retries*]
-#  (Optional) The maximum attempts to retry an acction with the compute
+#  (Optional) The maximum attempts to retry an action with the compute
 #  service.
 #  Defaults to $::os_service_default
 #
 # [*retry_interval*]
-#  (Optional) Seocnds to wait before retrying an action with the compute
+#  (Optional) Seconds to wait before retrying an action with the compute
 #  service.
 #  Defaults to $::os_service_default
 #

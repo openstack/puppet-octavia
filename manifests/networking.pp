@@ -5,12 +5,12 @@
 # === Parameters:
 #
 # [*max_retries*]
-#  (Optional) The maximum attempts to retry an acction with the networking
+#  (Optional) The maximum attempts to retry an action with the networking
 #  service.
 #  Defaults to $::os_service_default
 #
 # [*retry_interval*]
-#  (Optional) Seocnds to wait before retrying an action with the networking
+#  (Optional) Seconds to wait before retrying an action with the networking
 #  service.
 #  Defaults to $::os_service_default
 #
@@ -40,7 +40,7 @@
 #
 # [*valid_vip_networks*]
 #  (Optional) List of network_ids that are valid for VIP creation.
-#  Defaoutls to $::os_service_default
+#  Defaults to $::os_service_default
 #
 # [*reserved_ips*]
 #  (Optional) List of IP addresses reserved from being used for member
@@ -48,7 +48,7 @@
 #  Defaults to $::os_service_default
 #
 # [*allow_invisible_resource_usage*]
-#  (Optional) When True, users can use netwokr resources they cannot normally
+#  (Optional) When True, users can use network resources they cannot normally
 #  see as VIP or member subnets.
 #  Defaults to $::os_service_default
 #

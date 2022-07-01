@@ -95,6 +95,14 @@
 #   (Optional) The location of the octavia WSGI script.
 #   Defaults to $::octavia::params::octavia_wsgi_script_source
 #
+# [*headers*]
+#   (optional) Headers for the vhost.
+#   Defaults to undef
+#
+# [*request_headers*]
+#   (optional) Modifies collected request headers in various ways.
+#   Defaults to undef
+#
 # [*vhost_custom_fragment*]
 #   (Optional) Passes a string of custom configuration.
 #   directives to be placed at the end of the vhost configuration.
@@ -128,6 +136,8 @@ class octavia::wsgi::apache (
   $custom_wsgi_process_options = {},
   $wsgi_script_dir             = $::octavia::params::octavia_wsgi_script_path,
   $wsgi_script_source          = $::octavia::params::octavia_wsgi_script_source,
+  $headers                     = undef,
+  $request_headers             = undef,
   $vhost_custom_fragment       = undef,
 ) inherits octavia::params {
 
@@ -160,9 +170,11 @@ class octavia::wsgi::apache (
     wsgi_script_dir             => $wsgi_script_dir,
     wsgi_script_file            => 'app',
     wsgi_script_source          => $wsgi_script_source,
+    headers                     => $headers,
+    request_headers             => $request_headers,
+    custom_wsgi_process_options => $custom_wsgi_process_options,
     access_log_file             => $access_log_file,
     access_log_format           => $access_log_format,
     error_log_file              => $error_log_file,
-    custom_wsgi_process_options => $custom_wsgi_process_options,
   }
 }

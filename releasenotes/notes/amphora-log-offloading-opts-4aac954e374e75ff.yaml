@@ -1,0 +1,11 @@
+---
+features:
+  - |
+    The ``octavia::controller`` class now supports the following parameters,
+    to customize behavior of the log offloading feature.
+
+    - ``log_protocol``
+    - ``log_retry_count``
+    - ``log_retry_interval``
+    - ``log_queue_size``
+    - ``logging_template_override``

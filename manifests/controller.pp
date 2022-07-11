@@ -179,6 +179,27 @@
 #   (optional) The tenant traffic flow log format string.
 #   Defaults to $::os_service_default
 #
+# [*log_protocol*]
+#   (optional) The log forwarding transport protoocl. One of UDP or TCP.
+#   Defaults to $::os_service_default
+#
+# [*log_retry_count*]
+#   (optional) The maximum attempts to retry connecting to the logging host.
+#   Defaults to $::os_service_default
+#
+# [*log_retry_interval*]
+#   (optional) The time, in seconds, to wait between retries connecting to
+#   the logging host.
+#   Defaults to $::os_service_default
+#
+# [*log_queue_size*]
+#   (optional) The queue size (messages) to buffer log messages.
+#   Defaults to $::os_service_default
+#
+# [*logging_template_override*]
+#   (optional) Custom logging configuration template.
+#   Defaults to $::os_service_default
+#
 # [*disable_local_log_storage*]
 #   (optional) When true, logs will not be stored on the amphora filesystem.
 #   This includes all kernel, system, and security logs.
@@ -268,6 +289,11 @@ class octavia::controller (
   $tenant_log_targets                 = $::os_service_default,
   $user_log_facility                  = $::os_service_default,
   $user_log_format                    = $::os_service_default,
+  $log_protocol                       = $::os_service_default,
+  $log_retry_count                    = $::os_service_default,
+  $log_retry_interval                 = $::os_service_default,
+  $log_queue_size                     = $::os_service_default,
+  $logging_template_override          = $::os_service_default,
   $disable_local_log_storage          = $::os_service_default,
   $vrrp_advert_int                    = $::os_service_default,
   $vrrp_check_interval                = $::os_service_default,
@@ -343,6 +369,11 @@ Use the octavia::networking class instead')
     'amphora_agent/tenant_log_targets'                   : value => join(any2array($tenant_log_targets), ',');
     'amphora_agent/user_log_facility'                    : value => $user_log_facility;
     'haproxy_amphora/user_log_format'                    : value => $user_log_format;
+    'amphora_agent/log_protocol'                         : value => $log_protocol;
+    'amphora_agent/log_retry_count'                      : value => $log_retry_count;
+    'amphora_agent/log_retry_interval'                   : value => $log_retry_interval;
+    'amphora_agent/log_queue_size'                       : value => $log_queue_size;
+    'amphora_agent/logging_template_override'            : value => $logging_template_override;
     'amphora_agent/disable_local_log_storage'            : value => $disable_local_log_storage;
     'keepalived_vrrp/vrrp_advert_int'                    : value => $vrrp_advert_int;
     'keepalived_vrrp/vrrp_check_interval'                : value => $vrrp_check_interval;

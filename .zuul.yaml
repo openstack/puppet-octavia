@@ -34,8 +34,6 @@
       - name: peers
         nodes: []
 
-# redefine tripleo-ci-centos-8-scenario010-standalone with tripleo-puppet-ci
-# job as its base.
 - job:
     name: puppet-octavia-tripleo-standalone
     parent: tripleo-puppet-ci-centos-8-standalone
@@ -49,8 +47,6 @@
         - standalone
         - octavia
         - nested-virt
-      featureset: '062'
-      standalone_ceph: true
       featureset_override:
         run_tempest: false
         tempest_test_whitelist:
@@ -62,7 +58,7 @@
         validate_services: false
         standalone_environment_files:
           - 'environments/low-memory-usage.yaml'
-          - 'ci/environments/scenario010-standalone.yaml'
+          - 'ci/environments/scenario013-standalone.yaml'
           - 'ci/environments/octavia-kvm.yaml'
 
 - job:

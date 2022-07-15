@@ -33,7 +33,7 @@ describe 'Puppet::Type.type(:octavia_config)' do
     expect(@octavia_config[:value]).to eq(['bar'])
   end
 
-  it 'should not accept a value with whitespace' do
+  it 'should accept a value with whitespace' do
     @octavia_config[:value] = 'b ar'
     expect(@octavia_config[:value]).to eq(['b ar'])
   end

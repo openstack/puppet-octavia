@@ -83,12 +83,11 @@ class octavia::health_manager (
 
   if $heartbeat_key != undef {
     warning('The heartbeat_key parameter is deprecated. Use the octavia::controller class parameter instead.')
+    validate_legacy(String, 'validate_string', $heartbeat_key)
   }
-  if $heartbeat_key != undef {
+  if $heartbeat_interval != undef {
     warning('The heartbeat_interval parameter is deprecated. Use the octavia::controller class parameter instead.')
   }
-
-  validate_legacy(String, 'validate_string', $heartbeat_key)
 
   package { 'octavia-health-manager':
     ensure => $package_ensure,

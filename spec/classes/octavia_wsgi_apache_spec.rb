@@ -25,7 +25,7 @@ describe 'octavia::wsgi::apache' do
       )}
     end
 
-    context 'when overriding parameters using different ports' do
+    context 'when overriding parameters' do
       let :params do
         {
           :servername                  => 'dummy.host',
@@ -42,6 +42,8 @@ describe 'octavia::wsgi::apache' do
           :error_log_file              => '/var/log/httpd/error_log',
           :wsgi_script_dir             => '/var/lib/openstack/cgi-bin/octavia',
           :wsgi_script_source          => '/my/path/app.wsgi',
+          :headers                     => ['set X-XSS-Protection "1; mode=block"'],
+          :request_headers             => ['set Content-Type "application/json"'],
           :vhost_custom_fragment       => 'Timeout 99'
         }
       end
@@ -63,6 +65,8 @@ describe 'octavia::wsgi::apache' do
         :wsgi_script_dir           => '/var/lib/openstack/cgi-bin/octavia',
         :wsgi_script_file          => 'app',
         :wsgi_script_source        => '/my/path/app.wsgi',
+        :headers                     => ['set X-XSS-Protection "1; mode=block"'],
+        :request_headers             => ['set Content-Type "application/json"'],
         :custom_wsgi_process_options => {
           'python_path' => '/my/python/path',
         },

@@ -7,8 +7,10 @@
       - release-notes-jobs-python3
     check:
       jobs:
-        - puppet-octavia-tripleo-standalone:
-            voting: false
+        - puppet-octavia-tripleo-standalone
+    gate:
+      jobs:
+        - puppet-octavia-tripleo-standalone
 
 - nodeset:
     name: puppet-octavia-tripleo-single-node-centos-9-stream-nested-virt

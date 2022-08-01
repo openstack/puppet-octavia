@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    The new ``octavia::audit`` class has been added. This class manages options
+    of the audit middleware.

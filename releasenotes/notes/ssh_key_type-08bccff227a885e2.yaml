@@ -1,0 +1,9 @@
+---
+features:
+  - |
+    The following parameters have been added the ``octavia::worker`` class, to
+    support customizing type of the ssh key generated when
+    the ``manage_keygen`` parameter is ``True``.
+
+    - ``ssh_key_type``
+    - ``ssh_key_bits``

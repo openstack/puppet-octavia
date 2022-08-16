@@ -121,11 +121,12 @@ describe 'octavia::worker' do
       end
     end
 
-    context 'with enabled sshkey gen' do
+    context 'with enabled sshkey gen(rsa)' do
       before do
         params.merge!({
           :manage_keygen => true,
-          :key_path      => '/etc/octavia/.ssh/octavia_ssh_key'})
+          :key_path      => '/etc/octavia/.ssh/octavia_ssh_key'
+        })
       end
 
       it 'configures ssh_keygen and directory' do
@@ -141,6 +142,49 @@ describe 'octavia::worker' do
           :mode    => '0700',
           :group   => 'octavia',
           :owner   => 'octavia'
+        )
+
+        is_expected.to contain_ssh_keygen('octavia-ssh-key').with(
+          :user     => 'octavia',
+          :type     => 'rsa',
+          :bits     => 2048,
+          :filename => '/etc/octavia/.ssh/octavia_ssh_key/octavia-ssh-key',
+          :comment  => 'Used for Octavia Service VM',
+        )
+      end
+    end
+
+    context 'with enabled sshkey gen(ecdsa)' do
+      before do
+        params.merge!({
+          :manage_keygen => true,
+          :key_path      => '/etc/octavia/.ssh/octavia_ssh_key',
+          :ssh_key_type  => 'ecdsa',
+          :ssh_key_bits  => 256,
+        })
+      end
+
+      it 'configures ssh_keygen and directory' do
+        is_expected.to contain_exec('create_amp_key_dir').with(
+          :path    => ['/bin', '/usr/bin'],
+          :command => 'mkdir -p /etc/octavia/.ssh/octavia_ssh_key',
+          :creates => '/etc/octavia/.ssh/octavia_ssh_key'
+        )
+
+        is_expected.to contain_file('amp_key_dir').with(
+          :ensure  => 'directory',
+          :path    => '/etc/octavia/.ssh/octavia_ssh_key',
+          :mode    => '0700',
+          :group   => 'octavia',
+          :owner   => 'octavia'
+        )
+
+        is_expected.to contain_ssh_keygen('octavia-ssh-key').with(
+          :user     => 'octavia',
+          :type     => 'ecdsa',
+          :bits     => 256,
+          :filename => '/etc/octavia/.ssh/octavia_ssh_key/octavia-ssh-key',
+          :comment  => 'Used for Octavia Service VM',
         )
       end
     end

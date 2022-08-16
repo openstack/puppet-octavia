@@ -35,8 +35,17 @@
 #   Defaults to '/etc/octavia/.ssh/octavia_ssh_key'
 #
 # [*manage_keygen*]
-#   (optional) Whether or not create OpenStack keypair for communicating with amphora
+#   (optional) Whether or not create OpenStack keypair for communicating with
+#   amphora.
 #   Defaults to false
+#
+# [*ssh_key_type*]
+#   (optional) Type of ssh key to create.
+#   Defaults to 'rsa'
+#
+# [*ssh_key_bits*]
+#   (optional) Number of bits in ssh key.
+#   Defaults to 2048
 #
 # [*amp_project_name*]
 #   (optional) Set the project to be used for creating load balancer instances.
@@ -51,6 +60,8 @@ class octavia::worker (
   $nova_flavor_config     = {},
   $key_path               = '/etc/octavia/.ssh/octavia_ssh_key',
   $manage_keygen          = false,
+  $ssh_key_type           = 'rsa',
+  $ssh_key_bits           = 2048,
   $amp_project_name       = 'services',
 ) inherits octavia::params {
 
@@ -136,8 +147,8 @@ class octavia::worker (
 
     ssh_keygen { $::octavia::controller::amp_ssh_key_name:
       user     => $::octavia::params::user,
-      type     => 'rsa',
-      bits     => 2048,
+      type     => $ssh_key_type,
+      bits     => $ssh_key_bits,
       filename => "${key_path}/${::octavia::controller::amp_ssh_key_name}",
       comment  => 'Used for Octavia Service VM'
     }

@@ -19,7 +19,7 @@
 #
 # Install Octavia API under apache with mod_wsgi.
 #
-# == Parameters:
+# == Parameters
 #
 # [*servername*]
 #   (Optional) The servername for the virtualhost.
@@ -38,7 +38,7 @@
 #   Defaults to '/'
 #
 # [*ssl*]
-#   (Optional) Use ssl.
+#   (Optional) Use ssl ? (boolean)
 #   Defaults to false
 #
 # [*workers*]
@@ -65,7 +65,7 @@
 # [*ssl_crl*]
 # [*ssl_certs_dir*]
 #   (Optional) apache::vhost ssl parameters.
-#   Default to apache::vhost 'ssl_*' defaults
+#   Default to apache::vhost 'ssl_*' defaults.
 #
 # [*access_log_file*]
 #   (Optional) The log file name for the virtualhost.
@@ -114,11 +114,11 @@
 #   Defaults to $::octavia::params::octavia_wsgi_script_source
 #
 # [*headers*]
-#   (optional) Headers for the vhost.
+#   (Optional) Headers for the vhost.
 #   Defaults to undef
 #
 # [*request_headers*]
-#   (optional) Modifies collected request headers in various ways.
+#   (Optional) Modifies collected request headers in various ways.
 #   Defaults to undef
 #
 # [*vhost_custom_fragment*]
@@ -126,7 +126,7 @@
 #   directives to be placed at the end of the vhost configuration.
 #   Defaults to undef.
 #
-# == Example:
+# == Examples
 #
 #   include apache
 #   class { 'octavia::wsgi::apache': }

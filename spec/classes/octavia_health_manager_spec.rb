@@ -40,6 +40,7 @@ describe 'octavia::health_manager' do
       it { is_expected.to contain_octavia_config('health_manager/health_check_interval').with_value('<SERVICE DEFAULT>') }
       it { is_expected.to contain_octavia_config('health_manager/heartbeat_interval').with_value('<SERVICE DEFAULT>') }
       it { is_expected.to contain_octavia_config('health_manager/sock_rlimit').with_value('<SERVICE DEFAULT>') }
+      it { is_expected.to contain_octavia_config('health_manager/failover_threshold').with_value('<SERVICE DEFAULT>') }
     end
 
     it 'installs octavia-health-manager package' do
@@ -107,6 +108,7 @@ describe 'octavia::health_manager' do
           :health_check_interval => 3,
           :heartbeat_interval    => 42,
           :sock_rlimit           => 1,
+          :failover_threshold    => 2,
         })
       end
       it { is_expected.to contain_octavia_config('health_manager/health_update_threads').with_value(8) }
@@ -116,6 +118,7 @@ describe 'octavia::health_manager' do
       it { is_expected.to contain_octavia_config('health_manager/health_check_interval').with_value(3) }
       it { is_expected.to contain_octavia_config('health_manager/heartbeat_interval').with_value(42) }
       it { is_expected.to contain_octavia_config('health_manager/sock_rlimit').with_value(1) }
+      it { is_expected.to contain_octavia_config('health_manager/failover_threshold').with_value(2) }
     end
   end
 

@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    Add new parameter ``failover_threshold`` to the ``octavia::health_manager``
+    class.

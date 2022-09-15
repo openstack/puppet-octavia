@@ -46,6 +46,11 @@
 #  (optional) Sets the value of the heartbeat recv buffer
 #  Defaults to $::os_service_default
 #
+# [*failover_threshold*]
+#  (optional) Stop failovers if the count of simultaneously failed amphora
+#  reaches this number.
+#  Defaults to $::os_service_default
+#
 # DEPRECATED PARAMETERS
 #
 # [*workers*]
@@ -72,6 +77,7 @@ class octavia::health_manager (
   $heartbeat_timeout     = $::os_service_default,
   $health_check_interval = $::os_service_default,
   $sock_rlimit           = $::os_service_default,
+  $failover_threshold    = $::os_service_default,
   # DEPRECATED PARAMETERS
   $workers               = undef,
   $heartbeat_key         = undef,
@@ -128,6 +134,7 @@ Use health_update_threads and stats_update_threads instead')
     'health_manager/heartbeat_timeout'      : value => $heartbeat_timeout;
     'health_manager/health_check_interval'  : value => $health_check_interval;
     'health_manager/sock_rlimit'            : value => $sock_rlimit;
+    'health_manager/failover_threshold'     : value => $failover_threshold;
   }
 
   if $::octavia::controller::heartbeat_key == undef {

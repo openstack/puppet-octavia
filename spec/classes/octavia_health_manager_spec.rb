@@ -6,39 +6,24 @@ describe 'octavia::health_manager' do
     { :enabled        => true,
       :manage_service => true,
       :package_ensure => 'latest',
-      :heartbeat_key  => 'default_key'
     }
   end
 
   shared_examples_for 'octavia-health-manager' do
 
-    context 'without a heartbeat key' do
-      before { params.delete(:heartbeat_key) }
-      it { expect { is_expected.to raise_error(Puppet::Error) } }
-    end
-
-    context 'with an invalid value for heartbeat key' do
-      before do
-        params.merge!({
-          :heartbeat_key => 0,
-        })
-      end
-      it { expect { is_expected.to raise_error(Puppet::Error) } }
+    let :pre_condition do
+      "include nova
+       class { 'octavia::controller' :
+         heartbeat_key => 'abcdefghi',
+       }"
     end
 
     context 'with minimal parameters' do
-      before do
-        params.merge!({
-          :heartbeat_key => 'abcdefghi',
-        })
-      end
-      it { is_expected.to contain_octavia_config('health_manager/heartbeat_key').with_value('abcdefghi') }
       it { is_expected.to contain_octavia_config('health_manager/health_update_threads').with_value('4') }
       it { is_expected.to contain_octavia_config('health_manager/stats_update_threads').with_value('4') }
       it { is_expected.to contain_octavia_config('health_manager/failover_threads').with_value('<SERVICE DEFAULT>') }
       it { is_expected.to contain_octavia_config('health_manager/heartbeat_timeout').with_value('<SERVICE DEFAULT>') }
       it { is_expected.to contain_octavia_config('health_manager/health_check_interval').with_value('<SERVICE DEFAULT>') }
-      it { is_expected.to contain_octavia_config('health_manager/heartbeat_interval').with_value('<SERVICE DEFAULT>') }
       it { is_expected.to contain_octavia_config('health_manager/sock_rlimit').with_value('<SERVICE DEFAULT>') }
       it { is_expected.to contain_octavia_config('health_manager/failover_threshold').with_value('<SERVICE DEFAULT>') }
     end
@@ -106,7 +91,6 @@ describe 'octavia::health_manager' do
           :failover_threads      => 10,
           :heartbeat_timeout     => 60,
           :health_check_interval => 3,
-          :heartbeat_interval    => 42,
           :sock_rlimit           => 1,
           :failover_threshold    => 2,
         })
@@ -116,7 +100,6 @@ describe 'octavia::health_manager' do
       it { is_expected.to contain_octavia_config('health_manager/failover_threads').with_value(10) }
       it { is_expected.to contain_octavia_config('health_manager/heartbeat_timeout').with_value(60) }
       it { is_expected.to contain_octavia_config('health_manager/health_check_interval').with_value(3) }
-      it { is_expected.to contain_octavia_config('health_manager/heartbeat_interval').with_value(42) }
       it { is_expected.to contain_octavia_config('health_manager/sock_rlimit').with_value(1) }
       it { is_expected.to contain_octavia_config('health_manager/failover_threshold').with_value(2) }
     end

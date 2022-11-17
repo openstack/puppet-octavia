@@ -2,6 +2,10 @@
 #
 # === Parameters
 #
+# [*heartbeat_key*]
+#   (required) Key to validate amphora messages.
+#   Defaults to undef
+#
 # [*amp_active_retries*]
 #   (optional) Retry attempts to wait for Amphora to become active.
 #   Defaults to $::os_service_default
@@ -243,10 +247,6 @@
 #   when it connects back to the controllers to report its health.
 #   Defaults to $::os_service_default
 #
-# [*heartbeat_key*]
-#   (optional) Key to validate amphora messages.
-#   Defaults to undef
-#
 # [*heartbeat_interval*]
 #   (optional) Sleep time between sending heartbeats.
 #   Defaults to undef
@@ -258,6 +258,7 @@
 #   Defaults to undef
 #
 class octavia::controller (
+  $heartbeat_key,
   $amp_active_retries                 = $::os_service_default,
   $amp_active_wait_sec                = $::os_service_default,
   $amp_flavor_id                      = '65',
@@ -312,16 +313,15 @@ class octavia::controller (
   $vrrp_garp_refresh_interval         = $::os_service_default,
   $vrrp_garp_refresh_count            = $::os_service_default,
   $controller_ip_port_list            = $::os_service_default,
-  # TODO(tkainam): Make this parameter required when we remove
-  #                health_manager::heartbeat_key
-  $heartbeat_key                      = undef,
-  $heartbeat_interval                 = undef,
+  $heartbeat_interval                 = $::os_service_default,
   # DEPRECATED PARAMETERS
   $port_detach_timeout                = undef,
 ) inherits octavia::params {
 
   include octavia::deps
   include octavia::db
+
+  validate_legacy(String, 'validate_string', $heartbeat_key)
 
   if $port_detach_timeout != undef {
     warning('The octavia::controller::port_detach_timeout parameter is deprecated. \
@@ -394,18 +394,7 @@ Use the octavia::networking class instead')
     'keepalived_vrrp/vrrp_garp_refresh_interval'         : value => $vrrp_garp_refresh_interval;
     'keepalived_vrrp/vrrp_garp_refresh_count'            : value => $vrrp_garp_refresh_count;
     'health_manager/controller_ip_port_list'             : value => join(any2array($controller_ip_port_list), ',');
-  }
-
-  # TODO(tkajinam): Remove these if-condition when octavia::health_manager
-  #                 parameters are removed.
-  if $heartbeat_key != undef {
-    octavia_config{
-      'health_manager/heartbeat_key' : value => $heartbeat_key, secret => true;
-    }
-  }
-  if $heartbeat_interval != undef {
-    octavia_config{
-      'health_manager/heartbeat_interval' : value => $heartbeat_interval;
-    }
+    'health_manager/heartbeat_key'                       : value => $heartbeat_key, secret => true;
+    'health_manager/heartbeat_interval'                  : value => $heartbeat_interval;
   }
 }

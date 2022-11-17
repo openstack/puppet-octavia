@@ -1,0 +1,11 @@
+---
+upgrade:
+  - |
+    The following parameters of the ``octavia::health_manager`` class have been
+    removed.
+
+    - ``heartbeat_interval``
+    - ``heartbeat_key``
+
+  - |
+    Now the ``octavia::controller::heartbeat_key`` parameter is required.

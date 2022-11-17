@@ -4,16 +4,23 @@ describe 'octavia::controller' do
 
   shared_examples_for 'octavia-controller' do
 
+    let :req_params do
+      { :heartbeat_key => 'abcdefghi' }
+    end
+
     context 'with invalid lb topology' do
       let :params do
-        { :loadbalancer_topology => 'foo', }
+        req_params.merge({
+          :loadbalancer_topology => 'foo'
+        })
       end
       it { is_expected.to raise_error(Puppet::Error) }
     end
 
     context 'configured with specific parameters' do
       let :params do
-        { :amp_active_retries                 => '30',
+        req_params.merge({
+          :amp_active_retries                 => '30',
           :amp_active_wait_sec                => '10',
           :amp_flavor_id                      => '42',
           :amp_image_tag                      => 'amphorae1',
@@ -67,8 +74,7 @@ describe 'octavia::controller' do
           :vrrp_garp_refresh_count            => 2,
           :controller_ip_port_list            => ['1.2.3.4:5555', '4.3.2.1:5555'],
           :heartbeat_interval                 => 10,
-          :heartbeat_key                      => 'default_key',
-        }
+        })
       end
 
       it 'configures with the specified values' do
@@ -126,72 +132,79 @@ describe 'octavia::controller' do
         is_expected.to contain_octavia_config('keepalived_vrrp/vrrp_garp_refresh_count').with_value(2)
         is_expected.to contain_octavia_config('health_manager/controller_ip_port_list').with_value('1.2.3.4:5555,4.3.2.1:5555')
         is_expected.to contain_octavia_config('health_manager/heartbeat_interval').with_value(10)
-        is_expected.to contain_octavia_config('health_manager/heartbeat_key').with_value('default_key')
       end
     end
 
-    it 'configures with the default values' do
-      is_expected.to contain_octavia_config('controller_worker/amp_active_retries').with_value('<SERVICE DEFAULT>')
-      is_expected.to contain_octavia_config('controller_worker/amp_active_wait_sec').with_value('<SERVICE DEFAULT>')
-      is_expected.to contain_octavia_config('controller_worker/amp_flavor_id').with_value('65')
-      is_expected.to contain_octavia_config('controller_worker/amp_image_tag').with_value('<SERVICE DEFAULT>')
-      is_expected.to contain_octavia_config('controller_worker/amp_image_owner_id').with_value('<SERVICE DEFAULT>')
-      is_expected.to contain_octavia_config('controller_worker/amp_secgroup_list').with_value('<SERVICE DEFAULT>')
-      is_expected.to contain_octavia_config('controller_worker/amp_boot_network_list').with_value('<SERVICE DEFAULT>')
-      is_expected.to contain_octavia_config('controller_worker/loadbalancer_topology').with_value('<SERVICE DEFAULT>')
-      is_expected.to contain_octavia_config('controller_worker/amphora_driver').with_value('<SERVICE DEFAULT>')
-      is_expected.to contain_octavia_config('controller_worker/compute_driver').with_value('<SERVICE DEFAULT>')
-      is_expected.to contain_octavia_config('controller_worker/network_driver').with_value('<SERVICE DEFAULT>')
-      is_expected.to contain_octavia_config('controller_worker/volume_driver').with_value('<SERVICE DEFAULT>')
-      is_expected.to contain_octavia_config('controller_worker/image_driver').with_value('<SERVICE DEFAULT>')
-      is_expected.to contain_octavia_config('controller_worker/amp_ssh_key_name').with_value('octavia-ssh-key')
-      is_expected.to contain_octavia_config('controller_worker/amp_timezone').with_value('<SERVICE DEFAULT>')
-      is_expected.to contain_octavia_config('controller_worker/amphora_delete_retries').with_value('<SERVICE DEFAULT>')
-      is_expected.to contain_octavia_config('controller_worker/amphora_delete_retry_interval').with_value('<SERVICE DEFAULT>')
-      is_expected.to contain_octavia_config('haproxy_amphora/timeout_client_data').with_value('<SERVICE DEFAULT>')
-      is_expected.to contain_octavia_config('haproxy_amphora/timeout_member_connect').with_value('<SERVICE DEFAULT>')
-      is_expected.to contain_octavia_config('haproxy_amphora/timeout_member_data').with_value('<SERVICE DEFAULT>')
-      is_expected.to contain_octavia_config('haproxy_amphora/timeout_tcp_inspect').with_value('<SERVICE DEFAULT>')
-      is_expected.to contain_octavia_config('haproxy_amphora/connection_max_retries').with_value('<SERVICE DEFAULT>')
-      is_expected.to contain_octavia_config('haproxy_amphora/connection_retry_interval').with_value('<SERVICE DEFAULT>')
-      is_expected.to contain_octavia_config('haproxy_amphora/connection_logging').with_value('<SERVICE DEFAULT>')
-      is_expected.to contain_octavia_config('haproxy_amphora/active_connection_max_retries').with_value('<SERVICE DEFAULT>')
-      is_expected.to contain_octavia_config('haproxy_amphora/active_connection_retry_interval').with_value('<SERVICE DEFAULT>')
-      is_expected.to contain_octavia_config('haproxy_amphora/failover_connection_max_retries').with_value('<SERVICE DEFAULT>')
-      is_expected.to contain_octavia_config('haproxy_amphora/failover_connection_retry_interval').with_value('<SERVICE DEFAULT>')
-      is_expected.to contain_octavia_config('haproxy_amphora/build_rate_limit').with_value('<SERVICE DEFAULT>')
-      is_expected.to contain_octavia_config('haproxy_amphora/build_active_retries').with_value('<SERVICE DEFAULT>')
-      is_expected.to contain_octavia_config('haproxy_amphora/build_retry_interval').with_value('<SERVICE DEFAULT>')
-      is_expected.to contain_octavia_config('haproxy_amphora/default_connection_limit').with_value('<SERVICE DEFAULT>')
-      is_expected.to contain_octavia_config('networking/port_detach_timeout').with_value('<SERVICE DEFAULT>')
-      is_expected.to contain_octavia_config('amphora_agent/agent_request_read_timeout').with_value('<SERVICE DEFAULT>')
-      is_expected.to contain_octavia_config('amphora_agent/agent_tls_protocol').with_value('<SERVICE DEFAULT>')
-      is_expected.to contain_octavia_config('amphora_agent/admin_log_targets').with_value('<SERVICE DEFAULT>')
-      is_expected.to contain_octavia_config('amphora_agent/administrative_log_facility').with_value('<SERVICE DEFAULT>')
-      is_expected.to contain_octavia_config('amphora_agent/forward_all_logs').with_value('<SERVICE DEFAULT>')
-      is_expected.to contain_octavia_config('amphora_agent/tenant_log_targets').with_value('<SERVICE DEFAULT>')
-      is_expected.to contain_octavia_config('amphora_agent/user_log_facility').with_value('<SERVICE DEFAULT>')
-      is_expected.to contain_octavia_config('haproxy_amphora/user_log_format').with_value('<SERVICE DEFAULT>')
-      is_expected.to contain_octavia_config('amphora_agent/log_protocol').with_value('<SERVICE DEFAULT>')
-      is_expected.to contain_octavia_config('amphora_agent/log_retry_count').with_value('<SERVICE DEFAULT>')
-      is_expected.to contain_octavia_config('amphora_agent/log_retry_interval').with_value('<SERVICE DEFAULT>')
-      is_expected.to contain_octavia_config('amphora_agent/log_queue_size').with_value('<SERVICE DEFAULT>')
-      is_expected.to contain_octavia_config('amphora_agent/logging_template_override').with_value('<SERVICE DEFAULT>')
-      is_expected.to contain_octavia_config('amphora_agent/disable_local_log_storage').with_value('<SERVICE DEFAULT>')
-      is_expected.to contain_octavia_config('keepalived_vrrp/vrrp_advert_int').with_value('<SERVICE DEFAULT>')
-      is_expected.to contain_octavia_config('keepalived_vrrp/vrrp_check_interval').with_value('<SERVICE DEFAULT>')
-      is_expected.to contain_octavia_config('keepalived_vrrp/vrrp_fail_count').with_value('<SERVICE DEFAULT>')
-      is_expected.to contain_octavia_config('keepalived_vrrp/vrrp_success_count').with_value('<SERVICE DEFAULT>')
-      is_expected.to contain_octavia_config('keepalived_vrrp/vrrp_garp_refresh_interval').with_value('<SERVICE DEFAULT>')
-      is_expected.to contain_octavia_config('keepalived_vrrp/vrrp_garp_refresh_count').with_value('<SERVICE DEFAULT>')
-      is_expected.to contain_octavia_config('health_manager/controller_ip_port_list').with_value('<SERVICE DEFAULT>')
-      #is_expected.to contain_octavia_config('health_manager/heartbeat_interval').with_value('<SERVICE DEFAULT>')
-      #is_expected.to contain_octavia_config('health_manager/heartbeat_key').with_value('<SERVICE DEFAULT>')
+    context 'configured with defaults' do
+      let :params do
+        req_params
+      end
+
+      it 'configures with the default values' do
+        is_expected.to contain_octavia_config('controller_worker/amp_active_retries').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('controller_worker/amp_active_wait_sec').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('controller_worker/amp_flavor_id').with_value('65')
+        is_expected.to contain_octavia_config('controller_worker/amp_image_tag').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('controller_worker/amp_image_owner_id').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('controller_worker/amp_secgroup_list').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('controller_worker/amp_boot_network_list').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('controller_worker/loadbalancer_topology').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('controller_worker/amphora_driver').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('controller_worker/compute_driver').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('controller_worker/network_driver').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('controller_worker/volume_driver').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('controller_worker/image_driver').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('controller_worker/amp_ssh_key_name').with_value('octavia-ssh-key')
+        is_expected.to contain_octavia_config('controller_worker/amp_timezone').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('controller_worker/amphora_delete_retries').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('controller_worker/amphora_delete_retry_interval').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('haproxy_amphora/timeout_client_data').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('haproxy_amphora/timeout_member_connect').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('haproxy_amphora/timeout_member_data').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('haproxy_amphora/timeout_tcp_inspect').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('haproxy_amphora/connection_max_retries').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('haproxy_amphora/connection_retry_interval').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('haproxy_amphora/connection_logging').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('haproxy_amphora/active_connection_max_retries').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('haproxy_amphora/active_connection_retry_interval').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('haproxy_amphora/failover_connection_max_retries').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('haproxy_amphora/failover_connection_retry_interval').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('haproxy_amphora/build_rate_limit').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('haproxy_amphora/build_active_retries').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('haproxy_amphora/build_retry_interval').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('haproxy_amphora/default_connection_limit').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('networking/port_detach_timeout').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('amphora_agent/agent_request_read_timeout').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('amphora_agent/agent_tls_protocol').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('amphora_agent/admin_log_targets').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('amphora_agent/administrative_log_facility').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('amphora_agent/forward_all_logs').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('amphora_agent/tenant_log_targets').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('amphora_agent/user_log_facility').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('haproxy_amphora/user_log_format').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('amphora_agent/log_protocol').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('amphora_agent/log_retry_count').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('amphora_agent/log_retry_interval').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('amphora_agent/log_queue_size').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('amphora_agent/logging_template_override').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('amphora_agent/disable_local_log_storage').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('keepalived_vrrp/vrrp_advert_int').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('keepalived_vrrp/vrrp_check_interval').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('keepalived_vrrp/vrrp_fail_count').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('keepalived_vrrp/vrrp_success_count').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('keepalived_vrrp/vrrp_garp_refresh_interval').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('keepalived_vrrp/vrrp_garp_refresh_count').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('health_manager/controller_ip_port_list').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('health_manager/heartbeat_interval').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('health_manager/heartbeat_key').with_value('abcdefghi')
+      end
     end
 
     context 'with ssh key access disabled' do
       let :params do
-        { :enable_ssh_access => false }
+        req_params.merge({
+          :enable_ssh_access => false
+        })
       end
 
       it 'disables configuration of SSH key properties' do
@@ -199,6 +212,14 @@ describe 'octavia::controller' do
       end
     end
 
+    context 'with an invalid value for heartbeat key' do
+      let :params do
+        req_params.merge({
+          :heartbeat_key => 0,
+        })
+      end
+      it { expect { is_expected.to raise_error(Puppet::Error) } }
+    end
   end
 
   on_supported_os({

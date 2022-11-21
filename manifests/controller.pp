@@ -64,7 +64,15 @@
 # [*amp_timezone*]
 #   (optional) Defines the timezone to use as represented in
 #   /usr/share/zoneinfo.
-#   Default is $::os_service_default
+#   Defaults to $::os_service_default
+#
+# [*amphora_delete_retries*]
+#   (optional) Number of times an amphora delete should be retried.
+#   Defaults to $::os_service_default
+#
+# [*amphora_delete_retry_interval*]
+#   (optional) Time, in seconds, between amphora delete retries.
+#   Defaults to $::os_service_default
 #
 # [*amp_ssh_key_name*]
 #   (optional) Name of Openstack SSH keypair for communicating with amphora
@@ -264,6 +272,8 @@ class octavia::controller (
   $volume_driver                      = $::os_service_default,
   $image_driver                       = $::os_service_default,
   $amp_timezone                       = $::os_service_default,
+  $amphora_delete_retries             = $::os_service_default,
+  $amphora_delete_retry_interval      = $::os_service_default,
   $enable_ssh_access                  = true,
   $amp_ssh_key_name                   = 'octavia-ssh-key',
   $timeout_client_data                = $::os_service_default,
@@ -346,6 +356,8 @@ Use the octavia::networking class instead')
     'controller_worker/volume_driver'                    : value => $volume_driver;
     'controller_worker/image_driver'                     : value => $image_driver;
     'controller_worker/amp_timezone'                     : value => $amp_timezone;
+    'controller_worker/amphora_delete_retries'           : value => $amphora_delete_retries;
+    'controller_worker/amphora_delete_retry_interval'    : value => $amphora_delete_retry_interval;
     'haproxy_amphora/timeout_client_data'                : value => $timeout_client_data;
     'haproxy_amphora/timeout_member_connect'             : value => $timeout_member_connect;
     'haproxy_amphora/timeout_member_data'                : value => $timeout_member_data;

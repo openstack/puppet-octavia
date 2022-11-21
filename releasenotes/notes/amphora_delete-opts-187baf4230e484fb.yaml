@@ -1,0 +1,8 @@
+---
+features:
+  - |
+    The ``octavia::controller`` class now supports the following two new
+    parameters.
+
+    - ``amphora_delete_retries``
+    - ``amphora_delete_retry_interval``

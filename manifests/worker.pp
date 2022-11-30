@@ -66,10 +66,7 @@ class octavia::worker (
 ) inherits octavia::params {
 
   include octavia::deps
-
-  if !defined(Class['octavia::controller']) {
-    include octavia::controller
-  }
+  include octavia::controller
 
   validate_legacy(Hash, 'validate_hash', $nova_flavor_config)
 

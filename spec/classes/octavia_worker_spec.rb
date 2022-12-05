@@ -15,11 +15,19 @@ describe 'octavia::worker' do
 
   shared_examples_for 'octavia-worker' do
 
+    let :pre_condition do
+      "include nova
+       class { 'octavia::controller' :
+         heartbeat_key => 'abcdefghi',
+       }"
+    end
+
     context 'configured with specific parameters' do
       let :pre_condition do
         "include nova
          class { 'octavia::controller' :
            amp_flavor_id => '42',
+           heartbeat_key => 'abcdefghi',
          }"
       end
 
@@ -54,7 +62,8 @@ describe 'octavia::worker' do
       let :pre_condition do
         "include nova
          class { 'octavia::controller' :
-           manage_ssh_access = false,
+           enable_ssh_access => false,
+           heartbeat_key     => 'abcdefghi',
          }"
       end
 
@@ -113,7 +122,8 @@ describe 'octavia::worker' do
       before do
         params.merge!({
           :manage_service => false,
-          :enabled        => false })
+          :enabled        => false
+        })
       end
 
       it 'does not configure octavia-worker service' do

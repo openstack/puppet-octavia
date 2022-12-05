@@ -57,14 +57,6 @@
 #  (optional) The number of workers health_manager spawns
 #  Defaults to undef
 #
-# [*heartbeat_key*]
-#  (optional) Key to validate amphora messages.
-#  Defaults to undef
-#
-# [*heartbeat_interval*]
-#  (optional) Sleep time between sending heartbeats.
-#  Defaults to undef
-#
 class octavia::health_manager (
   $manage_service        = true,
   $enabled               = true,
@@ -80,20 +72,10 @@ class octavia::health_manager (
   $failover_threshold    = $::os_service_default,
   # DEPRECATED PARAMETERS
   $workers               = undef,
-  $heartbeat_key         = undef,
-  $heartbeat_interval    = undef,
 ) inherits octavia::params {
 
   include octavia::deps
   include octavia::controller
-
-  if $heartbeat_key != undef {
-    warning('The heartbeat_key parameter is deprecated. Use the octavia::controller class parameter instead.')
-    validate_legacy(String, 'validate_string', $heartbeat_key)
-  }
-  if $heartbeat_interval != undef {
-    warning('The heartbeat_interval parameter is deprecated. Use the octavia::controller class parameter instead.')
-  }
 
   package { 'octavia-health-manager':
     ensure => $package_ensure,
@@ -135,19 +117,5 @@ Use health_update_threads and stats_update_threads instead')
     'health_manager/health_check_interval'  : value => $health_check_interval;
     'health_manager/sock_rlimit'            : value => $sock_rlimit;
     'health_manager/failover_threshold'     : value => $failover_threshold;
-  }
-
-  if $::octavia::controller::heartbeat_key == undef {
-    if $heartbeat_key == undef {
-      fail('The heartbeat_key parameter is required.')
-    }
-    octavia_config {
-      'health_manager/heartbeat_key': value => $heartbeat_key, secret => true;
-    }
-  }
-  if $::octavia::controller::heartbeat_interval == undef {
-    octavia_config {
-      'health_manager/heartbeat_interval': value => pick($heartbeat_interval, $::os_service_default);
-    }
   }
 }

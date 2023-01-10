@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    The new ``octavia::api::allow_prometheus_listeners`` parameter has been
+    added.

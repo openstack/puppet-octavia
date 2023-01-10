@@ -111,6 +111,10 @@
 #   (optional) Allow PING type Health Monitors.
 #   Defaults to $::os_service_default
 #
+# [*allow_prometheus_listeners*]
+#   (optional) Allow PROMETHEUS type listeners.
+#   Defaults to $::os_service_default
+#
 # DEPRECATED PARAMETERS
 #
 # [*provider_drivers*]
@@ -143,6 +147,7 @@ class octavia::api (
   $default_pool_tls_versions      = $::os_service_default,
   $minimum_tls_version            = $::os_service_default,
   $allow_ping_health_monitors     = $::os_service_default,
+  $allow_prometheus_listeners     = $::os_service_default,
   # DEPRECATED PARAMETERS
   $provider_drivers               = undef,
 ) inherits octavia::params {
@@ -225,6 +230,7 @@ Use the enabled_provider_drivers parameter instead.')
     'api_settings/default_pool_tls_versions':      value => join(any2array($default_pool_tls_versions), ',');
     'api_settings/minimum_tls_version':            value => $minimum_tls_version;
     'api_settings/allow_ping_health_monitors':     value => $allow_ping_health_monitors;
+    'api_settings/allow_prometheus_listeners':     value => $allow_prometheus_listeners;
   }
 
   oslo::middleware { 'octavia_config':

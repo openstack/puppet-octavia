@@ -68,14 +68,12 @@ class octavia::networking (
 
   include octavia::deps
 
-  $port_detach_timeout_real = pick($::octavia::controller::port_detach_timeout, $port_detach_timeout)
-
   octavia_config {
     'networking/max_retries':                    value => $max_retries;
     'networking/retry_interval':                 value => $retry_interval;
     'networking/retry_backoff':                  value => $retry_backoff;
     'networking/retry_max':                      value => $retry_max;
-    'networking/port_detach_timeout':            value => $port_detach_timeout_real;
+    'networking/port_detach_timeout':            value => $port_detach_timeout;
     'networking/allow_vip_network_id':           value => $allow_vip_network_id;
     'networking/allow_vip_subnet_id':            value => $allow_vip_subnet_id;
     'networking/allow_vip_port_id':              value => $allow_vip_port_id;

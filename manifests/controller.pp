@@ -251,12 +251,6 @@
 #   (optional) Sleep time between sending heartbeats.
 #   Defaults to undef
 #
-# DEPRECATED PARAMETERS
-#
-# [*port_detach_timeout*]
-#   (optional) Seconds to wait for a port to detach from an amphora.
-#   Defaults to undef
-#
 class octavia::controller (
   $heartbeat_key,
   $amp_active_retries                 = $::os_service_default,
@@ -314,20 +308,12 @@ class octavia::controller (
   $vrrp_garp_refresh_count            = $::os_service_default,
   $controller_ip_port_list            = $::os_service_default,
   $heartbeat_interval                 = $::os_service_default,
-  # DEPRECATED PARAMETERS
-  $port_detach_timeout                = undef,
 ) inherits octavia::params {
 
   include octavia::deps
   include octavia::db
 
   validate_legacy(String, 'validate_string', $heartbeat_key)
-
-  if $port_detach_timeout != undef {
-    warning('The octavia::controller::port_detach_timeout parameter is deprecated. \
-Use the octavia::networking class instead')
-  }
-  include octavia::networking
 
   if ! is_service_default($loadbalancer_topology) and
       ! ($loadbalancer_topology in ['SINGLE', 'ACTIVE_STANDBY']) {

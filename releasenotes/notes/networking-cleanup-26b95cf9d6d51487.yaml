@@ -1,0 +1,5 @@
+---
+upgrade:
+  - |
+    The ``octavia::controller::port_detach_timeout`` parameter has been
+    removed.

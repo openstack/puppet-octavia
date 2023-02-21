@@ -196,6 +196,9 @@ Use the enabled_provider_drivers parameter instead.')
       }
       Service['octavia-api'] -> Service[$service_name]
       Service<| title == 'httpd' |> { tag +> ['octavia-service', 'octavia-db-sync-service'] }
+    } else {
+    fail("Invalid service_name. Either octavia-api/openstack-octavia-api for \
+running as a standalone service, or httpd for being run by a httpd server")
     }
   }
 

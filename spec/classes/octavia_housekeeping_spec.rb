@@ -88,7 +88,7 @@ describe 'octavia::housekeeping' do
         facts.merge!(OSDefaults.get_facts())
       end
       let(:platform_params) do
-        case facts[:osfamily]
+        case facts[:os]['family']
         when 'Debian'
           { :housekeeping_package_name => 'octavia-housekeeping',
             :housekeeping_service_name => 'octavia-housekeeping' }

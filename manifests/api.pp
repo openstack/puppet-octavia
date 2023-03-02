@@ -37,19 +37,19 @@
 #
 # [*api_handler*]
 #   (optional) The handler that the API communicates with
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*api_v1_enabled*]
 #   (optional) Boolean if V1 API should be enabled.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*api_v2_enabled*]
 #   (optional) Boolean if V2 API should be enabled.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*allow_tls_terminated_listeners*]
 #   (optional) Boolean if we allow creation of TLS terminated listeners.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*sync_db*]
 #   (optional) Run octavia-db-manage upgrade head on api nodes after installing the package.
@@ -58,62 +58,62 @@
 # [*enable_proxy_headers_parsing*]
 #   (Optional) Enable paste middleware to handle SSL requests through
 #   HTTPProxyToWSGI middleware.
-#   Defaults to $::os_service_default.
+#   Defaults to $facts['os_service_default'].
 #
 # [*default_provider_driver*]
 #   (optional) Configure the default provider driver.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*enabled_provider_drivers*]
 #   (optional) Configure the loadbalancer provider drivers.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*pagination_max_limit*]
 #   (optional) The maximum number of items returned in a single response.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*healthcheck_enabled*]
 #   (optional) Enable the oslo middleware healthcheck endpoint.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*healthcheck_refresh_interval*]
 #   (optional) The interval healthcheck plugin should cache results, in seconds.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*default_listener_ciphers*]
 #   (optional) Default OpenSSL cipher string (colon-separated) for new
 #   TLS-enabled pools.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*default_pool_ciphers*]
 #   (optional) Default OpenSSL cipher string (colon-separated) for new
 #   TLS-enabled pools.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*tls_cipher_prohibit_list*]
 #   (optional) Colon separated list of OpenSSL ciphers. Usage of these ciphers
 #   will be blocked.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*default_listener_tls_versions*]
 #   (optional) List of TLS versions to use for new TLS-enabled listeners.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*default_pool_tls_versions*]
 #   (optional) List of TLS versions to use for new TLS-enabled pools.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*minimum_tls_version*]
 #   (optional) Minimum allowed TLS version for listeners and pools.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*allow_ping_health_monitors*]
 #   (optional) Allow PING type Health Monitors.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*allow_prometheus_listeners*]
 #   (optional) Allow PROMETHEUS type listeners.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # DEPRECATED PARAMETERS
 #
@@ -129,25 +129,25 @@ class octavia::api (
   $port                           = '9876',
   $package_ensure                 = 'present',
   $auth_strategy                  = 'keystone',
-  $api_handler                    = $::os_service_default,
-  $api_v1_enabled                 = $::os_service_default,
-  $api_v2_enabled                 = $::os_service_default,
-  $allow_tls_terminated_listeners = $::os_service_default,
+  $api_handler                    = $facts['os_service_default'],
+  $api_v1_enabled                 = $facts['os_service_default'],
+  $api_v2_enabled                 = $facts['os_service_default'],
+  $allow_tls_terminated_listeners = $facts['os_service_default'],
   $sync_db                        = false,
-  $enable_proxy_headers_parsing   = $::os_service_default,
-  $default_provider_driver        = $::os_service_default,
-  $enabled_provider_drivers       = $::os_service_default,
-  $pagination_max_limit           = $::os_service_default,
-  $healthcheck_enabled            = $::os_service_default,
-  $healthcheck_refresh_interval   = $::os_service_default,
-  $default_listener_ciphers       = $::os_service_default,
-  $default_pool_ciphers           = $::os_service_default,
-  $tls_cipher_prohibit_list       = $::os_service_default,
-  $default_listener_tls_versions  = $::os_service_default,
-  $default_pool_tls_versions      = $::os_service_default,
-  $minimum_tls_version            = $::os_service_default,
-  $allow_ping_health_monitors     = $::os_service_default,
-  $allow_prometheus_listeners     = $::os_service_default,
+  $enable_proxy_headers_parsing   = $facts['os_service_default'],
+  $default_provider_driver        = $facts['os_service_default'],
+  $enabled_provider_drivers       = $facts['os_service_default'],
+  $pagination_max_limit           = $facts['os_service_default'],
+  $healthcheck_enabled            = $facts['os_service_default'],
+  $healthcheck_refresh_interval   = $facts['os_service_default'],
+  $default_listener_ciphers       = $facts['os_service_default'],
+  $default_pool_ciphers           = $facts['os_service_default'],
+  $tls_cipher_prohibit_list       = $facts['os_service_default'],
+  $default_listener_tls_versions  = $facts['os_service_default'],
+  $default_pool_tls_versions      = $facts['os_service_default'],
+  $minimum_tls_version            = $facts['os_service_default'],
+  $allow_ping_health_monitors     = $facts['os_service_default'],
+  $allow_prometheus_listeners     = $facts['os_service_default'],
   # DEPRECATED PARAMETERS
   $provider_drivers               = undef,
 ) inherits octavia::params {

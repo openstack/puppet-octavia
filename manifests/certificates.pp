@@ -6,39 +6,39 @@
 #
 # [*cert_generator*]
 #   (Optional) Certificate generator to use.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*cert_manager*]
 #   (Optional) Certificate manager to use.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*barbican_auth*]
 #   (Optional) Name of the Barbican authentication method to use.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*service_name*]
 #   (Optional) The name of the certificate service in the keystone catalog.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*endpoint*]
 #   (Optional) A new endpoint to override the endpoint in the keystone catalog.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*region_name*]
 #   (Optional) Region name to use when connecting to cert manager.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*endpoint_type*]
 #   (Optional) Endpoint type to use when connecting to cert manager.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*ca_certificate*]
 #   (Optional) Path to the CA certificate for Octavia
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*ca_private_key*]
 #   (Optional) Path for private key used to sign certificates
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*server_certs_key_passphrase*]
 #   (Optional) Passphrase for encrypting Amphora Certificates and Private Keys.
@@ -47,15 +47,15 @@
 #
 # [*ca_private_key_passphrase*]
 #   (Optional) CA password used to sign certificates
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*signing_digest*]
 #   (Optional) Certificate signing digest.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*cert_validity_time*]
 #   (Optional) The validity time for the Amphora Certificates (in seconds).
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*client_ca*]
 #   (Optional) Path to the client CA certificate.
@@ -65,7 +65,7 @@
 #
 # [*client_cert*]
 #   (Optional) Path for client certificate used to connect to amphorae.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*ca_certificate_data*]
 #   (Optional) CA certificate for Octavia
@@ -94,21 +94,21 @@
 #   Defaults to 'octavia'
 #
 class octavia::certificates (
-  $cert_generator              = $::os_service_default,
-  $cert_manager                = $::os_service_default,
-  $barbican_auth               = $::os_service_default,
-  $service_name                = $::os_service_default,
-  $endpoint                    = $::os_service_default,
-  $region_name                 = $::os_service_default,
-  $endpoint_type               = $::os_service_default,
-  $ca_certificate              = $::os_service_default,
-  $ca_private_key              = $::os_service_default,
+  $cert_generator              = $facts['os_service_default'],
+  $cert_manager                = $facts['os_service_default'],
+  $barbican_auth               = $facts['os_service_default'],
+  $service_name                = $facts['os_service_default'],
+  $endpoint                    = $facts['os_service_default'],
+  $region_name                 = $facts['os_service_default'],
+  $endpoint_type               = $facts['os_service_default'],
+  $ca_certificate              = $facts['os_service_default'],
+  $ca_private_key              = $facts['os_service_default'],
   $server_certs_key_passphrase = 'insecure-key-do-not-use-this-key',
-  $ca_private_key_passphrase   = $::os_service_default,
-  $signing_digest              = $::os_service_default,
-  $cert_validity_time          = $::os_service_default,
+  $ca_private_key_passphrase   = $facts['os_service_default'],
+  $signing_digest              = $facts['os_service_default'],
+  $cert_validity_time          = $facts['os_service_default'],
   $client_ca                   = undef,
-  $client_cert                 = $::os_service_default,
+  $client_cert                 = $facts['os_service_default'],
   $ca_certificate_data         = undef,
   $ca_private_key_data         = undef,
   $client_ca_data              = undef,

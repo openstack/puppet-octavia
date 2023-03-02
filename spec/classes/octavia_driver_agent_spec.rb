@@ -80,7 +80,7 @@ describe 'octavia::driver_agent' do
       end
 
       let(:platform_params) do
-        case facts[:osfamily]
+        case facts[:os]['family']
         when 'Debian'
           { :driver_agent_package_name => 'octavia-driver-agent',
             :driver_agent_service_name => 'octavia-driver-agent' }

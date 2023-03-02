@@ -16,38 +16,38 @@
 #
 # [*cleanup_interval*]
 #   (optional) DB cleanup interval in seconds.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*amphora_expiry_age*]
 #   (optional) Amphora expiry age in seconds.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*load_balancer_expiry_age*]
 #   (optional) Load balancer expiry age in seconds.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*cert_interval*]
 #   (optional) Certificate check interval in seconds.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*cert_expiry_buffer*]
 #   (optional) Seconds until certificate expiry.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*cert_rotate_threads*]
 #   (optional) Number of threads performing amphora certificate rotation.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 class octavia::housekeeping (
   $manage_service            = true,
   $enabled                   = true,
   $package_ensure            = 'present',
-  $cleanup_interval          = $::os_service_default,
-  $amphora_expiry_age        = $::os_service_default,
-  $load_balancer_expiry_age  = $::os_service_default,
-  $cert_interval             = $::os_service_default,
-  $cert_expiry_buffer        = $::os_service_default,
-  $cert_rotate_threads       = $::os_service_default,
+  $cleanup_interval          = $facts['os_service_default'],
+  $amphora_expiry_age        = $facts['os_service_default'],
+  $load_balancer_expiry_age  = $facts['os_service_default'],
+  $cert_interval             = $facts['os_service_default'],
+  $cert_expiry_buffer        = $facts['os_service_default'],
+  $cert_rotate_threads       = $facts['os_service_default'],
 ) inherits octavia::params {
 
   include octavia::deps

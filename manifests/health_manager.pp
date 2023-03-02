@@ -16,40 +16,40 @@
 #
 # [*ip*]
 #   (optional) The bind ip for the health manager
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*port*]
 #   (optional) The bind port for the health manager
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*health_update_threads*]
 #  (optional) Number of processes for amphora health update
-#  Defaults to $::os_workers
+#  Defaults to $facts['os_workers']
 #
 # [*stats_update_threads*]
 #  (optional) Number of processes for amphora stats update
-#  Defaults to $::os_workers
+#  Defaults to $facts['os_workers']
 #
 # [*failover_threads*]
 #  (optional) The number of threads performing amphora failovers.
-#  Defaults to $::os_service_default
+#  Defaults to $facts['os_service_default']
 #
 # [*heartbeat_timeout*]
 #  (optional) Interval, in seconds, to wait before failing over an amphora.
-#  Defaults to $::os_service_default
+#  Defaults to $facts['os_service_default']
 #
 # [*health_check_interval*]
 #  (optional) Sleep time between health checks in seconds.
-#  Defaults to $::os_service_default
+#  Defaults to $facts['os_service_default']
 #
 # [*sock_rlimit*]
 #  (optional) Sets the value of the heartbeat recv buffer
-#  Defaults to $::os_service_default
+#  Defaults to $facts['os_service_default']
 #
 # [*failover_threshold*]
 #  (optional) Stop failovers if the count of simultaneously failed amphora
 #  reaches this number.
-#  Defaults to $::os_service_default
+#  Defaults to $facts['os_service_default']
 #
 # DEPRECATED PARAMETERS
 #
@@ -61,15 +61,15 @@ class octavia::health_manager (
   $manage_service        = true,
   $enabled               = true,
   $package_ensure        = 'present',
-  $ip                    = $::os_service_default,
-  $port                  = $::os_service_default,
-  $health_update_threads = $::os_workers,
-  $stats_update_threads  = $::os_workers,
-  $failover_threads      = $::os_service_default,
-  $heartbeat_timeout     = $::os_service_default,
-  $health_check_interval = $::os_service_default,
-  $sock_rlimit           = $::os_service_default,
-  $failover_threshold    = $::os_service_default,
+  $ip                    = $facts['os_service_default'],
+  $port                  = $facts['os_service_default'],
+  $health_update_threads = $facts['os_workers'],
+  $stats_update_threads  = $facts['os_workers'],
+  $failover_threads      = $facts['os_service_default'],
+  $heartbeat_timeout     = $facts['os_service_default'],
+  $health_check_interval = $facts['os_service_default'],
+  $sock_rlimit           = $facts['os_service_default'],
+  $failover_threshold    = $facts['os_service_default'],
   # DEPRECATED PARAMETERS
   $workers               = undef,
 ) inherits octavia::params {

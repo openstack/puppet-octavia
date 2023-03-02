@@ -6,41 +6,41 @@
 #
 # [*service_name*]
 #   (Optional) The name of the nova service in the keystone catalog.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*endpoint*]
 #   (Optional) Custom nova endpoint if override is necessary.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*region_name*]
 #   (Optional) Region in catalog to use for nova.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*endpoint_type*]
 #   (Optional) Endpoint type in catalog to use for nova.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*availability_zone*]
 #   (Optional) Availability zone to use for creating Amphorae.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*enable_anti_affinity*]
 #   (Optional) Enable anti-affinity in nova.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*anti_affinity_policy*]
 #   (Optional) Set the anti-affinity policy to what is suitable.
 #   Nova supports: anti-affinity and soft-anti-affinity.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 class octavia::nova (
-  $service_name         = $::os_service_default,
-  $endpoint             = $::os_service_default,
-  $region_name          = $::os_service_default,
-  $endpoint_type        = $::os_service_default,
-  $availability_zone    = $::os_service_default,
-  $enable_anti_affinity = $::os_service_default,
-  $anti_affinity_policy = $::os_service_default,
+  $service_name         = $facts['os_service_default'],
+  $endpoint             = $facts['os_service_default'],
+  $region_name          = $facts['os_service_default'],
+  $endpoint_type        = $facts['os_service_default'],
+  $availability_zone    = $facts['os_service_default'],
+  $enable_anti_affinity = $facts['os_service_default'],
+  $anti_affinity_policy = $facts['os_service_default'],
 ) {
 
   include octavia::deps

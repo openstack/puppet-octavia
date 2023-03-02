@@ -7,26 +7,26 @@
 # [*max_retries*]
 #  (Optional) The maximum attempts to retry an action with the compute
 #  service.
-#  Defaults to $::os_service_default
+#  Defaults to $facts['os_service_default']
 #
 # [*retry_interval*]
 #  (Optional) Seconds to wait before retrying an action with the compute
 #  service.
-#  Defaults to $::os_service_default
+#  Defaults to $facts['os_service_default']
 #
 # [*retry_backoff*]
 #  (Optional) The seconds to backoff retry attempts.
-#  Defaults to $::os_service_default
+#  Defaults to $facts['os_service_default']
 #
 # [*retry_max*]
 #  (Optional) The maximum interval in seconds between retry attempts.
-#  Defaults to $::os_service_default
+#  Defaults to $facts['os_service_default']
 #
 class octavia::compute (
-  $max_retries    = $::os_service_default,
-  $retry_interval = $::os_service_default,
-  $retry_backoff  = $::os_service_default,
-  $retry_max      = $::os_service_default,
+  $max_retries    = $facts['os_service_default'],
+  $retry_interval = $facts['os_service_default'],
+  $retry_backoff  = $facts['os_service_default'],
+  $retry_max      = $facts['os_service_default'],
 ) {
 
   include octavia::deps

@@ -6,55 +6,55 @@
 #
 # [*service_name*]
 #   (Optional) The name of the cinder service in the keystone catalog.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*endpoint*]
 #   (Optional) Custom cinder endpoint if override is necessary.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*region_name*]
 #   (Optional) Region in catalog to use for cinder.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*endpoint_type*]
 #   (Optional) Endpoint type in catalog to use for cinder.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*availability_zone*]
 #   (Optional) Availability zone to use for creating volume.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*volume_size*]
 #   (Optional) Size of volume, in GB, for Amphora instance
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*volume_type*]
 #   (Optional) Type of volume for Amphorae volume root disk
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*volume_create_retry_interval*]
 #   (Optional) Interval time to wait volume is created in available state
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*volume_create_timeout*]
 #   (Optional) Timeout to wait volume is created in available
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*volume_create_max_retries*]
 #   (Optional) Maximum number of retries to create volume
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 class octavia::cinder (
-  $service_name                 = $::os_service_default,
-  $endpoint                     = $::os_service_default,
-  $region_name                  = $::os_service_default,
-  $endpoint_type                = $::os_service_default,
-  $availability_zone            = $::os_service_default,
-  $volume_size                  = $::os_service_default,
-  $volume_type                  = $::os_service_default,
-  $volume_create_retry_interval = $::os_service_default,
-  $volume_create_timeout        = $::os_service_default,
-  $volume_create_max_retries    = $::os_service_default,
+  $service_name                 = $facts['os_service_default'],
+  $endpoint                     = $facts['os_service_default'],
+  $region_name                  = $facts['os_service_default'],
+  $endpoint_type                = $facts['os_service_default'],
+  $availability_zone            = $facts['os_service_default'],
+  $volume_size                  = $facts['os_service_default'],
+  $volume_type                  = $facts['os_service_default'],
+  $volume_create_retry_interval = $facts['os_service_default'],
+  $volume_create_timeout        = $facts['os_service_default'],
+  $volume_create_max_retries    = $facts['os_service_default'],
 ) {
 
   include octavia::deps

@@ -38,7 +38,7 @@ describe 'octavia::client' do
       end
 
       let(:platform_params) do
-        case facts[:osfamily]
+        case facts[:os]['family']
         when 'Debian'
           { :client_package_name => 'python3-octaviaclient' }
         when 'RedHat'

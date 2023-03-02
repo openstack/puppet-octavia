@@ -28,7 +28,7 @@
 #
 # [*system_scope*]
 #   (Optional) Scope for system operations.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*auth_type*]
 #   (Optional) keystone authentication type
@@ -36,7 +36,7 @@
 #
 # [*region_name*]
 #   (Optional) The region in which the identity server can be found.
-#   Defaults to $::os_service_default.
+#   Defaults to $facts['os_service_default'].
 #
 class octavia::service_auth (
   $password,
@@ -45,9 +45,9 @@ class octavia::service_auth (
   $project_name        = 'services',
   $user_domain_name    = 'Default',
   $project_domain_name = 'Default',
-  $system_scope        = $::os_service_default,
+  $system_scope        = $facts['os_service_default'],
   $auth_type           = 'password',
-  $region_name         = $::os_service_default,
+  $region_name         = $facts['os_service_default'],
 ) {
 
   include octavia::deps
@@ -56,8 +56,8 @@ class octavia::service_auth (
     $project_name_real = $project_name
     $project_domain_name_real = $project_domain_name
   } else {
-    $project_name_real = $::os_service_default
-    $project_domain_name_real = $::os_service_default
+    $project_name_real = $facts['os_service_default']
+    $project_domain_name_real = $facts['os_service_default']
   }
 
   octavia_config {

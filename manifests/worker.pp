@@ -16,7 +16,7 @@
 #
 # [*workers*]
 #   (optional) Number of worker processes.
-#    Defaults to $::os_workers
+#    Defaults to $facts['os_workers']
 #
 # [*manage_nova_flavor*]
 #   (optional) Whether or not manage Nova flavor for the Amphora.
@@ -55,7 +55,7 @@ class octavia::worker (
   $manage_service         = true,
   $enabled                = true,
   $package_ensure         = 'present',
-  $workers                = $::os_workers,
+  $workers                = $facts['os_workers'],
   $manage_nova_flavor     = true,
   $nova_flavor_config     = {},
   $key_path               = '/etc/octavia/.ssh/octavia_ssh_key',

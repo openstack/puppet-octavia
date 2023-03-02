@@ -13,7 +13,7 @@ class octavia::params {
   $user                        = 'octavia'
   $group                       = 'octavia'
 
-  case $::osfamily {
+  case $facts['os']['family'] {
     'RedHat': {
       $common_package_name         = 'openstack-octavia-common'
       $api_package_name            = 'openstack-octavia-api'
@@ -35,9 +35,8 @@ class octavia::params {
       $octavia_wsgi_script_source  = '/usr/bin/octavia-wsgi'
     }
     default: {
-      fail("Unsupported osfamily: ${::osfamily} operatingsystem: ${::operatingsystem}, \
-module ${module_name} only support osfamily RedHat and Debian")
+      fail("Unsupported osfamily: ${facts['os']['family']}")
     }
 
-  } # Case $::osfamily
+  } # Case $facts['os']['family']
 }

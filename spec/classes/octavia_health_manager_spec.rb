@@ -113,7 +113,7 @@ describe 'octavia::health_manager' do
         facts.merge!(OSDefaults.get_facts({ :os_workers => 4 }))
       end
       let(:platform_params) do
-        case facts[:osfamily]
+        case facts[:os]['family']
         when 'Debian'
           { :health_manager_package_name => 'octavia-health-manager',
             :health_manager_service_name => 'octavia-health-manager' }

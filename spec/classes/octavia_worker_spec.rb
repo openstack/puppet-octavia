@@ -209,7 +209,7 @@ describe 'octavia::worker' do
         facts.merge!(OSDefaults.get_facts({:os_workers => 4}))
       end
       let(:platform_params) do
-        case facts[:osfamily]
+        case facts[:os]['family']
         when 'Debian'
           { :worker_package_name => 'octavia-worker',
             :worker_service_name => 'octavia-worker' }

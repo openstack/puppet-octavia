@@ -227,7 +227,7 @@ describe 'octavia' do
       end
 
       let(:platform_params) do
-        case facts[:osfamily]
+        case facts[:os]['family']
         when 'Debian'
           { :octavia_common_package => 'octavia-common' }
         when 'RedHat'

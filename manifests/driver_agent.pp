@@ -16,74 +16,74 @@
 #
 # [*status_socket_path*]
 #   (optional) Path to the driver status unix domain socket file.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*stats_socket_path*]
 #   (optional) Path to the driver statistics unix domain socket file.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*get_socket_path*]
 #   (optional) Path to the driver get unix domain socket file.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*status_request_timeout*]
 #   (optional) Time, in seconds, to wait for a status update request.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*status_max_processes*]
 #   (optional) Maximum number of concurrent processes to use servicing status
 #   updates.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*stats_request_timeout*]
 #   (optional) Time, in seconds, to wait for a statistics update request.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*stats_max_processes*]
 #   (optional) Maximum number of concurrent processes to use servicing
 #   statistics updates.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*get_request_timeout*]
 #   (optional) Time, in seconds, to wait for a get request.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*get_max_processes*]
 #   (optional) Maximum number of concurrent processes to use servicing get
 #   requests.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*max_process_warning_percent*]
 #   (optional) Percentage of max_processes (both status and stats) in use to
 #   start logging warning messages about an overloaded driver-agent.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*provider_agent_shutdown_timeout*]
 #   (optional) The time, in seconds, to wait for provider agents to shutdown
 #   after the exit event has been set.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*enabled_provider_agents*]
 #   (optional) List of enabled provider agents. The driver-agent will launch
 #   these agents at startup.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 class octavia::driver_agent (
   $manage_service                  = true,
   $enabled                         = true,
   $package_ensure                  = 'present',
-  $status_socket_path              = $::os_service_default,
-  $stats_socket_path               = $::os_service_default,
-  $get_socket_path                 = $::os_service_default,
-  $status_request_timeout          = $::os_service_default,
-  $status_max_processes            = $::os_service_default,
-  $stats_request_timeout           = $::os_service_default,
-  $stats_max_processes             = $::os_service_default,
-  $get_request_timeout             = $::os_service_default,
-  $get_max_processes               = $::os_service_default,
-  $max_process_warning_percent     = $::os_service_default,
-  $provider_agent_shutdown_timeout = $::os_service_default,
-  $enabled_provider_agents         = $::os_service_default,
+  $status_socket_path              = $facts['os_service_default'],
+  $stats_socket_path               = $facts['os_service_default'],
+  $get_socket_path                 = $facts['os_service_default'],
+  $status_request_timeout          = $facts['os_service_default'],
+  $status_max_processes            = $facts['os_service_default'],
+  $stats_request_timeout           = $facts['os_service_default'],
+  $stats_max_processes             = $facts['os_service_default'],
+  $get_request_timeout             = $facts['os_service_default'],
+  $get_max_processes               = $facts['os_service_default'],
+  $max_process_warning_percent     = $facts['os_service_default'],
+  $provider_agent_shutdown_timeout = $facts['os_service_default'],
+  $enabled_provider_agents         = $facts['os_service_default'],
 ) {
 
   include octavia::deps

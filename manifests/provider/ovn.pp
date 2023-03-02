@@ -8,66 +8,66 @@
 #
 # [*ovn_nb_connection*]
 #   (optional) The connection string for the OVN_Northbound OVSDB.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*ovn_nb_private_key*]
 #   (optional) The PEM file with private key for SSL connection to OVN-NB-DB
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*ovn_nb_certificate*]
 #   (optional) The PEM file with certificate that certifies the private
 #   key specified in ovn_nb_private_key
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*ovn_nb_ca_cert*]
 #   (optional) The PEM file with CA certificate that OVN should use to
 #   verify certificates presented to it by SSL peers
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*ovn_sb_connection*]
 #   (optional) The connection string for the OVN_Southbound OVSDB.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*ovn_sb_private_key*]
 #   (optional) The PEM file with private key for SSL connection to OVN-SB-DB
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*ovn_sb_certificate*]
 #   (optional) The PEM file with certificate that certifies the private
 #   key specified in ovn_sb_private_key
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*ovn_sb_ca_cert*]
 #   (optional) The PEM file with CA certificate that OVN should use to
 #   verify certificates presented to it by SSL peers
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*ovsdb_connection_timeout*]
 #   (optional) Timeout in seconds for the OVSDB connection transaction.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*ovsdb_retry_max_interval*]
 #   (optional) Max interval in seconds between each retry to get the OVN NB and
 #   SB IDLs.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*ovsdb_probe_interval*]
 #   (optional) The probe interval for the OVSDB session in milliseconds.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 class octavia::provider::ovn (
   $package_ensure           = 'present',
-  $ovn_nb_connection        = $::os_service_default,
-  $ovn_nb_private_key       = $::os_service_default,
-  $ovn_nb_certificate       = $::os_service_default,
-  $ovn_nb_ca_cert           = $::os_service_default,
-  $ovn_sb_connection        = $::os_service_default,
-  $ovn_sb_private_key       = $::os_service_default,
-  $ovn_sb_certificate       = $::os_service_default,
-  $ovn_sb_ca_cert           = $::os_service_default,
-  $ovsdb_connection_timeout = $::os_service_default,
-  $ovsdb_retry_max_interval = $::os_service_default,
-  $ovsdb_probe_interval     = $::os_service_default,
+  $ovn_nb_connection        = $facts['os_service_default'],
+  $ovn_nb_private_key       = $facts['os_service_default'],
+  $ovn_nb_certificate       = $facts['os_service_default'],
+  $ovn_nb_ca_cert           = $facts['os_service_default'],
+  $ovn_sb_connection        = $facts['os_service_default'],
+  $ovn_sb_private_key       = $facts['os_service_default'],
+  $ovn_sb_certificate       = $facts['os_service_default'],
+  $ovn_sb_ca_cert           = $facts['os_service_default'],
+  $ovsdb_connection_timeout = $facts['os_service_default'],
+  $ovsdb_retry_max_interval = $facts['os_service_default'],
+  $ovsdb_probe_interval     = $facts['os_service_default'],
 ) {
 
   include octavia::deps

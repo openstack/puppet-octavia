@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    The new ``octavia::controller::event_notifications`` parameter has been
+    added.

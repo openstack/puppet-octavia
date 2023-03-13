@@ -24,6 +24,10 @@
 #   option.
 #   Defaults to $facts['os_service_default']
 #
+# [*executor_thread_pool_size*]
+#   (Optional) Size of executor thread pool when executor is threading or eventlet.
+#   Defaults to $facts['os_service_default'].
+#
 # [*rabbit_use_ssl*]
 #   (optional) Connect over SSL for RabbitMQ
 #   Defaults to $facts['os_service_default']
@@ -185,6 +189,7 @@ class octavia (
   $default_transport_url              = $facts['os_service_default'],
   $rpc_response_timeout               = $facts['os_service_default'],
   $control_exchange                   = $facts['os_service_default'],
+  $executor_thread_pool_size          = $facts['os_service_default'],
   $rabbit_use_ssl                     = $facts['os_service_default'],
   $rabbit_heartbeat_timeout_threshold = $facts['os_service_default'],
   $rabbit_heartbeat_rate              = $facts['os_service_default'],
@@ -268,9 +273,10 @@ class octavia (
   }
 
   oslo::messaging::default { 'octavia_config':
-    transport_url        => $default_transport_url,
-    rpc_response_timeout => $rpc_response_timeout,
-    control_exchange     => $control_exchange,
+    executor_thread_pool_size => $executor_thread_pool_size,
+    transport_url             => $default_transport_url,
+    rpc_response_timeout      => $rpc_response_timeout,
+    control_exchange          => $control_exchange,
   }
 
   oslo::messaging::notifications { 'octavia_config':

@@ -29,9 +29,10 @@ describe 'octavia' do
 
       it 'configures rabbit' do
         should contain_oslo__messaging__default('octavia_config').with(
-          :transport_url        => '<SERVICE DEFAULT>',
-          :rpc_response_timeout => '<SERVICE DEFAULT>',
-          :control_exchange     => '<SERVICE DEFAULT>',
+          :executor_thread_pool_size => '<SERVICE DEFAULT>',
+          :transport_url             => '<SERVICE DEFAULT>',
+          :rpc_response_timeout      => '<SERVICE DEFAULT>',
+          :control_exchange          => '<SERVICE DEFAULT>',
         )
         should contain_oslo__messaging__rabbit('octavia_config').with(
           :rabbit_ha_queues            => '<SERVICE DEFAULT>',
@@ -82,6 +83,7 @@ describe 'octavia' do
           :default_transport_url              => 'rabbit://rabbit_user:password@localhost:5673',
           :rpc_response_timeout               => '120',
           :control_exchange                   => 'octavia',
+          :executor_thread_pool_size          => 64,
           :rabbit_ha_queues                   => true,
           :rabbit_heartbeat_timeout_threshold => '60',
           :rabbit_heartbeat_rate              => '10',
@@ -100,9 +102,10 @@ describe 'octavia' do
 
       it 'configures rabbit' do
         should contain_oslo__messaging__default('octavia_config').with(
-          :transport_url        => 'rabbit://rabbit_user:password@localhost:5673',
-          :rpc_response_timeout => '120',
-          :control_exchange     => 'octavia',
+          :executor_thread_pool_size => 64,
+          :transport_url             => 'rabbit://rabbit_user:password@localhost:5673',
+          :rpc_response_timeout      => '120',
+          :control_exchange          => 'octavia',
         )
         should contain_oslo__messaging__rabbit('octavia_config').with(
           :rabbit_ha_queues            => true,

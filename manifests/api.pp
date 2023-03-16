@@ -156,6 +156,10 @@ class octavia::api (
   include octavia::policy
   include octavia::db
 
+  validate_legacy(Boolean, 'validate_bool', $manage_service)
+  validate_legacy(Boolean, 'validate_bool', $enabled)
+  validate_legacy(Boolean, 'validate_bool', $sync_db)
+
   if $provider_drivers != undef {
     warning('The provider_drivers parameter is deprecated. \
 Use the enabled_provider_drivers parameter instead.')

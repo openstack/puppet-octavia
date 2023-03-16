@@ -72,10 +72,14 @@ class octavia::health_manager (
   $failover_threshold    = $facts['os_service_default'],
   # DEPRECATED PARAMETERS
   $workers               = undef,
-) inherits octavia::params {
+) {
 
   include octavia::deps
+  include octavia::params
   include octavia::controller
+
+  validate_legacy(Boolean, 'validate_bool', $manage_service)
+  validate_legacy(Boolean, 'validate_bool', $enabled)
 
   package { 'octavia-health-manager':
     ensure => $package_ensure,

@@ -78,6 +78,10 @@
 #   (optional) Time, in seconds, between amphora delete retries.
 #   Defaults to $facts['os_service_default']
 #
+# [*event_notifications*]
+#   (optional) Enable octavia event notifications.
+#   Defaults to $facts['os_service_default']
+#
 # [*amp_ssh_key_name*]
 #   (optional) Name of Openstack SSH keypair for communicating with amphora
 #   Defaults to 'octavia-ssh-key'
@@ -269,6 +273,7 @@ class octavia::controller (
   $amp_timezone                       = $facts['os_service_default'],
   $amphora_delete_retries             = $facts['os_service_default'],
   $amphora_delete_retry_interval      = $facts['os_service_default'],
+  $event_notifications                = $facts['os_service_default'],
   $enable_ssh_access                  = true,
   $amp_ssh_key_name                   = 'octavia-ssh-key',
   $timeout_client_data                = $facts['os_service_default'],
@@ -344,6 +349,7 @@ class octavia::controller (
     'controller_worker/amp_timezone'                     : value => $amp_timezone;
     'controller_worker/amphora_delete_retries'           : value => $amphora_delete_retries;
     'controller_worker/amphora_delete_retry_interval'    : value => $amphora_delete_retry_interval;
+    'controller_worker/event_notifications'              : value => $event_notifications;
     'haproxy_amphora/timeout_client_data'                : value => $timeout_client_data;
     'haproxy_amphora/timeout_member_connect'             : value => $timeout_member_connect;
     'haproxy_amphora/timeout_member_data'                : value => $timeout_member_data;

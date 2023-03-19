@@ -89,6 +89,9 @@ class octavia::driver_agent (
   include octavia::deps
   include octavia::params
 
+  validate_legacy(Boolean, 'validate_bool', $manage_service)
+  validate_legacy(Boolean, 'validate_bool', $enabled)
+
   package { 'octavia-driver-agent':
     ensure => $package_ensure,
     name   => $::octavia::params::driver_agent_package_name,

@@ -48,9 +48,13 @@ class octavia::housekeeping (
   $cert_interval             = $facts['os_service_default'],
   $cert_expiry_buffer        = $facts['os_service_default'],
   $cert_rotate_threads       = $facts['os_service_default'],
-) inherits octavia::params {
+) {
 
   include octavia::deps
+  include octavia::params
+
+  validate_legacy(Boolean, 'validate_bool', $manage_service)
+  validate_legacy(Boolean, 'validate_bool', $enabled)
 
   package { 'octavia-housekeeping':
     ensure => $package_ensure,

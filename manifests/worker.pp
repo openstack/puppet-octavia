@@ -63,12 +63,17 @@ class octavia::worker (
   $ssh_key_type           = 'rsa',
   $ssh_key_bits           = 2048,
   $amp_project_name       = 'services',
-) inherits octavia::params {
+) {
 
   include octavia::deps
+  include octavia::params
   include octavia::controller
 
+  validate_legacy(Boolean, 'validate_bool', $manage_service)
+  validate_legacy(Boolean, 'validate_bool', $enabled)
+  validate_legacy(Boolean, 'validate_bool', $manage_nova_flavor)
   validate_legacy(Hash, 'validate_hash', $nova_flavor_config)
+  validate_legacy(Boolean, 'validate_bool', $manage_keygen)
 
   if ! $::octavia::controller::amp_flavor_id {
     if $manage_nova_flavor {

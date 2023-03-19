@@ -319,6 +319,7 @@ class octavia::controller (
   include octavia::db
 
   validate_legacy(String, 'validate_string', $heartbeat_key)
+  validate_legacy(Boolean, 'validate_bool', $enable_ssh_access)
 
   if ! is_service_default($loadbalancer_topology) and
       ! ($loadbalancer_topology in ['SINGLE', 'ACTIVE_STANDBY']) {

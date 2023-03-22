@@ -85,6 +85,15 @@ class octavia::task_flow (
 
   include octavia::deps
 
+  $jobboard_redis_backend_ssl_options_real = $jobboard_redis_backend_ssl_options ? {
+    Hash    => join(join_keys_to_values($jobboard_redis_backend_ssl_options, ':'), ','),
+    default => join(any2array($jobboard_redis_backend_ssl_options), ','),
+  }
+  $jobboard_zookeeper_ssl_options_real = $jobboard_zookeeper_ssl_options ? {
+    Hash    => join(join_keys_to_values($jobboard_zookeeper_ssl_options, ':'), ','),
+    default => join(any2array($jobboard_zookeeper_ssl_options), ','),
+  }
+
   octavia_config {
     'task_flow/engine'                             : value => $engine;
     'task_flow/max_workers'                        : value => $max_workers;
@@ -96,8 +105,8 @@ class octavia::task_flow (
     'task_flow/jobboard_backend_password'          : value => $jobboard_backend_password, secret => true;
     'task_flow/jobboard_backend_namespace'         : value => $jobboard_backend_namespace;
     'task_flow/jobboard_redis_sentinel'            : value => $jobboard_redis_sentinel;
-    'task_flow/jobboard_redis_backend_ssl_options' : value => join(any2array($jobboard_redis_backend_ssl_options), ',');
-    'task_flow/jobboard_zookeeper_ssl_options'     : value => join(any2array($jobboard_zookeeper_ssl_options), ',');
+    'task_flow/jobboard_redis_backend_ssl_options' : value => $jobboard_redis_backend_ssl_options_real;
+    'task_flow/jobboard_zookeeper_ssl_options'     : value => $jobboard_zookeeper_ssl_options_real;
     'task_flow/jobboard_expiration_time'           : value => $jobboard_expiration_time;
     'task_flow/jobboard_save_logbook'              : value => $jobboard_save_logbook;
     'task_flow/persistence_connection'             : value => $persistence_connection;

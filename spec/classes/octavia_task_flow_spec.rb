@@ -61,6 +61,26 @@ describe 'octavia::task_flow' do
         should contain_octavia_config('task_flow/persistence_connection').with_value('sqlite://')
       }
     end
+
+    context 'with ssl options set to dict' do
+      let :params do
+        {
+          :jobboard_redis_backend_ssl_options => {
+            'ssl'         => 'false',
+            'ssl_keyfile' => 'None'
+          },
+          :jobboard_zookeeper_ssl_options     => {
+            'use_ssl' => 'false',
+            'keyfile' => 'None'
+          },
+        }
+      end
+
+      it {
+        should contain_octavia_config('task_flow/jobboard_redis_backend_ssl_options').with_value('ssl:false,ssl_keyfile:None')
+        should contain_octavia_config('task_flow/jobboard_zookeeper_ssl_options').with_value('use_ssl:false,keyfile:None')
+      }
+    end
   end
 
   on_supported_os({

@@ -1,0 +1,6 @@
+---
+fixes:
+  - |
+    Default value of ``octavia::logging::log_file`` has been changed and now
+    it defaults to service default, to make sure each octavia daemon uses
+    a specific log file.

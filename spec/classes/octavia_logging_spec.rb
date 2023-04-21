@@ -66,7 +66,7 @@ describe 'octavia::logging' do
         :use_stderr          => '<SERVICE DEFAULT>',
         :syslog_log_facility => '<SERVICE DEFAULT>',
         :log_dir             => '/var/log/octavia',
-        :log_file            => '/var/log/octavia/octavia.log',
+        :log_file            => '<SERVICE DEFAULT>',
         :watch_log_file      => '<SERVICE DEFAULT>',
         :debug               => '<SERVICE DEFAULT>',
       )

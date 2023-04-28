@@ -35,7 +35,7 @@
 #
 # [*log_file*]
 #   (Optional) File where logs should be stored.
-#   Defaults to '/var/log/octavia/octavia.log'
+#   Defaults to $facts['os_service_default']
 #
 # [*watch_log_file*]
 #   (Optional) Uses logging handler designed to watch file system (boolean value).
@@ -112,7 +112,7 @@ class octavia::logging(
   $use_stderr                    = $facts['os_service_default'],
   $log_facility                  = $facts['os_service_default'],
   $log_dir                       = '/var/log/octavia',
-  $log_file                      = '/var/log/octavia/octavia.log',
+  $log_file                      = $facts['os_service_default'],
   $watch_log_file                = $facts['os_service_default'],
   $debug                         = $facts['os_service_default'],
   $logging_context_format_string = $facts['os_service_default'],

@@ -69,8 +69,8 @@
 #   Defaults to $facts['os_service_default']
 #
 class octavia::driver_agent (
-  $manage_service                  = true,
-  $enabled                         = true,
+  Boolean $manage_service          = true,
+  Boolean $enabled                 = true,
   $package_ensure                  = 'present',
   $status_socket_path              = $facts['os_service_default'],
   $stats_socket_path               = $facts['os_service_default'],
@@ -88,9 +88,6 @@ class octavia::driver_agent (
 
   include octavia::deps
   include octavia::params
-
-  validate_legacy(Boolean, 'validate_bool', $manage_service)
-  validate_legacy(Boolean, 'validate_bool', $enabled)
 
   package { 'octavia-driver-agent':
     ensure => $package_ensure,

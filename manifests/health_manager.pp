@@ -58,28 +58,25 @@
 #  Defaults to undef
 #
 class octavia::health_manager (
-  $manage_service        = true,
-  $enabled               = true,
-  $package_ensure        = 'present',
-  $ip                    = $facts['os_service_default'],
-  $port                  = $facts['os_service_default'],
-  $health_update_threads = $facts['os_workers'],
-  $stats_update_threads  = $facts['os_workers'],
-  $failover_threads      = $facts['os_service_default'],
-  $heartbeat_timeout     = $facts['os_service_default'],
-  $health_check_interval = $facts['os_service_default'],
-  $sock_rlimit           = $facts['os_service_default'],
-  $failover_threshold    = $facts['os_service_default'],
+  Boolean $manage_service = true,
+  Boolean $enabled        = true,
+  $package_ensure         = 'present',
+  $ip                     = $facts['os_service_default'],
+  $port                   = $facts['os_service_default'],
+  $health_update_threads  = $facts['os_workers'],
+  $stats_update_threads   = $facts['os_workers'],
+  $failover_threads       = $facts['os_service_default'],
+  $heartbeat_timeout      = $facts['os_service_default'],
+  $health_check_interval  = $facts['os_service_default'],
+  $sock_rlimit            = $facts['os_service_default'],
+  $failover_threshold     = $facts['os_service_default'],
   # DEPRECATED PARAMETERS
-  $workers               = undef,
+  $workers                = undef,
 ) {
 
   include octavia::deps
   include octavia::params
   include octavia::controller
-
-  validate_legacy(Boolean, 'validate_bool', $manage_service)
-  validate_legacy(Boolean, 'validate_bool', $enabled)
 
   package { 'octavia-health-manager':
     ensure => $package_ensure,

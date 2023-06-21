@@ -256,7 +256,7 @@
 #   Defaults to undef
 #
 class octavia::controller (
-  $heartbeat_key,
+  String[1] $heartbeat_key,
   $amp_active_retries                 = $facts['os_service_default'],
   $amp_active_wait_sec                = $facts['os_service_default'],
   $amp_flavor_id                      = '65',
@@ -274,7 +274,7 @@ class octavia::controller (
   $amphora_delete_retries             = $facts['os_service_default'],
   $amphora_delete_retry_interval      = $facts['os_service_default'],
   $event_notifications                = $facts['os_service_default'],
-  $enable_ssh_access                  = true,
+  Boolean $enable_ssh_access          = true,
   $amp_ssh_key_name                   = 'octavia-ssh-key',
   $timeout_client_data                = $facts['os_service_default'],
   $timeout_member_connect             = $facts['os_service_default'],
@@ -317,9 +317,6 @@ class octavia::controller (
 
   include octavia::deps
   include octavia::db
-
-  validate_legacy(String, 'validate_string', $heartbeat_key)
-  validate_legacy(Boolean, 'validate_bool', $enable_ssh_access)
 
   if ! is_service_default($loadbalancer_topology) and
       ! ($loadbalancer_topology in ['SINGLE', 'ACTIVE_STANDBY']) {

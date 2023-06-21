@@ -122,8 +122,8 @@
 #   Defaults to undef
 #
 class octavia::api (
-  $enabled                        = true,
-  $manage_service                 = true,
+  Boolean $enabled                = true,
+  Boolean $manage_service         = true,
   $service_name                   = $::octavia::params::api_service_name,
   $host                           = '0.0.0.0',
   $port                           = '9876',
@@ -133,7 +133,7 @@ class octavia::api (
   $api_v1_enabled                 = $facts['os_service_default'],
   $api_v2_enabled                 = $facts['os_service_default'],
   $allow_tls_terminated_listeners = $facts['os_service_default'],
-  $sync_db                        = false,
+  Boolean $sync_db                = false,
   $enable_proxy_headers_parsing   = $facts['os_service_default'],
   $default_provider_driver        = $facts['os_service_default'],
   $enabled_provider_drivers       = $facts['os_service_default'],
@@ -155,10 +155,6 @@ class octavia::api (
   include octavia::deps
   include octavia::policy
   include octavia::db
-
-  validate_legacy(Boolean, 'validate_bool', $manage_service)
-  validate_legacy(Boolean, 'validate_bool', $enabled)
-  validate_legacy(Boolean, 'validate_bool', $sync_db)
 
   if $provider_drivers != undef {
     warning('The provider_drivers parameter is deprecated. \

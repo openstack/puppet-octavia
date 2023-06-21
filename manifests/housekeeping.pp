@@ -39,8 +39,8 @@
 #   Defaults to $facts['os_service_default']
 #
 class octavia::housekeeping (
-  $manage_service            = true,
-  $enabled                   = true,
+  Boolean $manage_service    = true,
+  Boolean $enabled           = true,
   $package_ensure            = 'present',
   $cleanup_interval          = $facts['os_service_default'],
   $amphora_expiry_age        = $facts['os_service_default'],
@@ -52,9 +52,6 @@ class octavia::housekeeping (
 
   include octavia::deps
   include octavia::params
-
-  validate_legacy(Boolean, 'validate_bool', $manage_service)
-  validate_legacy(Boolean, 'validate_bool', $enabled)
 
   package { 'octavia-housekeeping':
     ensure => $package_ensure,

@@ -38,7 +38,7 @@
 #   Defaults to 'utf8_general_ci'
 #
 class octavia::db::mysql(
-  $password,
+  String[1] $password,
   $dbname             = 'octavia',
   $persistence_dbname = undef,
   $user               = 'octavia',
@@ -49,8 +49,6 @@ class octavia::db::mysql(
 ) {
 
   include octavia::deps
-
-  validate_legacy(String, 'validate_string', $password)
 
   ::openstacklib::db::mysql { 'octavia':
     user          => $user,

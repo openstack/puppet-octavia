@@ -21,12 +21,10 @@
 #   or Puppet catalog compilation will fail with duplicate resources.
 #
 class octavia::config (
-  $octavia_config = {},
+  Hash $octavia_config = {},
 ) {
 
   include octavia::deps
-
-  validate_legacy(Hash, 'validate_hash', $octavia_config)
 
   create_resources('octavia_config', $octavia_config)
 }

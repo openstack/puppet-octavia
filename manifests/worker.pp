@@ -52,28 +52,22 @@
 #   Defaults to 'services'
 #
 class octavia::worker (
-  $manage_service         = true,
-  $enabled                = true,
-  $package_ensure         = 'present',
-  $workers                = $facts['os_workers'],
-  $manage_nova_flavor     = true,
-  $nova_flavor_config     = {},
-  $key_path               = '/etc/octavia/.ssh/octavia_ssh_key',
-  $manage_keygen          = false,
-  $ssh_key_type           = 'rsa',
-  $ssh_key_bits           = 2048,
-  $amp_project_name       = 'services',
+  Boolean $manage_service     = true,
+  Boolean $enabled            = true,
+  $package_ensure             = 'present',
+  $workers                    = $facts['os_workers'],
+  Boolean $manage_nova_flavor = true,
+  Hash $nova_flavor_config    = {},
+  $key_path                   = '/etc/octavia/.ssh/octavia_ssh_key',
+  Boolean $manage_keygen      = false,
+  $ssh_key_type               = 'rsa',
+  $ssh_key_bits               = 2048,
+  $amp_project_name           = 'services',
 ) {
 
   include octavia::deps
   include octavia::params
   include octavia::controller
-
-  validate_legacy(Boolean, 'validate_bool', $manage_service)
-  validate_legacy(Boolean, 'validate_bool', $enabled)
-  validate_legacy(Boolean, 'validate_bool', $manage_nova_flavor)
-  validate_legacy(Hash, 'validate_hash', $nova_flavor_config)
-  validate_legacy(Boolean, 'validate_bool', $manage_keygen)
 
   if ! $::octavia::controller::amp_flavor_id {
     if $manage_nova_flavor {

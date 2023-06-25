@@ -29,7 +29,7 @@ class octavia::deps {
 
   # policy config should occur in the config block also.
   Anchor['octavia::config::begin']
-  -> Openstacklib::Policy<||>
+  -> Openstacklib::Policy<| tag == 'octavia' |>
   ~> Anchor['octavia::config::end']
 
   # On any uwsgi config change, we must restart Octavia API.

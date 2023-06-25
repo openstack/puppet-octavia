@@ -67,6 +67,7 @@ class octavia::policy (
     file_group   => $::octavia::params::group,
     file_format  => 'yaml',
     purge_config => $purge_config,
+    tag          => 'octavia',
   }
 
   create_resources('openstacklib::policy', { $policy_path => $policy_parameters })

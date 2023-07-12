@@ -195,7 +195,7 @@
 #  authtoken class. Values set here override the individual parameters above.
 #
 class octavia::keystone::authtoken(
-  $password,
+  String[1] $password,
   $username                       = 'octavia',
   $auth_url                       = 'http://localhost:5000',
   $project_name                   = 'services',

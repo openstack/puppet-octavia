@@ -62,40 +62,32 @@ class octavia::worker (
   Boolean $manage_keygen      = false,
   $ssh_key_type               = 'rsa',
   $ssh_key_bits               = 2048,
-  $amp_project_name           = 'services',
+  String[1] $amp_project_name = 'services',
 ) {
 
   include octavia::deps
   include octavia::params
   include octavia::controller
 
-  if ! $::octavia::controller::amp_flavor_id {
-    if $manage_nova_flavor {
-      fail('When managing Nova flavor, octavia::controller::amp_flavor_id is required.')
-    } else {
-      warning('octavia::controller::amp_flavor_id is empty, Octavia Worker might not work correctly.')
+  if $manage_nova_flavor {
+    $octavia_flavor = { "octavia_${::octavia::controller::amp_flavor_id}" =>
+      { 'id'           => $::octavia::controller::amp_flavor_id,
+        'project_name' => $amp_project_name
+      }
     }
-  } else {
-    if $manage_nova_flavor {
-      $octavia_flavor = { "octavia_${::octavia::controller::amp_flavor_id}" =>
-        { 'id'           => $::octavia::controller::amp_flavor_id,
-          'project_name' => $amp_project_name
-        }
-      }
 
-      $octavia_flavor_defaults = {
-        'ensure'    => 'present',
-        'ram'       => '1024',
-        'disk'      => '2',
-        'vcpus'     => '1',
-        'is_public' => false,
-        'tag'       => ['octavia']
-      }
-      $nova_flavor_defaults = merge($octavia_flavor_defaults, $nova_flavor_config)
-      create_resources('nova_flavor', $octavia_flavor, $nova_flavor_defaults)
-      if $manage_service {
-        Nova_flavor<| tag == 'octavia' |> ~> Service['octavia-worker']
-      }
+    $octavia_flavor_defaults = {
+      'ensure'    => 'present',
+      'ram'       => '1024',
+      'disk'      => '2',
+      'vcpus'     => '1',
+      'is_public' => false,
+      'tag'       => ['octavia']
+    }
+    $nova_flavor_defaults = merge($octavia_flavor_defaults, $nova_flavor_config)
+    create_resources('nova_flavor', $octavia_flavor, $nova_flavor_defaults)
+    if $manage_service {
+      Nova_flavor<| tag == 'octavia' |> ~> Service['octavia-worker']
     }
   }
 

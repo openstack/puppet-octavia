@@ -52,17 +52,17 @@
 #   Defaults to 'services'
 #
 class octavia::worker (
-  Boolean $manage_service     = true,
-  Boolean $enabled            = true,
-  $package_ensure             = 'present',
-  $workers                    = $facts['os_workers'],
-  Boolean $manage_nova_flavor = true,
-  Hash $nova_flavor_config    = {},
-  $key_path                   = '/etc/octavia/.ssh/octavia_ssh_key',
-  Boolean $manage_keygen      = false,
-  $ssh_key_type               = 'rsa',
-  $ssh_key_bits               = 2048,
-  String[1] $amp_project_name = 'services',
+  Boolean $manage_service                                      = true,
+  Boolean $enabled                                             = true,
+  $package_ensure                                              = 'present',
+  $workers                                                     = $facts['os_workers'],
+  Boolean $manage_nova_flavor                                  = true,
+  Hash $nova_flavor_config                                     = {},
+  Stdlib::Absolutepath $key_path                               = '/etc/octavia/.ssh/octavia_ssh_key',
+  Boolean $manage_keygen                                       = false,
+  Enum['rsa', 'dsa', 'ecdsa', 'ed25519', 'rsa1'] $ssh_key_type = 'rsa',
+  Integer $ssh_key_bits                                        = 2048,
+  String[1] $amp_project_name                                  = 'services',
 ) {
 
   include octavia::deps

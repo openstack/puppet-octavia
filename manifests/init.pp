@@ -222,7 +222,7 @@ class octavia (
   $notification_driver                = $facts['os_service_default'],
   $notification_topics                = $facts['os_service_default'],
   $topic                              = 'octavia-rpc',
-  $purge_config                       = false,
+  Boolean $purge_config               = false,
 ) inherits octavia::params {
 
   include octavia::deps

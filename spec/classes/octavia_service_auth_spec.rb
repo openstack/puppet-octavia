@@ -27,7 +27,7 @@ describe 'octavia::service_auth' do
     context 'when credentials are configured' do
       before do
         params.merge!({
-          :auth_url            => 'http://199.199.199.199:64371',
+          :auth_url            => 'http://127.0.0.1:5000',
           :username            => 'some_user',
           :project_name        => 'some_project_name',
           :user_domain_name    => 'my_domain_name',
@@ -38,7 +38,7 @@ describe 'octavia::service_auth' do
       end
 
       it 'configures credentials' do
-        is_expected.to contain_octavia_config('service_auth/auth_url').with_value('http://199.199.199.199:64371')
+        is_expected.to contain_octavia_config('service_auth/auth_url').with_value('http://127.0.0.1:5000')
         is_expected.to contain_octavia_config('service_auth/username').with_value('some_user')
         is_expected.to contain_octavia_config('service_auth/project_name').with_value('some_project_name')
         is_expected.to contain_octavia_config('service_auth/password').with_value('secrete').with_secret(true)

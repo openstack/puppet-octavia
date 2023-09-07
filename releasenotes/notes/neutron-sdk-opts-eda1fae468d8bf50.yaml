@@ -1,0 +1,12 @@
+---
+features:
+  - |
+    The ``octavia::neutron`` class now supports basic keystoneauth options.
+
+deprecations:
+  - |
+    The following parameters of the ``octavia::neutron`` class have been
+    deprecated.
+
+    - ``endpoint``
+    - ``endpoint_type``

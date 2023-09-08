@@ -141,10 +141,11 @@ class octavia::worker (
       comment  => 'Used for Octavia Service VM'
     }
 
-    Package<| tag == 'octavia-package' |>
+    Anchor['octavia::config::begin']
     -> Exec['create_amp_key_dir']
     -> File['amp_key_dir']
     -> Ssh_keygen[$::octavia::controller::amp_ssh_key_name]
+    -> Anchor['octavia::config::end']
   }
 
   octavia_config {

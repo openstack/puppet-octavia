@@ -11,19 +11,19 @@
         },
         {
             "name": "openstack/keystone",
-            "version_requirement": ">=22.0.0 <23.0.0"
+            "version_requirement": ">=23.0.0 <24.0.0"
         },
         {
             "name": "openstack/nova",
-            "version_requirement": ">=22.0.0 <23.0.0"
+            "version_requirement": ">=23.0.0 <24.0.0"
         },
         {
             "name": "openstack/openstacklib",
-            "version_requirement": ">=22.0.0 <23.0.0"
+            "version_requirement": ">=23.0.0 <24.0.0"
         },
         {
             "name": "openstack/oslo",
-            "version_requirement": ">=22.0.0 <23.0.0"
+            "version_requirement": ">=23.0.0 <24.0.0"
         },
         {
             "name": "puppet/ssh_keygen",
@@ -69,5 +69,5 @@
     ],
     "source": "https://opendev.org/openstack/puppet-octavia.git",
     "summary": "Puppet module for OpenStack Octavia",
-    "version": "22.0.0"
+    "version": "23.0.0"
 }

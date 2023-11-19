@@ -2,18 +2,7 @@ require 'spec_helper'
 
 describe 'octavia::client' do
 
-  let :params do
-    {}
-  end
-
-  let :default_params do
-    { :package_ensure   => 'present' }
-  end
-
   shared_examples_for 'octavia client' do
-    let :p do
-      default_params.merge(params)
-    end
 
     it { is_expected.to contain_class('octavia::deps') }
     it { is_expected.to contain_class('octavia::params') }
@@ -21,8 +10,8 @@ describe 'octavia::client' do
     it 'installs octavia client package' do
       is_expected.to contain_package('python-octaviaclient').with(
         :name   => platform_params[:client_package_name],
-        :ensure => p[:package_ensure],
-        :tag    => 'openstack'
+        :ensure => 'present',
+        :tag    => ['openstack', 'openstackclient']
       )
     end
 

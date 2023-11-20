@@ -107,7 +107,7 @@ describe 'octavia::api' do
             :enable     => params[:enabled],
             :hasstatus  => true,
             :hasrestart => true,
-            :tag        => ['octavia-service', 'octavia-db-sync-service'],
+            :tag        => 'octavia-service',
           )
         end
         it { is_expected.to contain_service('octavia-api').that_subscribes_to('Anchor[octavia::service::begin]')}
@@ -257,7 +257,7 @@ describe 'octavia::api' do
         :ensure => 'stopped',
         :name   => platform_params[:api_service_name],
         :enable => false,
-        :tag    => ['octavia-service', 'octavia-db-sync-service'],
+        :tag    => 'octavia-service',
       )}
     end
   end

@@ -17,7 +17,7 @@ class octavia::client (
   package { 'python-octaviaclient':
     ensure => $ensure,
     name   => $::octavia::params::client_package_name,
-    tag    => 'openstack',
+    tag    => ['openstack', 'openstackclient'],
   }
   include openstacklib::openstackclient
 }

@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    The ``octavia::controller`` class now supports the tunable parameters to
+    customize database coomit retry attempts.

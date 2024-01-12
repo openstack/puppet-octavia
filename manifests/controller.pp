@@ -82,6 +82,22 @@
 #   (optional) Enable octavia event notifications.
 #   Defaults to $facts['os_service_default']
 #
+# [*db_commit_retry_attempts*]
+#   (optional) The number of times the database action will be attempted.
+#   Defaults to $facts['os_service_default']
+#
+# [*db_commit_retry_initial_delay*]
+#   (optional) The time to backoff retry attempt.
+#   Defaults to $facts['os_service_default']
+#
+# [*db_commit_retry_backoff*]
+#   (optional) Tie time to backoff retry attempts.
+#   Defaults to $facts['os_service_default']
+#
+# [*db_commit_retry_max*]
+#   (optional) The maximum amount of time to wait between retry attempts.
+#   Defaults to $facts['os_service_default']
+#
 # [*amp_ssh_key_name*]
 #   (optional) Name of Openstack SSH keypair for communicating with amphora
 #   Defaults to 'octavia-ssh-key'
@@ -150,6 +166,22 @@
 #
 # [*build_retry_interval*]
 #   (optional) Retry timeout between build attempts in seconds.
+#   Defaults to $facts['os_service_default']
+#
+# [*api_db_commit_retry_attempts*]
+#   (optional) The number of times the database action will be attempted.
+#   Defaults to $facts['os_service_default']
+#
+# [*api_db_commit_retry_initial_delay*]
+#   (optional) The time to backoff retry attempt.
+#   Defaults to $facts['os_service_default']
+#
+# [*api_db_commit_retry_backoff*]
+#   (optional) Tie time to backoff retry attempts.
+#   Defaults to $facts['os_service_default']
+#
+# [*api_db_commit_retry_max*]
+#   (optional) The maximum amount of time to wait between retry attempts.
 #   Defaults to $facts['os_service_default']
 #
 # [*default_connection_limit*]
@@ -274,6 +306,10 @@ class octavia::controller (
   $amphora_delete_retries             = $facts['os_service_default'],
   $amphora_delete_retry_interval      = $facts['os_service_default'],
   $event_notifications                = $facts['os_service_default'],
+  $db_commit_retry_attempts           = $facts['os_service_default'],
+  $db_commit_retry_initial_delay      = $facts['os_service_default'],
+  $db_commit_retry_backoff            = $facts['os_service_default'],
+  $db_commit_retry_max                = $facts['os_service_default'],
   Boolean $enable_ssh_access          = true,
   String[1] $amp_ssh_key_name         = 'octavia-ssh-key',
   $timeout_client_data                = $facts['os_service_default'],
@@ -290,6 +326,10 @@ class octavia::controller (
   $build_rate_limit                   = $facts['os_service_default'],
   $build_active_retries               = $facts['os_service_default'],
   $build_retry_interval               = $facts['os_service_default'],
+  $api_db_commit_retry_attempts       = $facts['os_service_default'],
+  $api_db_commit_retry_initial_delay  = $facts['os_service_default'],
+  $api_db_commit_retry_backoff        = $facts['os_service_default'],
+  $api_db_commit_retry_max            = $facts['os_service_default'],
   $default_connection_limit           = $facts['os_service_default'],
   $agent_request_read_timeout         = $facts['os_service_default'],
   $agent_tls_protocol                 = $facts['os_service_default'],
@@ -348,6 +388,10 @@ class octavia::controller (
     'controller_worker/amphora_delete_retries'           : value => $amphora_delete_retries;
     'controller_worker/amphora_delete_retry_interval'    : value => $amphora_delete_retry_interval;
     'controller_worker/event_notifications'              : value => $event_notifications;
+    'controller_worker/db_commit_retry_attempts'         : value => $db_commit_retry_attempts;
+    'controller_worker/db_commit_retry_initial_delay'    : value => $db_commit_retry_initial_delay;
+    'controller_worker/db_commit_retry_backoff'          : value => $db_commit_retry_backoff;
+    'controller_worker/db_commit_retry_max'              : value => $db_commit_retry_max;
     'haproxy_amphora/timeout_client_data'                : value => $timeout_client_data;
     'haproxy_amphora/timeout_member_connect'             : value => $timeout_member_connect;
     'haproxy_amphora/timeout_member_data'                : value => $timeout_member_data;
@@ -362,6 +406,10 @@ class octavia::controller (
     'haproxy_amphora/build_rate_limit'                   : value => $build_rate_limit;
     'haproxy_amphora/build_active_retries'               : value => $build_active_retries;
     'haproxy_amphora/build_retry_interval'               : value => $build_retry_interval;
+    'haproxy_amphora/api_db_commit_retry_attempts'       : value => $api_db_commit_retry_attempts;
+    'haproxy_amphora/api_db_commit_retry_initial_delay'  : value => $api_db_commit_retry_initial_delay;
+    'haproxy_amphora/api_db_commit_retry_backoff'        : value => $api_db_commit_retry_backoff;
+    'haproxy_amphora/api_db_commit_retry_max'            : value => $api_db_commit_retry_max;
     'haproxy_amphora/default_connection_limit'           : value => $default_connection_limit;
     'amphora_agent/agent_request_read_timeout'           : value => $agent_request_read_timeout;
     'amphora_agent/agent_tls_protocol'                   : value => $agent_tls_protocol;

@@ -85,7 +85,7 @@ class octavia::neutron (
   }
 
   if $endpoint_type != undef {
-    warning('The endpoint_type parameter is deprecated. Use endpoint_type.')
+    warning('The endpoint_type parameter is deprecated. Use valid_interfaces.')
   }
 
   if is_service_default($password) {

@@ -38,6 +38,10 @@ describe 'octavia::controller' do
           :amphora_delete_retries             => 5,
           :amphora_delete_retry_interval      => 5,
           :event_notifications                => true,
+          :db_commit_retry_attempts           => 2000,
+          :db_commit_retry_initial_delay      => 1,
+          :db_commit_retry_backoff            => 1,
+          :db_commit_retry_max                => 5,
           :timeout_client_data                => 60,
           :timeout_member_connect             => 5,
           :timeout_member_data                => 60,
@@ -51,6 +55,10 @@ describe 'octavia::controller' do
           :build_rate_limit                   => 10,
           :build_active_retries               => 120,
           :build_retry_interval               => 5,
+          :api_db_commit_retry_attempts       => 15,
+          :api_db_commit_retry_initial_delay  => 1,
+          :api_db_commit_retry_backoff        => 1,
+          :api_db_commit_retry_max            => 5,
           :default_connection_limit           => 50000,
           :agent_request_read_timeout         => 180,
           :agent_tls_protocol                 => 'TLSv1.2',
@@ -96,6 +104,10 @@ describe 'octavia::controller' do
         is_expected.to contain_octavia_config('controller_worker/amphora_delete_retries').with_value(5)
         is_expected.to contain_octavia_config('controller_worker/amphora_delete_retry_interval').with_value(5)
         is_expected.to contain_octavia_config('controller_worker/event_notifications').with_value(true)
+        is_expected.to contain_octavia_config('controller_worker/db_commit_retry_attempts').with_value(2000)
+        is_expected.to contain_octavia_config('controller_worker/db_commit_retry_initial_delay').with_value(1)
+        is_expected.to contain_octavia_config('controller_worker/db_commit_retry_backoff').with_value(1)
+        is_expected.to contain_octavia_config('controller_worker/db_commit_retry_max').with_value(5)
         is_expected.to contain_octavia_config('haproxy_amphora/timeout_client_data').with_value(60)
         is_expected.to contain_octavia_config('haproxy_amphora/timeout_member_connect').with_value(5)
         is_expected.to contain_octavia_config('haproxy_amphora/timeout_member_data').with_value(60)
@@ -109,6 +121,10 @@ describe 'octavia::controller' do
         is_expected.to contain_octavia_config('haproxy_amphora/build_rate_limit').with_value(10)
         is_expected.to contain_octavia_config('haproxy_amphora/build_active_retries').with_value(120)
         is_expected.to contain_octavia_config('haproxy_amphora/build_retry_interval').with_value(5)
+        is_expected.to contain_octavia_config('haproxy_amphora/api_db_commit_retry_attempts').with_value(15)
+        is_expected.to contain_octavia_config('haproxy_amphora/api_db_commit_retry_initial_delay').with_value(1)
+        is_expected.to contain_octavia_config('haproxy_amphora/api_db_commit_retry_backoff').with_value(1)
+        is_expected.to contain_octavia_config('haproxy_amphora/api_db_commit_retry_max').with_value(5)
         is_expected.to contain_octavia_config('haproxy_amphora/default_connection_limit').with_value(50000)
         is_expected.to contain_octavia_config('amphora_agent/agent_request_read_timeout').with_value(180)
         is_expected.to contain_octavia_config('amphora_agent/agent_tls_protocol').with_value('TLSv1.2')
@@ -159,6 +175,10 @@ describe 'octavia::controller' do
         is_expected.to contain_octavia_config('controller_worker/amphora_delete_retries').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_octavia_config('controller_worker/amphora_delete_retry_interval').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_octavia_config('controller_worker/event_notifications').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('controller_worker/db_commit_retry_attempts').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('controller_worker/db_commit_retry_initial_delay').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('controller_worker/db_commit_retry_backoff').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('controller_worker/db_commit_retry_max').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_octavia_config('haproxy_amphora/timeout_client_data').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_octavia_config('haproxy_amphora/timeout_member_connect').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_octavia_config('haproxy_amphora/timeout_member_data').with_value('<SERVICE DEFAULT>')
@@ -173,6 +193,10 @@ describe 'octavia::controller' do
         is_expected.to contain_octavia_config('haproxy_amphora/build_rate_limit').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_octavia_config('haproxy_amphora/build_active_retries').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_octavia_config('haproxy_amphora/build_retry_interval').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('haproxy_amphora/api_db_commit_retry_attempts').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('haproxy_amphora/api_db_commit_retry_initial_delay').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('haproxy_amphora/api_db_commit_retry_backoff').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('haproxy_amphora/api_db_commit_retry_max').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_octavia_config('haproxy_amphora/default_connection_limit').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_octavia_config('amphora_agent/agent_request_read_timeout').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_octavia_config('amphora_agent/agent_tls_protocol').with_value('<SERVICE DEFAULT>')

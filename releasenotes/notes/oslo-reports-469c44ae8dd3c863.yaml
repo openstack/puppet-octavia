@@ -1,0 +1,4 @@
+---
+features:
+  - |
+    The new ``octavia::reports`` class has been added.

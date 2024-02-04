@@ -7,7 +7,7 @@ describe 'octavia::db::sync_persistence' do
     it { is_expected.to contain_class('octavia::deps') }
 
     it 'runs octavia-manage db upgrade' do
-      is_expected.to contain_exec('octavia-db-sync').with(
+      is_expected.to contain_exec('octavia-db-sync-persistence').with(
         :command     => 'octavia-db-manage upgrade_persistence ',
         :user        => 'octavia',
         :path        => '/usr/bin',
@@ -33,7 +33,7 @@ describe 'octavia::db::sync_persistence' do
       end
 
       it {
-        is_expected.to contain_exec('octavia-db-sync').with(
+        is_expected.to contain_exec('octavia-db-sync-persistence').with(
           :command     => 'octavia-db-manage upgrade_persistence --config-file /etc/octavia/octavia.conf',
           :user        => 'octavia',
           :path        => '/usr/bin',

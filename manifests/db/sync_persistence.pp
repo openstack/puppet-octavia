@@ -20,7 +20,7 @@ class octavia::db::sync_persistence(
   include octavia::deps
   include octavia::params
 
-  exec { 'octavia-db-sync':
+  exec { 'octavia-db-sync-persistence':
     command     => "octavia-db-manage upgrade_persistence ${extra_params}",
     path        => '/usr/bin',
     user        => $::octavia::params::user,

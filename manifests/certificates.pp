@@ -131,8 +131,8 @@ class octavia::certificates (
     'certificates/endpoint_type'               : value => $endpoint_type;
     'certificates/ca_certificate'              : value => $ca_certificate;
     'certificates/ca_private_key'              : value => $ca_private_key;
-    'certificates/server_certs_key_passphrase' : value => $server_certs_key_passphrase;
-    'certificates/ca_private_key_passphrase'   : value => $ca_private_key_passphrase;
+    'certificates/server_certs_key_passphrase' : value => $server_certs_key_passphrase, secret => true;
+    'certificates/ca_private_key_passphrase'   : value => $ca_private_key_passphrase, secret => true;
     'certificates/signing_digest'              : value => $signing_digest;
     'certificates/cert_validity_time'          : value => $cert_validity_time;
     'controller_worker/client_ca'              : value => $client_ca_real;

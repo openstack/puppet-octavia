@@ -12,8 +12,8 @@ describe 'octavia::certificates' do
         is_expected.to contain_octavia_config('certificates/endpoint').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_octavia_config('certificates/region_name').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_octavia_config('certificates/endpoint_type').with_value('<SERVICE DEFAULT>')
-        is_expected.to contain_octavia_config('certificates/ca_certificate').with_value('<SERVICE DEFAULT>')
-        is_expected.to contain_octavia_config('certificates/ca_private_key').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('certificates/ca_certificate').with_value('/etc/ssl/certs/ssl-cert-snakeoil.pem')
+        is_expected.to contain_octavia_config('certificates/ca_private_key').with_value('/etc/ssl/certs/ssl-cert-snakeoil.key')
         is_expected.to contain_octavia_config('certificates/server_certs_key_passphrase').with_value('insecure-key-do-not-use-this-key').with_secret(true)
         is_expected.to contain_octavia_config('certificates/ca_private_key_passphrase').with_value('<SERVICE DEFAULT>').with_secret(true)
         is_expected.to contain_octavia_config('certificates/signing_digest').with_value('<SERVICE DEFAULT>')
@@ -21,9 +21,9 @@ describe 'octavia::certificates' do
       end
 
       it 'configures octavia authentication credentials' do
-        is_expected.to contain_octavia_config('controller_worker/client_ca').with_value('<SERVICE DEFAULT>')
-        is_expected.to contain_octavia_config('haproxy_amphora/client_cert').with_value('<SERVICE DEFAULT>')
-        is_expected.to contain_octavia_config('haproxy_amphora/server_ca').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('controller_worker/client_ca').with_value('/etc/ssl/certs/ssl-cert-snakeoil.pem')
+        is_expected.to contain_octavia_config('haproxy_amphora/client_cert').with_value('/etc/octavia/certs/client.pem')
+        is_expected.to contain_octavia_config('haproxy_amphora/server_ca').with_value('/etc/ssl/certs/ssl-cert-snakeoil.pem')
       end
     end
 
@@ -211,39 +211,6 @@ describe 'octavia::certificates' do
           'group'  => 'octavia',
           'mode'   => '0755',
         })
-      end
-    end
-
-    context 'when CA file name is missing with data provided' do
-      let :params do
-        { :ca_certificate_data       => 'dummy_data'
-        }
-      end
-
-      it 'fails without a filename' do
-        is_expected.to raise_error(Puppet::Error)
-      end
-    end
-
-    context 'when CA key file name is missing with data provided' do
-      let :params do
-        { :ca_private_key_data       => 'dummy_data'
-        }
-      end
-
-      it 'fails without a filename' do
-        is_expected.to raise_error(Puppet::Error)
-      end
-    end
-
-    context 'when client cert file name is missing with data provided' do
-      let :params do
-        { :client_cert_data       => 'dummy_data'
-        }
-      end
-
-      it 'fails without a filename' do
-        is_expected.to raise_error(Puppet::Error)
       end
     end
 

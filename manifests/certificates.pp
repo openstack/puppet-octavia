@@ -34,11 +34,11 @@
 #
 # [*ca_certificate*]
 #   (Optional) Path to the CA certificate for Octavia
-#   Defaults to $facts['os_service_default']
+#   Defaults to '/etc/ssl/certs/ssl-cert-snakeoil.pem'
 #
 # [*ca_private_key*]
 #   (Optional) Path for private key used to sign certificates
-#   Defaults to $facts['os_service_default']
+#   Defaults to '/etc/ssl/private/ssl-cert-snakeoil.key'
 #
 # [*server_certs_key_passphrase*]
 #   (Optional) Passphrase for encrypting Amphora Certificates and Private Keys.
@@ -94,27 +94,27 @@
 #   Defaults to 'octavia'
 #
 class octavia::certificates (
-  $cert_generator              = $facts['os_service_default'],
-  $cert_manager                = $facts['os_service_default'],
-  $barbican_auth               = $facts['os_service_default'],
-  $service_name                = $facts['os_service_default'],
-  $endpoint                    = $facts['os_service_default'],
-  $region_name                 = $facts['os_service_default'],
-  $endpoint_type               = $facts['os_service_default'],
-  $ca_certificate              = $facts['os_service_default'],
-  $ca_private_key              = $facts['os_service_default'],
-  $server_certs_key_passphrase = 'insecure-key-do-not-use-this-key',
-  $ca_private_key_passphrase   = $facts['os_service_default'],
-  $signing_digest              = $facts['os_service_default'],
-  $cert_validity_time          = $facts['os_service_default'],
-  $client_ca                   = undef,
-  $client_cert                 = $facts['os_service_default'],
-  $ca_certificate_data         = undef,
-  $ca_private_key_data         = undef,
-  $client_ca_data              = undef,
-  $client_cert_data            = undef,
-  $file_permission_owner       = $::octavia::params::user,
-  $file_permission_group       = $::octavia::params::group,
+  $cert_generator                             = $facts['os_service_default'],
+  $cert_manager                               = $facts['os_service_default'],
+  $barbican_auth                              = $facts['os_service_default'],
+  $service_name                               = $facts['os_service_default'],
+  $endpoint                                   = $facts['os_service_default'],
+  $region_name                                = $facts['os_service_default'],
+  $endpoint_type                              = $facts['os_service_default'],
+  Stdlib::Absolutepath $ca_certificate        = '/etc/ssl/certs/ssl-cert-snakeoil.pem',
+  Stdlib::Absolutepath $ca_private_key        = '/etc/ssl/certs/ssl-cert-snakeoil.key',
+  String[32, 32] $server_certs_key_passphrase = 'insecure-key-do-not-use-this-key',
+  $ca_private_key_passphrase                  = $facts['os_service_default'],
+  $signing_digest                             = $facts['os_service_default'],
+  $cert_validity_time                         = $facts['os_service_default'],
+  Optional[Stdlib::Absolutepath] $client_ca   = undef,
+  Stdlib::Absolutepath $client_cert           = '/etc/octavia/certs/client.pem',
+  $ca_certificate_data                        = undef,
+  $ca_private_key_data                        = undef,
+  $client_ca_data                             = undef,
+  $client_cert_data                           = undef,
+  $file_permission_owner                      = $::octavia::params::user,
+  $file_permission_group                      = $::octavia::params::group,
 ) inherits octavia::params {
 
   include octavia::deps
@@ -140,20 +140,9 @@ class octavia::certificates (
     'haproxy_amphora/server_ca'                : value => $ca_certificate;
   }
 
-  if !$server_certs_key_passphrase  {
-    fail('server_certs_key_passphrase is required for Octavia. Please provide a 32 characters passphrase.')
-  }
-
-  if length($server_certs_key_passphrase)!=32 {
-    fail('server_certs_key_passphrase must be 32 characters long.')
-  }
-
   # The file creation will create the parent directory for each file if necessary, but
   # only to one level.
   if $ca_certificate_data {
-    if is_service_default($ca_certificate) {
-      fail('You must provide a path for storing the CA certificate')
-    }
     ensure_resource('file', dirname($ca_certificate), {
       ensure => directory,
       owner  => $file_permission_owner,
@@ -172,10 +161,8 @@ class octavia::certificates (
       tag       => 'octavia-certificate',
     }
   }
+
   if $ca_private_key_data {
-    if is_service_default($ca_private_key) {
-      fail('You must provide a path for storing the CA private key')
-    }
     ensure_resource('file', dirname($ca_private_key), {
       ensure => directory,
       owner  => $file_permission_owner,
@@ -194,6 +181,7 @@ class octavia::certificates (
       tag       => 'octavia-certificate',
     }
   }
+
   if $client_ca and $client_ca_data {
     ensure_resource('file', dirname($client_ca), {
       ensure => directory,
@@ -213,10 +201,8 @@ class octavia::certificates (
       tag       => 'octavia-certificate',
     }
   }
+
   if $client_cert_data {
-    if is_service_default($client_cert) {
-      fail('You must provide a path for storing the client certificate')
-    }
     ensure_resource('file', dirname($client_cert), {
       ensure => directory,
       owner  => $file_permission_owner,

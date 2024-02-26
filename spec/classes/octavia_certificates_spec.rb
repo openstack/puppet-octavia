@@ -14,7 +14,8 @@ describe 'octavia::certificates' do
         is_expected.to contain_octavia_config('certificates/endpoint_type').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_octavia_config('certificates/ca_certificate').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_octavia_config('certificates/ca_private_key').with_value('<SERVICE DEFAULT>')
-        is_expected.to contain_octavia_config('certificates/ca_private_key_passphrase').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('certificates/server_certs_key_passphrase').with_value('insecure-key-do-not-use-this-key').with_secret(true)
+        is_expected.to contain_octavia_config('certificates/ca_private_key_passphrase').with_value('<SERVICE DEFAULT>').with_secret(true)
         is_expected.to contain_octavia_config('certificates/signing_digest').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_octavia_config('certificates/cert_validity_time').with_value('<SERVICE DEFAULT>')
       end
@@ -55,8 +56,8 @@ describe 'octavia::certificates' do
         is_expected.to contain_octavia_config('certificates/endpoint_type').with_value('internalURL')
         is_expected.to contain_octavia_config('certificates/ca_certificate').with_value('/etc/octavia/ca.pem')
         is_expected.to contain_octavia_config('certificates/ca_private_key').with_value('/etc/octavia/key.pem')
-        is_expected.to contain_octavia_config('certificates/server_certs_key_passphrase').with_value('insecure-key-do-not-use-this-key')
-        is_expected.to contain_octavia_config('certificates/ca_private_key_passphrase').with_value('secure123')
+        is_expected.to contain_octavia_config('certificates/server_certs_key_passphrase').with_value('insecure-key-do-not-use-this-key').with_secret(true)
+        is_expected.to contain_octavia_config('certificates/ca_private_key_passphrase').with_value('secure123').with_secret(true)
         is_expected.to contain_octavia_config('certificates/signing_digest').with_value('sha256')
         is_expected.to contain_octavia_config('certificates/cert_validity_time').with_value(2592000)
       end

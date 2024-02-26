@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe 'octavia::certificates' do
-  shared_examples_for 'certificates' do
+  shared_examples_for 'octavia::certificates' do
 
     context 'with default params' do
       it 'configures octavia certificate manager' do
@@ -254,6 +254,17 @@ describe 'octavia::certificates' do
         }
       end
 
+      it 'should configure certificates' do
+        is_expected.to contain_octavia_config('certificates/ca_certificate').with_value('/etc/octavia/ca.pem')
+        is_expected.to contain_octavia_config('controller_worker/client_ca').with_value('/etc/octavia/client_ca.pem')
+      end
+
+      it 'should not populate certificate file' do
+        is_expected.not_to contain_file('/etc/octavia/client_ca.pem')
+        is_expected.not_to contain_file('/etc/octavia')
+      end
+    end
+
     context 'When invalid non 32 characters server_certs_key_passphrase provided' do
       let :params do
         { :server_certs_key_passphrase => 'non-32-chars-key',
@@ -273,17 +284,6 @@ describe 'octavia::certificates' do
 
       it 'fails without a server_certs_key_passphrase' do
         is_expected.to raise_error(Puppet::Error)
-      end
-    end
-
-      it 'should configure certificates' do
-        is_expected.to contain_octavia_config('certificates/ca_certificate').with_value('/etc/octavia/ca.pem')
-        is_expected.to contain_octavia_config('controller_worker/client_ca').with_value('/etc/octavia/client_ca.pem')
-      end
-
-      it 'should not populate certificate file' do
-        is_expected.not_to contain_file('/etc/octavia/client_ca.pem')
-        is_expected.not_to contain_file('/etc/octavia')
       end
     end
 
@@ -340,7 +340,7 @@ describe 'octavia::certificates' do
       let (:facts) do
         facts.merge!(OSDefaults.get_facts())
       end
-      it_behaves_like 'certificates'
+      it_behaves_like 'octavia::certificates'
     end
   end
 end

@@ -279,5 +279,7 @@ class octavia::keystone::authtoken(
       service_type                   => $service_type,
       interface                      => $interface;
   }
+
+  Keystone::Resource::Authtoken['octavia_config'] -> Anchor['octavia::config::end']
 }
 

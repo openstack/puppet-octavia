@@ -187,6 +187,10 @@ Use the enabled_provider_drivers parameter instead.')
         hasrestart => true,
         tag        => 'octavia-service',
       }
+
+      # On any uwsgi config change, we must restart Octavia API.
+      Octavia_api_uwsgi_config<||> ~> Service['octavia-api']
+
     } elsif $service_name == 'httpd' {
       service { 'octavia-api':
         ensure => 'stopped',

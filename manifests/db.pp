@@ -69,4 +69,7 @@ class octavia::db (
     db_max_retries          => $database_db_max_retries,
   }
 
+  # all db settings should be applied and all packages should be installed
+  # before dbsync starts
+  Oslo::Db['octavia_config'] -> Anchor['octavia::dbsync::begin']
 }

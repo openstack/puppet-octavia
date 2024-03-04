@@ -27,19 +27,9 @@ class octavia::deps {
   ~> Service<| tag == 'octavia-service' |>
   ~> anchor { 'octavia::service::end': }
 
-  # policy config should occur in the config block also.
-  Anchor['octavia::config::begin']
-  -> Openstacklib::Policy<| tag == 'octavia' |>
-  -> Anchor['octavia::config::end']
-
-  # On any uwsgi config change, we must restart Octavia API.
   Anchor['octavia::config::begin']
   -> Octavia_api_uwsgi_config<||>
-  ~> Anchor['octavia::config::end']
-
-  # all db settings should be applied and all packages should be installed
-  # before dbsync starts
-  Oslo::Db<||> -> Anchor['octavia::dbsync::begin']
+  -> Anchor['octavia::config::end']
 
   # Installation or config changes will always restart services.
   Anchor['octavia::install::end'] ~> Anchor['octavia::service::begin']

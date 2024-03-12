@@ -11,6 +11,7 @@ describe 'octavia::task_flow' do
         should contain_octavia_config('task_flow/jobboard_enabled').with_value('<SERVICE DEFAULT>')
         should contain_octavia_config('task_flow/jobboard_backend_hosts').with_value('<SERVICE DEFAULT>')
         should contain_octavia_config('task_flow/jobboard_backend_port').with_value('<SERVICE DEFAULT>')
+        should contain_octavia_config('task_flow/jobboard_backend_username').with_value('<SERVICE DEFAULT>')
         should contain_octavia_config('task_flow/jobboard_backend_password').with_value('<SERVICE DEFAULT>').with_secret(true)
         should contain_octavia_config('task_flow/jobboard_backend_namespace').with_value('<SERVICE DEFAULT>')
         should contain_octavia_config('task_flow/jobboard_redis_sentinel').with_value('<SERVICE DEFAULT>')
@@ -32,6 +33,7 @@ describe 'octavia::task_flow' do
           :jobboard_enabled                   => true,
           :jobboard_backend_hosts             => ['192.168.0.2', '192.168.0.3'],
           :jobboard_backend_port              => 6379,
+          :jobboard_backend_username          => 'user',
           :jobboard_backend_password          => 'secret',
           :jobboard_backend_namespace         => 'octavia_jobboard',
           :jobboard_redis_sentinel            => 'sentinel',
@@ -51,6 +53,7 @@ describe 'octavia::task_flow' do
         should contain_octavia_config('task_flow/jobboard_enabled').with_value(true)
         should contain_octavia_config('task_flow/jobboard_backend_hosts').with_value('192.168.0.2,192.168.0.3')
         should contain_octavia_config('task_flow/jobboard_backend_port').with_value(6379)
+        should contain_octavia_config('task_flow/jobboard_backend_username').with_value('user')
         should contain_octavia_config('task_flow/jobboard_backend_password').with_value('secret').with_secret(true)
         should contain_octavia_config('task_flow/jobboard_backend_namespace').with_value('octavia_jobboard')
         should contain_octavia_config('task_flow/jobboard_redis_sentinel').with_value('sentinel')

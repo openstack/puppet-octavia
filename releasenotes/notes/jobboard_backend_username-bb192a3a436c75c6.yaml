@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    The ``octavia::task_flow::jobboard_backend_username`` parameter has been
+    added.

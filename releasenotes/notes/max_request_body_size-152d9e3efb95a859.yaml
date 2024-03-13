@@ -1,0 +1,4 @@
+---
+features:
+  - |
+    The new ``octavia::api::max_request_body_size`` option has been added.

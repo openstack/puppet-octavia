@@ -60,6 +60,10 @@
 #   HTTPProxyToWSGI middleware.
 #   Defaults to $facts['os_service_default'].
 #
+# [*max_request_body_size*]
+#   (Optional) Set max request body size
+#   Defaults to $facts['os_service_default'].
+#
 # [*default_provider_driver*]
 #   (optional) Configure the default provider driver.
 #   Defaults to $facts['os_service_default']
@@ -135,6 +139,7 @@ class octavia::api (
   $allow_tls_terminated_listeners = $facts['os_service_default'],
   Boolean $sync_db                = false,
   $enable_proxy_headers_parsing   = $facts['os_service_default'],
+  $max_request_body_size          = $facts['os_service_default'],
   $default_provider_driver        = $facts['os_service_default'],
   $enabled_provider_drivers       = $facts['os_service_default'],
   $pagination_max_limit           = $facts['os_service_default'],
@@ -237,6 +242,7 @@ running as a standalone service, or httpd for being run by a httpd server")
   }
 
   oslo::middleware { 'octavia_config':
-    enable_proxy_headers_parsing => $enable_proxy_headers_parsing
+    enable_proxy_headers_parsing => $enable_proxy_headers_parsing,
+    max_request_body_size        => $max_request_body_size,
   }
 }

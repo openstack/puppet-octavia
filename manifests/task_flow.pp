@@ -33,6 +33,10 @@
 #   (optional) The port of jobboard backend server.
 #   Defaults to $facts['os_service_default']
 #
+# [*jobboard_backend_username*]
+#   (optional) User name for the jobboard backend server.
+#   Defaults to $facts['os_service_default']
+#
 # [*jobboard_backend_password*]
 #   (optional) Password for the jobboard backend server.
 #   Defaults to $facts['os_service_default']
@@ -73,6 +77,7 @@ class octavia::task_flow (
   $jobboard_backend_driver            = $facts['os_service_default'],
   $jobboard_backend_hosts             = $facts['os_service_default'],
   $jobboard_backend_port              = $facts['os_service_default'],
+  $jobboard_backend_username          = $facts['os_service_default'],
   $jobboard_backend_password          = $facts['os_service_default'],
   $jobboard_backend_namespace         = $facts['os_service_default'],
   $jobboard_redis_sentinel            = $facts['os_service_default'],
@@ -102,6 +107,7 @@ class octavia::task_flow (
     'task_flow/jobboard_backend_driver'            : value => $jobboard_backend_driver;
     'task_flow/jobboard_backend_hosts'             : value => join(any2array($jobboard_backend_hosts), ',');
     'task_flow/jobboard_backend_port'              : value => $jobboard_backend_port;
+    'task_flow/jobboard_backend_username'          : value => $jobboard_backend_username;
     'task_flow/jobboard_backend_password'          : value => $jobboard_backend_password, secret => true;
     'task_flow/jobboard_backend_namespace'         : value => $jobboard_backend_namespace;
     'task_flow/jobboard_redis_sentinel'            : value => $jobboard_redis_sentinel;

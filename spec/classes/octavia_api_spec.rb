@@ -71,6 +71,7 @@ describe 'octavia::api' do
         is_expected.to contain_octavia_config('api_settings/allow_prometheus_listeners').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_oslo__middleware('octavia_config').with(
           :enable_proxy_headers_parsing => '<SERVICE DEFAULT>',
+          :max_request_body_size        => '<SERVICE DEFAULT>',
         )
       end
       it 'does not sync the database' do
@@ -123,14 +124,17 @@ describe 'octavia::api' do
       it { is_expected.to contain_class('octavia::db::sync') }
     end
 
-    context 'with enable_proxy_headers_parsing set' do
+    context 'with oslo.middleware options set' do
       before do
         params.merge!({
-          :enable_proxy_headers_parsing => true})
+          :enable_proxy_headers_parsing => true,
+          :max_request_body_size        => 114688,
+        })
       end
       it 'configures enable_proxy_headers_parsing' do
         is_expected.to contain_oslo__middleware('octavia_config').with(
           :enable_proxy_headers_parsing => true,
+          :max_request_body_size        => 114688,
         )
       end
     end

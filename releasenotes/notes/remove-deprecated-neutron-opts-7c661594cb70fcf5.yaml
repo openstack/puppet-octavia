@@ -1,0 +1,8 @@
+---
+upgrade:
+  - |
+    The following parameters of the ``octavia::neutron`` class have been
+    removed.
+
+    - ``endpoint``
+    - ``endpoint_type``

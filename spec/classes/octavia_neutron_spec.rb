@@ -16,9 +16,6 @@ describe 'octavia::neutron' do
         is_expected.to contain_octavia_config('neutron/service_name').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_octavia_config('neutron/endpoint_override').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_octavia_config('neutron/valid_interfaces').with_value('<SERVICE DEFAULT>')
-
-        is_expected.to contain_octavia_config('neutron/endpoint').with_value('<SERVICE DEFAULT>')
-        is_expected.to contain_octavia_config('neutron/endpoint_type').with_value('<SERVICE DEFAULT>')
       }
     end
 
@@ -52,20 +49,6 @@ describe 'octavia::neutron' do
         is_expected.to contain_octavia_config('neutron/service_name').with_value('networking')
         is_expected.to contain_octavia_config('neutron/endpoint_override').with_value('http://127.0.0.1:9696')
         is_expected.to contain_octavia_config('neutron/valid_interfaces').with_value('internal,public')
-      }
-    end
-
-    context 'with deprecated parameters' do
-      let :params do
-        {
-          :endpoint      => 'http://127.0.0.1:9696',
-          :endpoint_type => 'internalURL',
-        }
-      end
-
-      it {
-        is_expected.to contain_octavia_config('neutron/endpoint').with_value('http://127.0.0.1:9696')
-        is_expected.to contain_octavia_config('neutron/endpoint_type').with_value('internalURL')
       }
     end
 

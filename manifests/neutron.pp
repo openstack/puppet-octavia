@@ -52,14 +52,6 @@
 #   (Optional) List of interfaces, in order of preference for endpoint URL.
 #   Defaults to $facts['os_service_default']
 #
-# [*endpoint*]
-#   (Optional) Custom neutron endpoint if override is necessary.
-#   Defaults to $facts['os_service_default']
-#
-# [*endpoint_type*]
-#   (Optional) Endpoint type in catalog to use for neutron.
-#   Defaults to $facts['os_service_default']
-#
 class octavia::neutron (
   $auth_url             = 'http://localhost:5000',
   $username             = 'neutron',
@@ -73,20 +65,9 @@ class octavia::neutron (
   $service_name         = $facts['os_service_default'],
   $endpoint_override    = $facts['os_service_default'],
   $valid_interfaces     = $facts['os_service_default'],
-  # DEPRECATED PARMAETERS
-  $endpoint             = undef,
-  $endpoint_type        = undef,
 ) {
 
   include octavia::deps
-
-  if $endpoint != undef {
-    warning('The endpoint parameter is deprecated. Use endpoint_override.')
-  }
-
-  if $endpoint_type != undef {
-    warning('The endpoint_type parameter is deprecated. Use valid_interfaces.')
-  }
 
   if is_service_default($password) {
     warning('[neutron] section will require valid credential options in a future release')
@@ -113,7 +94,5 @@ class octavia::neutron (
     'neutron/service_name':        value => $service_name;
     'neutron/endpoint_override':   value => $endpoint_override;
     'neutron/valid_interfaces':    value => join(any2array($valid_interfaces), ',');
-    'neutron/endpoint':            value => pick($endpoint, $facts['os_service_default']);
-    'neutron/endpoint_type':       value => pick($endpoint_type, $facts['os_service_default']);
   }
 }

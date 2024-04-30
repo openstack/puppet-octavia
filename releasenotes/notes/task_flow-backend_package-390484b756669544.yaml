@@ -1,0 +1,7 @@
+---
+features:
+  - |
+    The ``octavia::task_flow`` class now ensures the backend package is
+    installed. Package management can be disabled by setting the new
+    ``manage_backend_package`` parameter to ``false``. The package status
+    can be customized by the new ``package_ensure`` parameter.

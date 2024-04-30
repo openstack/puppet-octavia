@@ -3,7 +3,7 @@ require 'spec_helper'
 describe 'octavia::task_flow' do
   shared_examples 'octavia::task_flow' do
     context 'with default parameters' do
-      it {
+      it 'configures the default values' do
         should contain_octavia_config('task_flow/engine').with_value('<SERVICE DEFAULT>')
         should contain_octavia_config('task_flow/max_workers').with_value('<SERVICE DEFAULT>')
         should contain_octavia_config('task_flow/disable_revert').with_value('<SERVICE DEFAULT>')
@@ -20,7 +20,19 @@ describe 'octavia::task_flow' do
         should contain_octavia_config('task_flow/jobboard_expiration_time').with_value('<SERVICE DEFAULT>')
         should contain_octavia_config('task_flow/jobboard_save_logbook').with_value('<SERVICE DEFAULT>')
         should contain_octavia_config('task_flow/persistence_connection').with_value('<SERVICE DEFAULT>')
-      }
+      end
+
+      it 'should install python-redis' do
+        should contain_package('python-redis').with(
+          :ensure => 'installed',
+          :name   => platform_params[:python_redis_package_name],
+          :tag    => ['openstack'],
+        )
+      end
+
+      it 'should not install python-kazoo' do
+        should_not contain_package('python-kazoo')
+      end
     end
 
     context 'with specified parameters' do
@@ -45,7 +57,7 @@ describe 'octavia::task_flow' do
         }
       end
 
-      it {
+      it 'configures the given values' do
         should contain_octavia_config('task_flow/engine').with_value('parallel')
         should contain_octavia_config('task_flow/max_workers').with_value(5)
         should contain_octavia_config('task_flow/disable_revert').with_value(false)
@@ -62,7 +74,39 @@ describe 'octavia::task_flow' do
         should contain_octavia_config('task_flow/jobboard_expiration_time').with_value(30)
         should contain_octavia_config('task_flow/jobboard_save_logbook').with_value(false)
         should contain_octavia_config('task_flow/persistence_connection').with_value('sqlite://')
-      }
+      end
+
+      it 'should install python-redis' do
+        should contain_package('python-redis').with(
+          :ensure => 'installed',
+          :name   => platform_params[:python_redis_package_name],
+          :tag    => ['openstack'],
+        )
+      end
+
+      it 'should not install python-kazoo' do
+        should_not contain_package('python-kazoo')
+      end
+    end
+
+    context 'with zookeeper driver' do
+      let :params do
+        {
+          :jobboard_backend_driver => 'zookeeper_taskflow_driver',
+        }
+      end
+
+      it 'should not install python-redis' do
+        should_not contain_package('python-redis')
+      end
+
+      it 'should install python-kazoo' do
+        should contain_package('python-kazoo').with(
+          :ensure => 'installed',
+          :name   => platform_params[:python_kazoo_package_name],
+          :tag    => ['openstack'],
+        )
+      end
     end
 
     context 'with ssl options set to dict' do
@@ -92,6 +136,21 @@ describe 'octavia::task_flow' do
     context "on #{os}" do
       let (:facts) do
         facts.merge(OSDefaults.get_facts())
+      end
+
+      let(:platform_params) do
+        case facts[:os]['family']
+        when 'Debian'
+          {
+            :python_redis_package_name => 'python3-redis',
+            :python_kazoo_package_name => 'python3-kazoo'
+          }
+        when 'RedHat'
+          {
+            :python_redis_package_name => 'python3-redis',
+            :python_kazoo_package_name => 'python3-kazoo'
+          }
+        end
       end
 
       it_behaves_like 'octavia::task_flow'

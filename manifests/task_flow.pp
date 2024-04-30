@@ -69,6 +69,14 @@
 #   (optional) Url used to connect to the persistence database.
 #   Defaults to $facts['os_service_default']
 #
+# [*manage_backend_package*]
+#   (Optional) Whether to install the backend package.
+#   Defaults to true.
+#
+# [*package_ensure*]
+#   (Optional) ensure state for package.
+#   Defaults to 'present'
+#
 class octavia::task_flow (
   $engine                             = $facts['os_service_default'],
   $max_workers                        = $facts['os_service_default'],
@@ -86,9 +94,12 @@ class octavia::task_flow (
   $jobboard_expiration_time           = $facts['os_service_default'],
   $jobboard_save_logbook              = $facts['os_service_default'],
   $persistence_connection             = $facts['os_service_default'],
+  Boolean $manage_backend_package     = true,
+  $package_ensure                     = 'present',
 ) {
 
   include octavia::deps
+  include octavia::params
 
   $jobboard_redis_backend_ssl_options_real = $jobboard_redis_backend_ssl_options ? {
     Hash    => join(join_keys_to_values($jobboard_redis_backend_ssl_options, ':'), ','),
@@ -97,6 +108,39 @@ class octavia::task_flow (
   $jobboard_zookeeper_ssl_options_real = $jobboard_zookeeper_ssl_options ? {
     Hash    => join(join_keys_to_values($jobboard_zookeeper_ssl_options, ':'), ','),
     default => join(any2array($jobboard_zookeeper_ssl_options), ','),
+  }
+
+  if $manage_backend_package {
+    $jobboard_backend_driver_real = is_service_default($jobboard_backend_driver) ? {
+      true    => 'redis_taskflow_driver',
+      default => $jobboard_backend_driver,
+    }
+
+    case $jobboard_backend_driver_real {
+      'zookeeper_taskflow_driver': {
+        ensure_packages('python-kazoo', {
+          name   => $::octavia::params::python_kazoo_package_name,
+          ensure => $package_ensure,
+          tag    => ['openstack'],
+        })
+        Anchor['octavia::install::begin']
+        -> Package['python-kazoo']
+        -> Anchor['octavia::install::end']
+      }
+      'redis_taskflow_driver': {
+        ensure_packages('python-redis', {
+          name   => $::octavia::params::python_redis_package_name,
+          ensure => $package_ensure,
+          tag    => ['openstack'],
+        })
+        Anchor['octavia::install::begin']
+        -> Package['python-redis']
+        -> Anchor['octavia::install::end']
+      }
+      default: {
+        fail('unsupported taskflow backend')
+      }
+    }
   }
 
   octavia_config {

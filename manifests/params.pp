@@ -23,6 +23,8 @@ class octavia::params {
       $driver_agent_package_name   = 'openstack-octavia-driver-agent'
       $octavia_wsgi_script_path    = '/var/www/cgi-bin/octavia'
       $octavia_wsgi_script_source  = '/usr/bin/octavia-wsgi'
+      $python_redis_package_name   = 'python3-redis'
+      $python_kazoo_package_name   = 'python3-kazoo'
     }
     'Debian': {
       $common_package_name         = 'octavia-common'
@@ -33,6 +35,8 @@ class octavia::params {
       $driver_agent_package_name   = 'octavia-driver-agent'
       $octavia_wsgi_script_path    = '/usr/lib/cgi-bin/octavia'
       $octavia_wsgi_script_source  = '/usr/bin/octavia-wsgi'
+      $python_redis_package_name   = 'python3-redis'
+      $python_kazoo_package_name   = 'python3-kazoo'
     }
     default: {
       fail("Unsupported osfamily: ${facts['os']['family']}")

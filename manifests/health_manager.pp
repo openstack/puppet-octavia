@@ -51,12 +51,6 @@
 #  reaches this number.
 #  Defaults to $facts['os_service_default']
 #
-# DEPRECATED PARAMETERS
-#
-# [*workers*]
-#  (optional) The number of workers health_manager spawns
-#  Defaults to undef
-#
 class octavia::health_manager (
   Boolean $manage_service = true,
   Boolean $enabled        = true,
@@ -70,8 +64,6 @@ class octavia::health_manager (
   $health_check_interval  = $facts['os_service_default'],
   $sock_rlimit            = $facts['os_service_default'],
   $failover_threshold     = $facts['os_service_default'],
-  # DEPRECATED PARAMETERS
-  $workers                = undef,
 ) {
 
   include octavia::deps
@@ -101,18 +93,11 @@ class octavia::health_manager (
     }
   }
 
-  if $workers != undef {
-    warning('The octavia::health_manager::workers parameter is deprecated. \
-Use health_update_threads and stats_update_threads instead')
-  }
-  $health_update_threads_real = pick($workers, $health_update_threads)
-  $stats_update_threads_real = pick($workers, $stats_update_threads)
-
   octavia_config {
     'health_manager/bind_ip'                : value => $ip;
     'health_manager/bind_port'              : value => $port;
-    'health_manager/health_update_threads'  : value => $health_update_threads_real;
-    'health_manager/stats_update_threads'   : value => $stats_update_threads_real;
+    'health_manager/health_update_threads'  : value => $health_update_threads;
+    'health_manager/stats_update_threads'   : value => $stats_update_threads;
     'health_manager/failover_threads'       : value => $failover_threads;
     'health_manager/heartbeat_timeout'      : value => $heartbeat_timeout;
     'health_manager/health_check_interval'  : value => $health_check_interval;

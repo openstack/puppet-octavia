@@ -1,0 +1,5 @@
+---
+upgrade:
+  - |
+    The deprecated ``octavia::health_manager::workers`` parameter has been
+    removed.

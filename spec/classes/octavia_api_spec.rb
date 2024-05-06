@@ -219,18 +219,6 @@ describe 'octavia::api' do
           .with_value('amphora:Octavia Amphora driver,ovn:Octavia OVN driver')
       end
     end
-
-    context 'with deprecated provider_drivers in hash' do
-      before do
-        params.merge!({
-          :provider_drivers => 'amphora:Octavia Amphora driver,ovn:Octavia OVN driver'
-        })
-      end
-      it 'configures parameters' do
-        is_expected.to contain_octavia_config('api_settings/enabled_provider_drivers')\
-          .with_value('amphora:Octavia Amphora driver,ovn:Octavia OVN driver')
-      end
-    end
   end
 
   shared_examples 'octavia-api wsgi' do

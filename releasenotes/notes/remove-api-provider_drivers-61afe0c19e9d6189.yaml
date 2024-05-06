@@ -1,0 +1,5 @@
+---
+upgrade:
+  - |
+    The deprecated ``octavia::api::provider_drivers`` parameter has been
+    removed. Use the ``enabled_provider_drivers`` parameter instead.

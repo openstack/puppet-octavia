@@ -119,12 +119,6 @@
 #   (optional) Allow PROMETHEUS type listeners.
 #   Defaults to $facts['os_service_default']
 #
-# DEPRECATED PARAMETERS
-#
-# [*provider_drivers*]
-#   (optional) Configure the loadbalancer provider drivers.
-#   Defaults to undef
-#
 class octavia::api (
   Boolean $enabled                = true,
   Boolean $manage_service         = true,
@@ -153,18 +147,11 @@ class octavia::api (
   $minimum_tls_version            = $facts['os_service_default'],
   $allow_ping_health_monitors     = $facts['os_service_default'],
   $allow_prometheus_listeners     = $facts['os_service_default'],
-  # DEPRECATED PARAMETERS
-  $provider_drivers               = undef,
 ) inherits octavia::params {
 
   include octavia::deps
   include octavia::policy
   include octavia::db
-
-  if $provider_drivers != undef {
-    warning('The provider_drivers parameter is deprecated. \
-Use the enabled_provider_drivers parameter instead.')
-  }
 
   if $auth_strategy == 'keystone' {
     include octavia::keystone::authtoken
@@ -215,11 +202,10 @@ running as a standalone service, or httpd for being run by a httpd server")
     include octavia::db::sync
   }
 
-  $enabled_provider_drivers_raw = pick($provider_drivers, $enabled_provider_drivers)
-  if $enabled_provider_drivers_raw =~ Hash {
-    $enabled_provider_drivers_real = join(join_keys_to_values($enabled_provider_drivers_raw, ':'), ',')
+  if $enabled_provider_drivers =~ Hash {
+    $enabled_provider_drivers_real = join(join_keys_to_values($enabled_provider_drivers, ':'), ',')
   } else {
-    $enabled_provider_drivers_real = join(any2array($enabled_provider_drivers_raw), ',')
+    $enabled_provider_drivers_real = join(any2array($enabled_provider_drivers), ',')
   }
 
   octavia_config {

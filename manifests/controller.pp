@@ -4,7 +4,6 @@
 #
 # [*heartbeat_key*]
 #   (required) Key to validate amphora messages.
-#   Defaults to undef
 #
 # [*amp_active_retries*]
 #   (optional) Retry attempts to wait for Amphora to become active.

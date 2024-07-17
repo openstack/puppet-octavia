@@ -1,0 +1,4 @@
+---
+features:
+  - |
+    Add possibility to add cert/key/ca as source instead of content parameter

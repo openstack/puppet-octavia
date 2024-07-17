@@ -136,6 +136,73 @@ describe 'octavia::certificates' do
       end
     end
 
+    context 'when certificates are configured with source provided' do
+      let :params do
+        { :ca_certificate              => '/etc/octavia/ca-from-source.pem',
+          :ca_private_key              => '/etc/octavia/key-from-source.pem',
+          :server_certs_key_passphrase => 'insecure-key-but-32-chars-long:)',
+          :ca_private_key_passphrase   => 'secure321',
+          :client_cert                 => '/etc/octavia/client-from-source.pem',
+          :ca_certificate_source       => '/tmp/source/ca_certificate_source',
+          :ca_private_key_source       => '/tmp/source/ca_private_key_source',
+          :client_cert_source          => '/tmp/source/client_cert_source',
+        }
+      end
+
+      it 'configures octavia certificate manager' do
+        is_expected.to contain_octavia_config('certificates/ca_certificate').with_value('/etc/octavia/ca-from-source.pem')
+        is_expected.to contain_octavia_config('certificates/ca_private_key').with_value('/etc/octavia/key-from-source.pem')
+        is_expected.to contain_octavia_config('certificates/server_certs_key_passphrase').with_value('insecure-key-but-32-chars-long:)')
+        is_expected.to contain_octavia_config('certificates/ca_private_key_passphrase').with_value('secure321')
+      end
+
+      it 'configures octavia authentication credentials' do
+        is_expected.to contain_octavia_config('controller_worker/client_ca').with_value('/etc/octavia/ca-from-source.pem')
+        is_expected.to contain_octavia_config('haproxy_amphora/client_cert').with_value('/etc/octavia/client-from-source.pem')
+        is_expected.to contain_octavia_config('haproxy_amphora/server_ca').with_value('/etc/octavia/ca-from-source.pem')
+      end
+
+      it 'populates certificate files' do
+        is_expected.to contain_file('/etc/octavia/ca-from-source.pem').with({
+          'ensure'    => 'file',
+          'source'    => '/tmp/source/ca_certificate_source',
+          'owner'     => 'octavia',
+          'group'     => 'octavia',
+          'mode'      => '0640',
+          'replace'   => true,
+          'show_diff' => false,
+          'tag'       => 'octavia-certificate',
+        })
+        is_expected.to contain_file('/etc/octavia/key-from-source.pem').with({
+          'ensure'    => 'file',
+          'source'    => '/tmp/source/ca_private_key_source',
+          'owner'     => 'octavia',
+          'group'     => 'octavia',
+          'mode'      => '0640',
+          'replace'   => true,
+          'show_diff' => false,
+          'tag'       => 'octavia-certificate',
+        })
+        is_expected.to contain_file('/etc/octavia/client-from-source.pem').with({
+          'ensure'    => 'file',
+          'source'    => '/tmp/source/client_cert_source',
+          'owner'     => 'octavia',
+          'group'     => 'octavia',
+          'mode'      => '0640',
+          'replace'   => true,
+          'show_diff' => false,
+          'tag'       => 'octavia-certificate',
+        })
+        is_expected.to contain_file('/etc/octavia').with({
+          'ensure' => 'directory',
+          'owner'  => 'octavia',
+          'group'  => 'octavia',
+          'mode'   => '0755',
+          'tag'    => 'octavia-certificate',
+        })
+      end
+    end
+
     context 'when certificates are configured with data provided but different paths' do
       let :params do
         { :ca_certificate              => '/etc/octavia/ca.pem',

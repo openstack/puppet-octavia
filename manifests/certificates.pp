@@ -68,21 +68,39 @@
 #   Defaults to $facts['os_service_default']
 #
 # [*ca_certificate_data*]
-#   (Optional) CA certificate for Octavia
+#   (Optional) Data CA certificate for Octavia
+#   Defaults to undef
+#
+# [*ca_certificate_source*]
+#   (Optional) Source file for CA certificate for Octavia
 #   Defaults to undef
 #
 # [*ca_private_key_data*]
-#   (Optional) CA private key for signing certificates
+#   (Optional) Data CA private key for signing certificates
+#   Defaults to undef
+#
+# [*ca_private_key_source*]
+#   (Optional) Source file for CA private key for signing certificates
 #   Defaults to undef
 #
 # [*client_ca_data*]
-#   (Optional) Client CA certificate.
+#   (Optional) Data for client CA certificate.
+#   You must specify the client_ca parameter where to place this CA
+#   if you give the data here.
+#   Defaults to undef
+#
+# [*client_ca_source*]
+#   (Optional) Source for client CA certificate.
 #   You must specify the client_ca parameter where to place this CA
 #   if you give the data here.
 #   Defaults to undef
 #
 # [*client_cert_data*]
-#   (Optional) Client certificate used for connecting to amphorae
+#   (Optional) Data for client certificate used for connecting to amphorae
+#   Defaults to undef
+#
+# [*client_cert_source*]
+#   (Optional) Source for client certificate used for connecting to amphorae
 #   Defaults to undef
 #
 # [*file_permission_owner*]
@@ -109,10 +127,14 @@ class octavia::certificates (
   $cert_validity_time                         = $facts['os_service_default'],
   Optional[Stdlib::Absolutepath] $client_ca   = undef,
   Stdlib::Absolutepath $client_cert           = '/etc/octavia/certs/client.pem',
-  $ca_certificate_data                        = undef,
-  $ca_private_key_data                        = undef,
-  $client_ca_data                             = undef,
-  $client_cert_data                           = undef,
+  Optional[String[1]] $ca_certificate_data    = undef,
+  Optional[String[1]] $ca_certificate_source  = undef,
+  Optional[String[1]] $ca_private_key_data    = undef,
+  Optional[String[1]] $ca_private_key_source  = undef,
+  Optional[String[1]] $client_ca_data         = undef,
+  Optional[String[1]] $client_ca_source       = undef,
+  Optional[String[1]] $client_cert_data       = undef,
+  Optional[String[1]] $client_cert_source     = undef,
   $file_permission_owner                      = $::octavia::params::user,
   $file_permission_group                      = $::octavia::params::group,
 ) inherits octavia::params {
@@ -142,7 +164,7 @@ class octavia::certificates (
 
   # The file creation will create the parent directory for each file if necessary, but
   # only to one level.
-  if $ca_certificate_data {
+  if $ca_certificate_data or $ca_certificate_source {
     ensure_resource('file', dirname($ca_certificate), {
       ensure => directory,
       owner  => $file_permission_owner,
@@ -153,6 +175,7 @@ class octavia::certificates (
     file { $ca_certificate:
       ensure    => file,
       content   => $ca_certificate_data,
+      source    => $ca_certificate_source,
       group     => $file_permission_owner,
       owner     => $file_permission_group,
       mode      => '0640',
@@ -162,7 +185,7 @@ class octavia::certificates (
     }
   }
 
-  if $ca_private_key_data {
+  if $ca_private_key_data or $ca_private_key_source {
     ensure_resource('file', dirname($ca_private_key), {
       ensure => directory,
       owner  => $file_permission_owner,
@@ -173,6 +196,7 @@ class octavia::certificates (
     file { $ca_private_key:
       ensure    => file,
       content   => $ca_private_key_data,
+      source    => $ca_private_key_source,
       group     => $file_permission_owner,
       owner     => $file_permission_group,
       mode      => '0640',
@@ -182,7 +206,7 @@ class octavia::certificates (
     }
   }
 
-  if $client_ca and $client_ca_data {
+  if $client_ca and ( $client_ca_data or $client_ca_source ) {
     ensure_resource('file', dirname($client_ca), {
       ensure => directory,
       owner  => $file_permission_owner,
@@ -193,6 +217,7 @@ class octavia::certificates (
     file { $client_ca:
       ensure    => file,
       content   => $client_ca_data,
+      source    => $client_ca_source,
       group     => $file_permission_owner,
       owner     => $file_permission_group,
       mode      => '0640',
@@ -202,7 +227,7 @@ class octavia::certificates (
     }
   }
 
-  if $client_cert_data {
+  if $client_cert_data or $client_cert_source {
     ensure_resource('file', dirname($client_cert), {
       ensure => directory,
       owner  => $file_permission_owner,
@@ -213,6 +238,7 @@ class octavia::certificates (
     file { $client_cert:
       ensure    => file,
       content   => $client_cert_data,
+      source    => $client_cert_source,
       group     => $file_permission_owner,
       owner     => $file_permission_group,
       mode      => '0640',

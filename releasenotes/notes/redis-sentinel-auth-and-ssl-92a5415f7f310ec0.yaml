@@ -1,0 +1,8 @@
+---
+features:
+  - |
+    The following options have been added to the ``octavia::task_flow`` class.
+
+    - ``jobboard_redis_sentinel_username``
+    - ``jobboard_redis_sentinel_password``
+    - ``jobboard_redis_sentinel_ssl_options``

@@ -15,7 +15,10 @@ describe 'octavia::task_flow' do
         should contain_octavia_config('task_flow/jobboard_backend_password').with_value('<SERVICE DEFAULT>').with_secret(true)
         should contain_octavia_config('task_flow/jobboard_backend_namespace').with_value('<SERVICE DEFAULT>')
         should contain_octavia_config('task_flow/jobboard_redis_sentinel').with_value('<SERVICE DEFAULT>')
+        should contain_octavia_config('task_flow/jobboard_redis_sentinel_username').with_value('<SERVICE DEFAULT>')
+        should contain_octavia_config('task_flow/jobboard_redis_sentinel_password').with_value('<SERVICE DEFAULT>').with_secret(true)
         should contain_octavia_config('task_flow/jobboard_redis_backend_ssl_options').with_value('<SERVICE DEFAULT>')
+        should contain_octavia_config('task_flow/jobboard_redis_sentinel_ssl_options').with_value('<SERVICE DEFAULT>')
         should contain_octavia_config('task_flow/jobboard_zookeeper_ssl_options').with_value('<SERVICE DEFAULT>')
         should contain_octavia_config('task_flow/jobboard_expiration_time').with_value('<SERVICE DEFAULT>')
         should contain_octavia_config('task_flow/jobboard_save_logbook').with_value('<SERVICE DEFAULT>')
@@ -38,22 +41,25 @@ describe 'octavia::task_flow' do
     context 'with specified parameters' do
       let :params do
         {
-          :engine                             => 'parallel',
-          :max_workers                        => 5,
-          :disable_revert                     => false,
-          :jobboard_backend_driver            => 'redis_taskflow_driver',
-          :jobboard_enabled                   => true,
-          :jobboard_backend_hosts             => ['192.168.0.2', '192.168.0.3'],
-          :jobboard_backend_port              => 6379,
-          :jobboard_backend_username          => 'user',
-          :jobboard_backend_password          => 'secret',
-          :jobboard_backend_namespace         => 'octavia_jobboard',
-          :jobboard_redis_sentinel            => 'sentinel',
-          :jobboard_redis_backend_ssl_options => ['ssl:false', 'ssl_keyfile:None'],
-          :jobboard_zookeeper_ssl_options     => ['use_ssl:false', 'keyfile:None'],
-          :jobboard_expiration_time           => 30,
-          :jobboard_save_logbook              => false,
-          :persistence_connection             => 'sqlite://',
+          :engine                              => 'parallel',
+          :max_workers                         => 5,
+          :disable_revert                      => false,
+          :jobboard_backend_driver             => 'redis_taskflow_driver',
+          :jobboard_enabled                    => true,
+          :jobboard_backend_hosts              => ['192.168.0.2', '192.168.0.3'],
+          :jobboard_backend_port               => 6379,
+          :jobboard_backend_username           => 'user',
+          :jobboard_backend_password           => 'secret',
+          :jobboard_backend_namespace          => 'octavia_jobboard',
+          :jobboard_redis_sentinel             => 'sentinel',
+          :jobboard_redis_sentinel_username    => 'sentinel_user',
+          :jobboard_redis_sentinel_password    => 'sentinel_secret',
+          :jobboard_redis_backend_ssl_options  => ['ssl:false', 'ssl_keyfile:None'],
+          :jobboard_redis_sentinel_ssl_options => ['ssl:false', 'ssl_keyfile:None'],
+          :jobboard_zookeeper_ssl_options      => ['use_ssl:false', 'keyfile:None'],
+          :jobboard_expiration_time            => 30,
+          :jobboard_save_logbook               => false,
+          :persistence_connection              => 'sqlite://',
         }
       end
 
@@ -69,7 +75,10 @@ describe 'octavia::task_flow' do
         should contain_octavia_config('task_flow/jobboard_backend_password').with_value('secret').with_secret(true)
         should contain_octavia_config('task_flow/jobboard_backend_namespace').with_value('octavia_jobboard')
         should contain_octavia_config('task_flow/jobboard_redis_sentinel').with_value('sentinel')
+        should contain_octavia_config('task_flow/jobboard_redis_sentinel_username').with_value('sentinel_user')
+        should contain_octavia_config('task_flow/jobboard_redis_sentinel_password').with_value('sentinel_secret').with_secret(true)
         should contain_octavia_config('task_flow/jobboard_redis_backend_ssl_options').with_value('ssl:false,ssl_keyfile:None')
+        should contain_octavia_config('task_flow/jobboard_redis_sentinel_ssl_options').with_value('ssl:false,ssl_keyfile:None')
         should contain_octavia_config('task_flow/jobboard_zookeeper_ssl_options').with_value('use_ssl:false,keyfile:None')
         should contain_octavia_config('task_flow/jobboard_expiration_time').with_value(30)
         should contain_octavia_config('task_flow/jobboard_save_logbook').with_value(false)
@@ -116,6 +125,10 @@ describe 'octavia::task_flow' do
             'ssl'         => 'false',
             'ssl_keyfile' => 'None'
           },
+          :jobboard_redis_sentinel_ssl_options => {
+            'ssl'         => 'false',
+            'ssl_keyfile' => 'None'
+          },
           :jobboard_zookeeper_ssl_options     => {
             'use_ssl' => 'false',
             'keyfile' => 'None'
@@ -125,6 +138,7 @@ describe 'octavia::task_flow' do
 
       it {
         should contain_octavia_config('task_flow/jobboard_redis_backend_ssl_options').with_value('ssl:false,ssl_keyfile:None')
+        should contain_octavia_config('task_flow/jobboard_redis_sentinel_ssl_options').with_value('ssl:false,ssl_keyfile:None')
         should contain_octavia_config('task_flow/jobboard_zookeeper_ssl_options').with_value('use_ssl:false,keyfile:None')
       }
     end

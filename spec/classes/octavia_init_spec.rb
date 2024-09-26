@@ -54,6 +54,7 @@ describe 'octavia' do
           :rabbit_quorum_delivery_limit    => '<SERVICE DEFAULT>',
           :rabbit_quorum_max_memory_length => '<SERVICE DEFAULT>',
           :rabbit_quorum_max_memory_bytes  => '<SERVICE DEFAULT>',
+          :enable_cancel_on_failover       => '<SERVICE DEFAULT>',
         )
         should contain_oslo__messaging__notifications('octavia_config').with(
           :transport_url => '<SERVICE DEFAULT>',
@@ -84,6 +85,7 @@ describe 'octavia' do
           :rabbit_quorum_delivery_limit       => 3,
           :rabbit_quorum_max_memory_length    => 5,
           :rabbit_quorum_max_memory_bytes     => 1073741824,
+          :rabbit_enable_cancel_on_failover   => false,
           :kombu_compression                  => 'gzip',
           :kombu_reconnect_delay              => '5.0',
           :kombu_failover_strategy            => 'shuffle',
@@ -123,6 +125,7 @@ describe 'octavia' do
           :rabbit_quorum_delivery_limit    => 3,
           :rabbit_quorum_max_memory_length => 5,
           :rabbit_quorum_max_memory_bytes  => 1073741824,
+          :enable_cancel_on_failover       => false,
         )
         should contain_oslo__messaging__notifications('octavia_config').with(
           :transport_url => 'rabbit://rabbit_user:password@localhost:5673',

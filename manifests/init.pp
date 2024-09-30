@@ -146,6 +146,11 @@
 #   (optional) AMQP topic used for OpenStack notifications
 #   Defaults to $facts['os_service_default']
 #
+# [*notification_retry*]
+#   (Optional) The maximum number of attempts to re-sent a notification
+#   message, which failed to be delivered due to a recoverable error.
+#   Defaults to $facts['os_service_default'].
+#
 # [*topic*]
 #   Messaging topic for controller-worker RPC communication.
 #   Defaults to 'octavia-rpc'
@@ -184,6 +189,7 @@ class octavia (
   $notification_transport_url         = $facts['os_service_default'],
   $notification_driver                = $facts['os_service_default'],
   $notification_topics                = $facts['os_service_default'],
+  $notification_retry                 = $facts['os_service_default'],
   $topic                              = 'octavia-rpc',
   Boolean $purge_config               = false,
 ) inherits octavia::params {
@@ -235,6 +241,7 @@ class octavia (
     transport_url => $notification_transport_url,
     driver        => $notification_driver,
     topics        => $notification_topics,
+    retry         => $notification_retry,
   }
 
   # This isn't really an oslo_messaging configuration, but an octavia specific configuration item

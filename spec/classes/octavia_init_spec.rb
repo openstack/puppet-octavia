@@ -60,6 +60,7 @@ describe 'octavia' do
           :transport_url => '<SERVICE DEFAULT>',
           :driver        => '<SERVICE DEFAULT>',
           :topics        => '<SERVICE DEFAULT>',
+          :retry         => '<SERVICE DEFAULT>',
         )
       end
     end
@@ -94,6 +95,7 @@ describe 'octavia' do
           :notification_transport_url         => 'rabbit://rabbit_user:password@localhost:5673',
           :notification_driver                => 'ceilometer.compute.octavia_notifier',
           :notification_topics                => 'openstack',
+          :notification_retry                 => 10,
           :topic                              => 'oct-rpc',
         }
       end
@@ -131,6 +133,7 @@ describe 'octavia' do
           :transport_url => 'rabbit://rabbit_user:password@localhost:5673',
           :driver        => 'ceilometer.compute.octavia_notifier',
           :topics        => 'openstack',
+          :retry         => 10,
         )
       end
 

@@ -1,0 +1,4 @@
+---
+features:
+  - |
+    The new ``octavia::notification_retry`` parameter has been added.

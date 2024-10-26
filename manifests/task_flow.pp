@@ -45,6 +45,10 @@
 #   (optional) The name used for the job id on the backend server.
 #   Defaults to $facts['os_service_default']
 #
+# [*jobboard_redis_backend_db*]
+#   (optional) Database ID in redis server.
+#   Defaults to $facts['os_service_default']
+#
 # [*jobboard_redis_sentinel*]
 #   (optional) Sentinel name if it is used for Redis.
 #   Defaults to $facts['os_service_default']
@@ -100,6 +104,7 @@ class octavia::task_flow (
   $jobboard_backend_username           = $facts['os_service_default'],
   $jobboard_backend_password           = $facts['os_service_default'],
   $jobboard_backend_namespace          = $facts['os_service_default'],
+  $jobboard_redis_backend_db           = $facts['os_service_default'],
   $jobboard_redis_sentinel             = $facts['os_service_default'],
   $jobboard_redis_sentinel_username    = $facts['os_service_default'],
   $jobboard_redis_sentinel_password    = $facts['os_service_default'],
@@ -173,6 +178,7 @@ class octavia::task_flow (
     'task_flow/jobboard_backend_username'           : value => $jobboard_backend_username;
     'task_flow/jobboard_backend_password'           : value => $jobboard_backend_password, secret => true;
     'task_flow/jobboard_backend_namespace'          : value => $jobboard_backend_namespace;
+    'task_flow/jobboard_redis_backend_db'           : value => $jobboard_redis_backend_db;
     'task_flow/jobboard_redis_sentinel'             : value => $jobboard_redis_sentinel;
     'task_flow/jobboard_redis_sentinel_username'    : value => $jobboard_redis_sentinel_username;
     'task_flow/jobboard_redis_sentinel_password'    : value => $jobboard_redis_sentinel_password, secret => true;

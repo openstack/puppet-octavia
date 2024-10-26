@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    The new ``octavia::task_flow::jobboard_redis_backend_db`` parameter has
+    been added.

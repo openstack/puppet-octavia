@@ -14,6 +14,7 @@ describe 'octavia::task_flow' do
         should contain_octavia_config('task_flow/jobboard_backend_username').with_value('<SERVICE DEFAULT>')
         should contain_octavia_config('task_flow/jobboard_backend_password').with_value('<SERVICE DEFAULT>').with_secret(true)
         should contain_octavia_config('task_flow/jobboard_backend_namespace').with_value('<SERVICE DEFAULT>')
+        should contain_octavia_config('task_flow/jobboard_redis_backend_db').with_value('<SERVICE DEFAULT>')
         should contain_octavia_config('task_flow/jobboard_redis_sentinel').with_value('<SERVICE DEFAULT>')
         should contain_octavia_config('task_flow/jobboard_redis_sentinel_username').with_value('<SERVICE DEFAULT>')
         should contain_octavia_config('task_flow/jobboard_redis_sentinel_password').with_value('<SERVICE DEFAULT>').with_secret(true)
@@ -51,6 +52,7 @@ describe 'octavia::task_flow' do
           :jobboard_backend_username           => 'user',
           :jobboard_backend_password           => 'secret',
           :jobboard_backend_namespace          => 'octavia_jobboard',
+          :jobboard_redis_backend_db           => 0,
           :jobboard_redis_sentinel             => 'sentinel',
           :jobboard_redis_sentinel_username    => 'sentinel_user',
           :jobboard_redis_sentinel_password    => 'sentinel_secret',
@@ -74,6 +76,7 @@ describe 'octavia::task_flow' do
         should contain_octavia_config('task_flow/jobboard_backend_username').with_value('user')
         should contain_octavia_config('task_flow/jobboard_backend_password').with_value('secret').with_secret(true)
         should contain_octavia_config('task_flow/jobboard_backend_namespace').with_value('octavia_jobboard')
+        should contain_octavia_config('task_flow/jobboard_redis_backend_db').with_value(0)
         should contain_octavia_config('task_flow/jobboard_redis_sentinel').with_value('sentinel')
         should contain_octavia_config('task_flow/jobboard_redis_sentinel_username').with_value('sentinel_user')
         should contain_octavia_config('task_flow/jobboard_redis_sentinel_password').with_value('sentinel_secret').with_secret(true)

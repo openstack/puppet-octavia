@@ -7,7 +7,7 @@ describe 'octavia::task_flow' do
         should contain_octavia_config('task_flow/engine').with_value('<SERVICE DEFAULT>')
         should contain_octavia_config('task_flow/max_workers').with_value('<SERVICE DEFAULT>')
         should contain_octavia_config('task_flow/disable_revert').with_value('<SERVICE DEFAULT>')
-        should contain_octavia_config('task_flow/jobboard_backend_driver').with_value('<SERVICE DEFAULT>')
+        should contain_octavia_config('task_flow/jobboard_backend_driver').with_value('redis_taskflow_driver')
         should contain_octavia_config('task_flow/jobboard_enabled').with_value('<SERVICE DEFAULT>')
         should contain_octavia_config('task_flow/jobboard_backend_hosts').with_value('<SERVICE DEFAULT>')
         should contain_octavia_config('task_flow/jobboard_backend_port').with_value('<SERVICE DEFAULT>')

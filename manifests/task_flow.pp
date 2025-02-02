@@ -23,7 +23,7 @@
 #
 # [*jobboard_backend_driver*]
 #   (optional) Jobboard backend driver that will monitor job state.
-#   Defaults to $facts['os_service_default']
+#   Defaults to 'redis_taskflow_driver'
 #
 # [*jobboard_backend_hosts*]
 #   (optional) IP addresses of the redis backend for jobboard.
@@ -106,31 +106,31 @@
 #   Defaults to 'present'
 #
 class octavia::task_flow (
-  $engine                              = $facts['os_service_default'],
-  $max_workers                         = $facts['os_service_default'],
-  $disable_revert                      = $facts['os_service_default'],
-  $jobboard_enabled                    = $facts['os_service_default'],
-  $jobboard_backend_driver             = $facts['os_service_default'],
-  $jobboard_backend_hosts              = $facts['os_service_default'],
-  $jobboard_backend_port               = $facts['os_service_default'],
-  $jobboard_backend_username           = $facts['os_service_default'],
-  $jobboard_backend_password           = $facts['os_service_default'],
-  $jobboard_backend_namespace          = $facts['os_service_default'],
-  $jobboard_redis_backend_db           = $facts['os_service_default'],
-  $jobboard_redis_sentinel             = $facts['os_service_default'],
-  $jobboard_redis_sentinel_username    = $facts['os_service_default'],
-  $jobboard_redis_sentinel_password    = $facts['os_service_default'],
-  $jobboard_redis_backend_ssl_options  = $facts['os_service_default'],
-  $jobboard_redis_sentinel_ssl_options = $facts['os_service_default'],
-  $jobboard_zookeeper_ssl_options      = $facts['os_service_default'],
-  $jobboard_etcd_ssl_options           = $facts['os_service_default'],
-  $jobboard_etcd_timeout               = $facts['os_service_default'],
-  $jobboard_etcd_api_path              = $facts['os_service_default'],
-  $jobboard_expiration_time            = $facts['os_service_default'],
-  $jobboard_save_logbook               = $facts['os_service_default'],
-  $persistence_connection              = $facts['os_service_default'],
-  Boolean $manage_backend_package      = true,
-  $package_ensure                      = 'present',
+  $engine                                                 = $facts['os_service_default'],
+  $max_workers                                            = $facts['os_service_default'],
+  $disable_revert                                         = $facts['os_service_default'],
+  $jobboard_enabled                                       = $facts['os_service_default'],
+  Octavia::JobboardBackendDriver $jobboard_backend_driver = 'redis_taskflow_driver',
+  $jobboard_backend_hosts                                 = $facts['os_service_default'],
+  $jobboard_backend_port                                  = $facts['os_service_default'],
+  $jobboard_backend_username                              = $facts['os_service_default'],
+  $jobboard_backend_password                              = $facts['os_service_default'],
+  $jobboard_backend_namespace                             = $facts['os_service_default'],
+  $jobboard_redis_backend_db                              = $facts['os_service_default'],
+  $jobboard_redis_sentinel                                = $facts['os_service_default'],
+  $jobboard_redis_sentinel_username                       = $facts['os_service_default'],
+  $jobboard_redis_sentinel_password                       = $facts['os_service_default'],
+  $jobboard_redis_backend_ssl_options                     = $facts['os_service_default'],
+  $jobboard_redis_sentinel_ssl_options                    = $facts['os_service_default'],
+  $jobboard_zookeeper_ssl_options                         = $facts['os_service_default'],
+  $jobboard_etcd_ssl_options                              = $facts['os_service_default'],
+  $jobboard_etcd_timeout                                  = $facts['os_service_default'],
+  $jobboard_etcd_api_path                                 = $facts['os_service_default'],
+  $jobboard_expiration_time                               = $facts['os_service_default'],
+  $jobboard_save_logbook                                  = $facts['os_service_default'],
+  $persistence_connection                                 = $facts['os_service_default'],
+  Boolean $manage_backend_package                         = true,
+  $package_ensure                                         = 'present',
 ) {
 
   include octavia::deps
@@ -154,12 +154,7 @@ class octavia::task_flow (
   }
 
   if $manage_backend_package {
-    $jobboard_backend_driver_real = is_service_default($jobboard_backend_driver) ? {
-      true    => 'redis_taskflow_driver',
-      default => $jobboard_backend_driver,
-    }
-
-    case $jobboard_backend_driver_real {
+    case $jobboard_backend_driver {
       'zookeeper_taskflow_driver': {
         ensure_packages('python-kazoo', {
           name   => $::octavia::params::python_kazoo_package_name,
@@ -180,7 +175,7 @@ class octavia::task_flow (
         -> Package['python-etcd3gw']
         -> Anchor['octavia::install::end']
       }
-      'redis_taskflow_driver': {
+      default: {
         ensure_packages('python-redis', {
           name   => $::octavia::params::python_redis_package_name,
           ensure => $package_ensure,
@@ -189,9 +184,6 @@ class octavia::task_flow (
         Anchor['octavia::install::begin']
         -> Package['python-redis']
         -> Anchor['octavia::install::end']
-      }
-      default: {
-        fail('unsupported taskflow backend')
       }
     }
   }

@@ -21,6 +21,9 @@ describe 'octavia::task_flow' do
         should contain_octavia_config('task_flow/jobboard_redis_backend_ssl_options').with_value('<SERVICE DEFAULT>')
         should contain_octavia_config('task_flow/jobboard_redis_sentinel_ssl_options').with_value('<SERVICE DEFAULT>')
         should contain_octavia_config('task_flow/jobboard_zookeeper_ssl_options').with_value('<SERVICE DEFAULT>')
+        should contain_octavia_config('task_flow/jobboard_etcd_ssl_options').with_value('<SERVICE DEFAULT>')
+        should contain_octavia_config('task_flow/jobboard_etcd_timeout').with_value('<SERVICE DEFAULT>')
+        should contain_octavia_config('task_flow/jobboard_etcd_api_path').with_value('<SERVICE DEFAULT>')
         should contain_octavia_config('task_flow/jobboard_expiration_time').with_value('<SERVICE DEFAULT>')
         should contain_octavia_config('task_flow/jobboard_save_logbook').with_value('<SERVICE DEFAULT>')
         should contain_octavia_config('task_flow/persistence_connection').with_value('<SERVICE DEFAULT>')
@@ -36,6 +39,9 @@ describe 'octavia::task_flow' do
 
       it 'should not install python-kazoo' do
         should_not contain_package('python-kazoo')
+      end
+      it 'should not install python-etcd3gw' do
+        should_not contain_package('python-etcd3gw')
       end
     end
 
@@ -59,6 +65,9 @@ describe 'octavia::task_flow' do
           :jobboard_redis_backend_ssl_options  => ['ssl:false', 'ssl_keyfile:None'],
           :jobboard_redis_sentinel_ssl_options => ['ssl:false', 'ssl_keyfile:None'],
           :jobboard_zookeeper_ssl_options      => ['use_ssl:false', 'keyfile:None'],
+          :jobboard_etcd_ssl_options           => ['use_ssl:false', 'cert_key:None'],
+          :jobboard_etcd_timeout               => 60,
+          :jobboard_etcd_api_path              => '/v1',
           :jobboard_expiration_time            => 30,
           :jobboard_save_logbook               => false,
           :persistence_connection              => 'sqlite://',
@@ -83,6 +92,9 @@ describe 'octavia::task_flow' do
         should contain_octavia_config('task_flow/jobboard_redis_backend_ssl_options').with_value('ssl:false,ssl_keyfile:None')
         should contain_octavia_config('task_flow/jobboard_redis_sentinel_ssl_options').with_value('ssl:false,ssl_keyfile:None')
         should contain_octavia_config('task_flow/jobboard_zookeeper_ssl_options').with_value('use_ssl:false,keyfile:None')
+        should contain_octavia_config('task_flow/jobboard_etcd_ssl_options').with_value('use_ssl:false,cert_key:None')
+        should contain_octavia_config('task_flow/jobboard_etcd_timeout').with_value(60)
+        should contain_octavia_config('task_flow/jobboard_etcd_api_path').with_value('/v1')
         should contain_octavia_config('task_flow/jobboard_expiration_time').with_value(30)
         should contain_octavia_config('task_flow/jobboard_save_logbook').with_value(false)
         should contain_octavia_config('task_flow/persistence_connection').with_value('sqlite://')
@@ -98,6 +110,9 @@ describe 'octavia::task_flow' do
 
       it 'should not install python-kazoo' do
         should_not contain_package('python-kazoo')
+      end
+      it 'should not install python-etcd3gw' do
+        should_not contain_package('python-etcd3gw')
       end
     end
 
@@ -119,6 +134,34 @@ describe 'octavia::task_flow' do
           :tag    => ['openstack'],
         )
       end
+
+      it 'should not install python-etcd3gw' do
+        should_not contain_package('python-etcd3gw')
+      end
+    end
+
+    context 'with etcd driver' do
+      let :params do
+        {
+          :jobboard_backend_driver => 'etcd_taskflow_driver',
+        }
+      end
+
+      it 'should not install python-redis' do
+        should_not contain_package('python-redis')
+      end
+
+      it 'should install python-kazoo' do
+        should_not contain_package('python-kazoo')
+      end
+
+      it 'should install python-etcd3gw' do
+        should contain_package('python-etcd3gw').with(
+          :ensure => 'installed',
+          :name   => platform_params[:python_etcd3gw_package_name],
+          :tag    => ['openstack'],
+        )
+      end
     end
 
     context 'with ssl options set to dict' do
@@ -136,6 +179,10 @@ describe 'octavia::task_flow' do
             'use_ssl' => 'false',
             'keyfile' => 'None'
           },
+          :jobboard_etcd_ssl_options          => {
+            'use_ssl'  => 'false',
+            'cert_key' => 'None',
+          },
         }
       end
 
@@ -143,6 +190,7 @@ describe 'octavia::task_flow' do
         should contain_octavia_config('task_flow/jobboard_redis_backend_ssl_options').with_value('ssl:false,ssl_keyfile:None')
         should contain_octavia_config('task_flow/jobboard_redis_sentinel_ssl_options').with_value('ssl:false,ssl_keyfile:None')
         should contain_octavia_config('task_flow/jobboard_zookeeper_ssl_options').with_value('use_ssl:false,keyfile:None')
+        should contain_octavia_config('task_flow/jobboard_etcd_ssl_options').with_value('use_ssl:false,cert_key:None')
       }
     end
   end
@@ -159,13 +207,15 @@ describe 'octavia::task_flow' do
         case facts[:os]['family']
         when 'Debian'
           {
-            :python_redis_package_name => 'python3-redis',
-            :python_kazoo_package_name => 'python3-kazoo'
+            :python_redis_package_name   => 'python3-redis',
+            :python_kazoo_package_name   => 'python3-kazoo',
+            :python_etcd3gw_package_name => 'python3-etcd3gw'
           }
         when 'RedHat'
           {
-            :python_redis_package_name => 'python3-redis',
-            :python_kazoo_package_name => 'python3-kazoo'
+            :python_redis_package_name   => 'python3-redis',
+            :python_kazoo_package_name   => 'python3-kazoo',
+            :python_etcd3gw_package_name => 'python3-etcd3gw'
           }
         end
       end

@@ -25,6 +25,7 @@ class octavia::params {
       $octavia_wsgi_script_source  = '/usr/bin/octavia-wsgi'
       $python_redis_package_name   = 'python3-redis'
       $python_kazoo_package_name   = 'python3-kazoo'
+      $python_etcd3gw_package_name = 'python3-etcd3gw'
     }
     'Debian': {
       $common_package_name         = 'octavia-common'
@@ -37,6 +38,7 @@ class octavia::params {
       $octavia_wsgi_script_source  = '/usr/bin/octavia-wsgi'
       $python_redis_package_name   = 'python3-redis'
       $python_kazoo_package_name   = 'python3-kazoo'
+      $python_etcd3gw_package_name = 'python3-etcd3gw'
     }
     default: {
       fail("Unsupported osfamily: ${facts['os']['family']}")

@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    The ``octavia::task_flow`` class now supports configuring jobboard etcd
+    backend.

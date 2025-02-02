@@ -73,6 +73,18 @@
 #   (optional) Zookeeper jobboard backend ssl configuration options.
 #   Defaults to $facts['os_service_default']
 #
+# [*jobboard_etcd_ssl_options*]
+#   (optional) Etcd jobboard backend ssl configuration options.
+#   Defaults to $facts['os_service_default']
+#
+# [*jobboard_etcd_timeout*]
+#   (optional) Timeout when communicating with the Etcd backend.
+#   Defaults to $facts['os_service_default']
+#
+# [*jobboard_etcd_api_path*]
+#   (optional) API Path of the Etcd server.
+#   Defaults to $facts['os_service_default']
+#
 # [*jobboard_expiration_time*]
 #   (optional) Expiration time in seconds for jobboard tasks.
 #   Defaults to $facts['os_service_default']
@@ -111,6 +123,9 @@ class octavia::task_flow (
   $jobboard_redis_backend_ssl_options  = $facts['os_service_default'],
   $jobboard_redis_sentinel_ssl_options = $facts['os_service_default'],
   $jobboard_zookeeper_ssl_options      = $facts['os_service_default'],
+  $jobboard_etcd_ssl_options           = $facts['os_service_default'],
+  $jobboard_etcd_timeout               = $facts['os_service_default'],
+  $jobboard_etcd_api_path              = $facts['os_service_default'],
   $jobboard_expiration_time            = $facts['os_service_default'],
   $jobboard_save_logbook               = $facts['os_service_default'],
   $persistence_connection              = $facts['os_service_default'],
@@ -133,6 +148,10 @@ class octavia::task_flow (
     Hash    => join(join_keys_to_values($jobboard_zookeeper_ssl_options, ':'), ','),
     default => join(any2array($jobboard_zookeeper_ssl_options), ','),
   }
+  $jobboard_etcd_ssl_options_real = $jobboard_etcd_ssl_options ? {
+    Hash    => join(join_keys_to_values($jobboard_etcd_ssl_options, ':'), ','),
+    default => join(any2array($jobboard_etcd_ssl_options), ','),
+  }
 
   if $manage_backend_package {
     $jobboard_backend_driver_real = is_service_default($jobboard_backend_driver) ? {
@@ -149,6 +168,16 @@ class octavia::task_flow (
         })
         Anchor['octavia::install::begin']
         -> Package['python-kazoo']
+        -> Anchor['octavia::install::end']
+      }
+      'etcd_taskflow_driver': {
+        ensure_packages('python-etcd3gw', {
+          name   => $::octavia::params::python_etcd3gw_package_name,
+          ensure => $package_ensure,
+          tag    => ['openstack'],
+        })
+        Anchor['octavia::install::begin']
+        -> Package['python-etcd3gw']
         -> Anchor['octavia::install::end']
       }
       'redis_taskflow_driver': {
@@ -185,6 +214,9 @@ class octavia::task_flow (
     'task_flow/jobboard_redis_backend_ssl_options'  : value => $jobboard_redis_backend_ssl_options_real;
     'task_flow/jobboard_redis_sentinel_ssl_options' : value => $jobboard_redis_sentinel_ssl_options_real;
     'task_flow/jobboard_zookeeper_ssl_options'      : value => $jobboard_zookeeper_ssl_options_real;
+    'task_flow/jobboard_etcd_ssl_options'           : value => $jobboard_etcd_ssl_options_real;
+    'task_flow/jobboard_etcd_timeout'               : value => $jobboard_etcd_timeout;
+    'task_flow/jobboard_etcd_api_path'              : value => $jobboard_etcd_api_path;
     'task_flow/jobboard_expiration_time'            : value => $jobboard_expiration_time;
     'task_flow/jobboard_save_logbook'               : value => $jobboard_save_logbook;
     'task_flow/persistence_connection'              : value => $persistence_connection;

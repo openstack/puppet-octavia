@@ -2,11 +2,17 @@ require 'spec_helper'
 
 describe 'octavia::neutron' do
   shared_examples 'octavia::neutron' do
+    let :params do
+      {
+        :password => 'secret',
+      }
+    end
+
     context 'with default parameters' do
       it {
         is_expected.to contain_octavia_config('neutron/auth_url').with_value('http://localhost:5000')
         is_expected.to contain_octavia_config('neutron/username').with_value('neutron')
-        is_expected.to contain_octavia_config('neutron/password').with_value('<SERVICE DEFAULT>').with_secret(true)
+        is_expected.to contain_octavia_config('neutron/password').with_value('secret').with_secret(true)
         is_expected.to contain_octavia_config('neutron/project_name').with_value('services')
         is_expected.to contain_octavia_config('neutron/user_domain_name').with_value('Default')
         is_expected.to contain_octavia_config('neutron/project_domain_name').with_value('Default')
@@ -20,8 +26,8 @@ describe 'octavia::neutron' do
     end
 
     context 'with specified parameters' do
-      let :params do
-        {
+      before do
+        params.merge!({
           :auth_url             => 'http://127.0.0.1:5000',
           :username             => 'some_user',
           :password             => 'secrete',
@@ -33,7 +39,7 @@ describe 'octavia::neutron' do
           :service_name         => 'networking',
           :endpoint_override    => 'http://127.0.0.1:9696',
           :valid_interfaces     => ['internal', 'public'],
-        }
+        })
       end
 
       it {
@@ -53,10 +59,10 @@ describe 'octavia::neutron' do
     end
 
     context 'when system_scope is set' do
-      let :params do
-        {
+      before do
+        params.merge!({
           :system_scope => 'all'
-        }
+        })
       end
       it 'configures system-scoped credential' do
         is_expected.to contain_octavia_config('neutron/project_domain_name').with_value('<SERVICE DEFAULT>')

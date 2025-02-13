@@ -4,6 +4,9 @@
 #
 # === Parameters:
 #
+# [*password*]
+#   (Required) Password for user
+#
 # [*auth_url*]
 #   (Optional) Keystone Authentication URL
 #   Defaults to 'http://localhost:5000'
@@ -11,10 +14,6 @@
 # [*username*]
 #   (Optional) User for accessing neutron
 #   Defaults to 'neutron'
-#
-# [*password*]
-#   (Optional) Password for user. This will be required in a future release.
-#   Defaults to $facts['os_service_default']
 #
 # [*project_name*]
 #   (Optional) Tenant for accessing neutron
@@ -53,9 +52,9 @@
 #   Defaults to $facts['os_service_default']
 #
 class octavia::neutron (
+  $password,
   $auth_url             = 'http://localhost:5000',
   $username             = 'neutron',
-  $password             = $facts['os_service_default'],
   $project_name         = 'services',
   $user_domain_name     = 'Default',
   $project_domain_name  = 'Default',
@@ -68,10 +67,6 @@ class octavia::neutron (
 ) {
 
   include octavia::deps
-
-  if is_service_default($password) {
-    warning('[neutron] section will require valid credential options in a future release')
-  }
 
   if is_service_default($system_scope) {
     $project_name_real = $project_name

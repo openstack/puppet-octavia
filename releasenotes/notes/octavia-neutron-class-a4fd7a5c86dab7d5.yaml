@@ -1,0 +1,6 @@
+---
+upgrade:
+  - |
+    The ``octavia::neutron`` class is now required and atleast the ``password``
+    should be configured but you should verify that ``auth_url`` and other
+    parameters is specified correctly.

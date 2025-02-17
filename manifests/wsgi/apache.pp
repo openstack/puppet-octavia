@@ -167,7 +167,7 @@ class octavia::wsgi::apache (
 
   Anchor['octavia::install::end'] -> Class['apache']
 
-  ::openstacklib::wsgi::apache { 'octavia_wsgi':
+  openstacklib::wsgi::apache { 'octavia_wsgi':
     bind_host                   => $bind_host,
     bind_port                   => $port,
     group                       => $::octavia::params::group,

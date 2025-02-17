@@ -39,7 +39,7 @@ class octavia::db::postgresql(
 
   include octavia::deps
 
-  ::openstacklib::db::postgresql { 'octavia':
+  openstacklib::db::postgresql { 'octavia':
     password   => $password,
     dbname     => $dbname,
     user       => $user,
@@ -48,7 +48,7 @@ class octavia::db::postgresql(
   }
 
   if $persistence_dbname {
-    ::openstacklib::db::postgresql { 'octavia_persistence':
+    openstacklib::db::postgresql { 'octavia_persistence':
       password   => $password,
       dbname     => $persistence_dbname,
       user       => $user,

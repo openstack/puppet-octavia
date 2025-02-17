@@ -50,7 +50,7 @@ class octavia::db::mysql(
 
   include octavia::deps
 
-  ::openstacklib::db::mysql { 'octavia':
+  openstacklib::db::mysql { 'octavia':
     user          => $user,
     password      => $password,
     dbname        => $dbname,
@@ -61,7 +61,7 @@ class octavia::db::mysql(
   }
 
   if $persistence_dbname {
-    ::openstacklib::db::mysql { 'octavia_persistence':
+    openstacklib::db::mysql { 'octavia_persistence':
       user          => $user,
       password      => $password,
       dbname        => $persistence_dbname,

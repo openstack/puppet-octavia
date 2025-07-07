@@ -242,7 +242,7 @@ describe 'octavia::controller' do
           :heartbeat_key => 0,
         })
       end
-      it { expect { is_expected.to raise_error(Puppet::Error) } }
+      it { is_expected.to raise_error(Puppet::Error) }
     end
   end
 

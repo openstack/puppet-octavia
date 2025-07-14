@@ -1,0 +1,9 @@
+---
+features:
+  - |
+    The following classes have been added, to support configuring options used
+    by the castellan library.
+
+    - ``octavia::key_manager``
+    - ``octavia::key_manager::barbican``
+    - ``octavia::key_manager::barbican::service_user``

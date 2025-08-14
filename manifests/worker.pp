@@ -84,7 +84,7 @@ class octavia::worker (
       'is_public' => false,
       'tag'       => ['octavia']
     }
-    $nova_flavor_defaults = merge($octavia_flavor_defaults, $nova_flavor_config)
+    $nova_flavor_defaults = stdlib::merge($octavia_flavor_defaults, $nova_flavor_config)
     create_resources('nova_flavor', $octavia_flavor, $nova_flavor_defaults)
     if $manage_service {
       Nova_flavor<| tag == 'octavia' |> ~> Service['octavia-worker']

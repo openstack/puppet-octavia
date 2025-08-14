@@ -156,7 +156,7 @@ class octavia::task_flow (
   if $manage_backend_package {
     case $jobboard_backend_driver {
       'zookeeper_taskflow_driver': {
-        ensure_packages('python-kazoo', {
+        stdlib::ensure_packages('python-kazoo', {
           name   => $::octavia::params::python_kazoo_package_name,
           ensure => $package_ensure,
           tag    => ['openstack'],
@@ -166,7 +166,7 @@ class octavia::task_flow (
         -> Anchor['octavia::install::end']
       }
       'etcd_taskflow_driver': {
-        ensure_packages('python-etcd3gw', {
+        stdlib::ensure_packages('python-etcd3gw', {
           name   => $::octavia::params::python_etcd3gw_package_name,
           ensure => $package_ensure,
           tag    => ['openstack'],
@@ -176,7 +176,7 @@ class octavia::task_flow (
         -> Anchor['octavia::install::end']
       }
       default: {
-        ensure_packages('python-redis', {
+        stdlib::ensure_packages('python-redis', {
           name   => $::octavia::params::python_redis_package_name,
           ensure => $package_ensure,
           tag    => ['openstack'],

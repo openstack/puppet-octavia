@@ -18,8 +18,11 @@ class octavia::roles (
       'load-balancer_quota_admin',
       'load-balancer_admin',
       'admin',
-      ]
-  ) {
+  ]
+) {
+
+  warning('The octavia::roles class is deprecated and will be removed')
+
   if $role_names {
     keystone_role { $role_names:
       ensure => present,

@@ -1,0 +1,5 @@
+---
+deprecations:
+  - |
+    The ``octavia::roles`` class has been deprecated. It will be removed in
+    a future release.

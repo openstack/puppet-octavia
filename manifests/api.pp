@@ -17,7 +17,7 @@
 #   service, and you must use another class to configure that
 #   web service. For example, use class { 'octavia::wsgi::apache'...}
 #   to make octavia-api be a web app using apache mod_wsgi.
-#   Defaults to $::octavia::params::api_service_name
+#   Defaults to $octavia::params::api_service_name
 #
 # [*host*]
 #   (optional) The octavia api bind address.
@@ -122,7 +122,7 @@
 class octavia::api (
   Boolean $enabled                = true,
   Boolean $manage_service         = true,
-  $service_name                   = $::octavia::params::api_service_name,
+  $service_name                   = $octavia::params::api_service_name,
   $host                           = '0.0.0.0',
   $port                           = '9876',
   $package_ensure                 = 'present',
@@ -159,7 +159,7 @@ class octavia::api (
 
   package { 'octavia-api':
     ensure => $package_ensure,
-    name   => $::octavia::params::api_package_name,
+    name   => $octavia::params::api_package_name,
     tag    => ['openstack', 'octavia-package'],
   }
 
@@ -170,10 +170,10 @@ class octavia::api (
       $service_ensure = 'stopped'
     }
 
-    if $service_name == $::octavia::params::api_service_name {
+    if $service_name == $octavia::params::api_service_name {
       service { 'octavia-api':
         ensure     => $service_ensure,
-        name       => $::octavia::params::api_service_name,
+        name       => $octavia::params::api_service_name,
         enable     => $enabled,
         hasstatus  => true,
         hasrestart => true,
@@ -186,7 +186,7 @@ class octavia::api (
     } elsif $service_name == 'httpd' {
       service { 'octavia-api':
         ensure => 'stopped',
-        name   => $::octavia::params::api_service_name,
+        name   => $octavia::params::api_service_name,
         enable => false,
         tag    => 'octavia-service',
       }

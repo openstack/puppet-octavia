@@ -55,7 +55,7 @@ class octavia::housekeeping (
 
   package { 'octavia-housekeeping':
     ensure => $package_ensure,
-    name   => $::octavia::params::housekeeping_package_name,
+    name   => $octavia::params::housekeeping_package_name,
     tag    => ['openstack', 'octavia-package'],
   }
 
@@ -68,7 +68,7 @@ class octavia::housekeeping (
 
     service { 'octavia-housekeeping':
       ensure     => $service_ensure,
-      name       => $::octavia::params::housekeeping_service_name,
+      name       => $octavia::params::housekeeping_service_name,
       enable     => $enabled,
       hasstatus  => true,
       hasrestart => true,

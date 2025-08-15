@@ -135,8 +135,8 @@ class octavia::certificates (
   Optional[String[1]] $client_ca_source       = undef,
   Optional[String[1]] $client_cert_data       = undef,
   Optional[String[1]] $client_cert_source     = undef,
-  $file_permission_owner                      = $::octavia::params::user,
-  $file_permission_group                      = $::octavia::params::group,
+  $file_permission_owner                      = $octavia::params::user,
+  $file_permission_group                      = $octavia::params::group,
 ) inherits octavia::params {
 
   include octavia::deps

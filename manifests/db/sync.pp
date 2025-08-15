@@ -23,7 +23,7 @@ class octavia::db::sync(
   exec { 'octavia-db-sync':
     command     => "octavia-db-manage upgrade head ${extra_params}",
     path        => '/usr/bin',
-    user        => $::octavia::params::user,
+    user        => $octavia::params::user,
     refreshonly => true,
     try_sleep   => 5,
     tries       => 10,

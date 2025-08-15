@@ -91,7 +91,7 @@ class octavia::driver_agent (
 
   package { 'octavia-driver-agent':
     ensure => $package_ensure,
-    name   => $::octavia::params::driver_agent_package_name,
+    name   => $octavia::params::driver_agent_package_name,
     tag    => ['openstack', 'octavia-package'],
   }
 
@@ -104,11 +104,11 @@ class octavia::driver_agent (
 
     service { 'octavia-driver-agent':
       ensure     => $service_ensure,
-      name       => $::octavia::params::driver_agent_service_name,
+      name       => $octavia::params::driver_agent_service_name,
       enable     => $enabled,
       hasstatus  => true,
       hasrestart => true,
-      tag        => ['octavia-service']
+      tag        => ['octavia-service'],
     }
   }
 

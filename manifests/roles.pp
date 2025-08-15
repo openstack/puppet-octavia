@@ -17,12 +17,12 @@ class octavia::roles (
       'load-balancer_member',
       'load-balancer_quota_admin',
       'load-balancer_admin',
-      'admin'
+      'admin',
       ]
   ) {
   if $role_names {
     keystone_role { $role_names:
-      ensure => present
+      ensure => present,
     }
   }
 }

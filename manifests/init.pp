@@ -226,7 +226,7 @@ class octavia (
 
   package { 'octavia':
     ensure => $package_ensure,
-    name   => $::octavia::params::common_package_name,
+    name   => $octavia::params::common_package_name,
     tag    => ['openstack', 'octavia-package'],
   }
 

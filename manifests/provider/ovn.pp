@@ -75,7 +75,7 @@ class octavia::provider::ovn (
 
   package { 'ovn-octavia-provider':
     ensure => $package_ensure,
-    name   => $::octavia::params::ovn_provider_package_name,
+    name   => $octavia::params::ovn_provider_package_name,
     tag    => ['openstack', 'octavia-package'],
   }
 

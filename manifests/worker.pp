@@ -70,10 +70,11 @@ class octavia::worker (
   include octavia::controller
 
   if $manage_nova_flavor {
-    $octavia_flavor = { "octavia_${::octavia::controller::amp_flavor_id}" =>
-      { 'id'           => $::octavia::controller::amp_flavor_id,
-        'project_name' => $amp_project_name
-      }
+    $octavia_flavor = {
+      "octavia_${octavia::controller::amp_flavor_id}" => {
+        'id'           => $octavia::controller::amp_flavor_id,
+        'project_name' => $amp_project_name,
+      },
     }
 
     $octavia_flavor_defaults = {
@@ -82,7 +83,7 @@ class octavia::worker (
       'disk'      => '2',
       'vcpus'     => '1',
       'is_public' => false,
-      'tag'       => ['octavia']
+      'tag'       => ['octavia'],
     }
     $nova_flavor_defaults = stdlib::merge($octavia_flavor_defaults, $nova_flavor_config)
     create_resources('nova_flavor', $octavia_flavor, $nova_flavor_defaults)
@@ -93,7 +94,7 @@ class octavia::worker (
 
   package { 'octavia-worker':
     ensure => $package_ensure,
-    name   => $::octavia::params::worker_package_name,
+    name   => $octavia::params::worker_package_name,
     tag    => ['openstack', 'octavia-package'],
   }
 
@@ -106,7 +107,7 @@ class octavia::worker (
 
     service { 'octavia-worker':
       ensure     => $service_ensure,
-      name       => $::octavia::params::worker_service_name,
+      name       => $octavia::params::worker_service_name,
       enable     => $enabled,
       hasstatus  => true,
       hasrestart => true,
@@ -114,7 +115,7 @@ class octavia::worker (
     }
   }
 
-  if $manage_keygen and ! $::octavia::controller::enable_ssh_access {
+  if $manage_keygen and ! $octavia::controller::enable_ssh_access {
     fail('SSH key management cannot be enabled when SSH key access is disabled')
   }
 
@@ -122,29 +123,29 @@ class octavia::worker (
     exec {'create_amp_key_dir':
       path    => ['/bin', '/usr/bin'],
       command => "mkdir -p ${key_path}",
-      creates => $key_path
+      creates => $key_path,
     }
 
     file { 'amp_key_dir':
       ensure => directory,
       path   => $key_path,
       mode   => '0700',
-      group  => $::octavia::params::group,
-      owner  => $::octavia::params::user
+      group  => $octavia::params::group,
+      owner  => $octavia::params::user,
     }
 
-    ssh_keygen { $::octavia::controller::amp_ssh_key_name:
-      user     => $::octavia::params::user,
+    ssh_keygen { $octavia::controller::amp_ssh_key_name:
+      user     => $octavia::params::user,
       type     => $ssh_key_type,
       bits     => $ssh_key_bits,
-      filename => "${key_path}/${::octavia::controller::amp_ssh_key_name}",
-      comment  => 'Used for Octavia Service VM'
+      filename => "${key_path}/${octavia::controller::amp_ssh_key_name}",
+      comment  => 'Used for Octavia Service VM',
     }
 
     Anchor['octavia::config::begin']
     -> Exec['create_amp_key_dir']
     -> File['amp_key_dir']
-    -> Ssh_keygen[$::octavia::controller::amp_ssh_key_name]
+    -> Ssh_keygen[$octavia::controller::amp_ssh_key_name]
     -> Anchor['octavia::config::end']
   }
 

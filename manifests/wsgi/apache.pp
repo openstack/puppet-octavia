@@ -107,11 +107,11 @@
 #
 # [*wsgi_script_dir*]
 #   (Optional) The directory to install the WSGI script for apache to read.
-#   Defaults to $::octavia::params::octavia_wsgi_script_dir
+#   Defaults to $octavia::params::octavia_wsgi_script_dir
 #
 # [*wsgi_script_source*]
 #   (Optional) The location of the octavia WSGI script.
-#   Defaults to $::octavia::params::octavia_wsgi_script_source
+#   Defaults to $octavia::params::octavia_wsgi_script_source
 #
 # [*headers*]
 #   (Optional) Headers for the vhost.
@@ -156,8 +156,8 @@ class octavia::wsgi::apache (
   $error_log_pipe              = undef,
   $error_log_syslog            = undef,
   $custom_wsgi_process_options = {},
-  $wsgi_script_dir             = $::octavia::params::octavia_wsgi_script_path,
-  $wsgi_script_source          = $::octavia::params::octavia_wsgi_script_source,
+  $wsgi_script_dir             = $octavia::params::octavia_wsgi_script_path,
+  $wsgi_script_source          = $octavia::params::octavia_wsgi_script_source,
   $headers                     = undef,
   $request_headers             = undef,
   $vhost_custom_fragment       = undef,
@@ -170,7 +170,7 @@ class octavia::wsgi::apache (
   openstacklib::wsgi::apache { 'octavia_wsgi':
     bind_host                   => $bind_host,
     bind_port                   => $port,
-    group                       => $::octavia::params::group,
+    group                       => $octavia::params::group,
     path                        => $path,
     priority                    => $priority,
     servername                  => $servername,
@@ -183,7 +183,7 @@ class octavia::wsgi::apache (
     ssl_crl_path                => $ssl_crl_path,
     ssl_key                     => $ssl_key,
     threads                     => $threads,
-    user                        => $::octavia::params::user,
+    user                        => $octavia::params::user,
     vhost_custom_fragment       => $vhost_custom_fragment,
     workers                     => $workers,
     wsgi_daemon_process         => 'octavia',

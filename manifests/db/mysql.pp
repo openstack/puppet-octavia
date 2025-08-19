@@ -37,7 +37,7 @@
 #   Only used with mysql modules >= 2.2.
 #   Defaults to 'utf8_general_ci'
 #
-class octavia::db::mysql(
+class octavia::db::mysql (
   String[1] $password,
   $dbname             = 'octavia',
   $persistence_dbname = undef,
@@ -47,7 +47,6 @@ class octavia::db::mysql(
   $collate            = 'utf8_general_ci',
   $allowed_hosts      = undef
 ) {
-
   include octavia::deps
 
   openstacklib::db::mysql { 'octavia':
@@ -76,5 +75,4 @@ class octavia::db::mysql(
   Anchor['octavia::db::begin']
   ~> Class['octavia::db::mysql']
   ~> Anchor['octavia::db::end']
-
 }

@@ -353,7 +353,6 @@ class octavia::controller (
   $controller_ip_port_list            = $facts['os_service_default'],
   $heartbeat_interval                 = $facts['os_service_default'],
 ) inherits octavia::params {
-
   include octavia::deps
   include octavia::db
 

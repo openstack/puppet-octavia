@@ -85,7 +85,6 @@ class octavia::driver_agent (
   $provider_agent_shutdown_timeout = $facts['os_service_default'],
   $enabled_provider_agents         = $facts['os_service_default'],
 ) {
-
   include octavia::deps
   include octavia::params
 

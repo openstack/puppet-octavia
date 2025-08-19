@@ -65,7 +65,6 @@ class octavia::networking (
   $reserved_ips                   = $facts['os_service_default'],
   $allow_invisible_resource_usage = $facts['os_service_default'],
 ) {
-
   include octavia::deps
 
   octavia_config {

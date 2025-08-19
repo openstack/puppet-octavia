@@ -132,7 +132,6 @@ class octavia::task_flow (
   Boolean $manage_backend_package                         = true,
   $package_ensure                                         = 'present',
 ) {
-
   include octavia::deps
   include octavia::params
 

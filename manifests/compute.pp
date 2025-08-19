@@ -28,7 +28,6 @@ class octavia::compute (
   $retry_backoff  = $facts['os_service_default'],
   $retry_max      = $facts['os_service_default'],
 ) {
-
   include octavia::deps
 
   octavia_config {

@@ -49,7 +49,6 @@ class octavia::housekeeping (
   $cert_expiry_buffer        = $facts['os_service_default'],
   $cert_rotate_threads       = $facts['os_service_default'],
 ) {
-
   include octavia::deps
   include octavia::params
 

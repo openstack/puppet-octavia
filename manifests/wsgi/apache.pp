@@ -162,7 +162,6 @@ class octavia::wsgi::apache (
   $request_headers             = undef,
   $vhost_custom_fragment       = undef,
 ) inherits octavia::params {
-
   include octavia::deps
 
   Anchor['octavia::install::end'] -> Class['apache']

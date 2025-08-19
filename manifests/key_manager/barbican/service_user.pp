@@ -62,7 +62,7 @@
 #  (Optional) The region in which the identity server can be found.
 #  Defaults to $facts['os_service_default'].
 #
-class octavia::key_manager::barbican::service_user(
+class octavia::key_manager::barbican::service_user (
   $password,
   $username            = 'octavia',
   $auth_url            = 'http://localhost:5000',
@@ -78,7 +78,6 @@ class octavia::key_manager::barbican::service_user(
   $keyfile             = $facts['os_service_default'],
   $region_name         = $facts['os_service_default'],
 ) {
-
   include octavia::deps
 
   oslo::key_manager::barbican::service_user { 'octavia_config':

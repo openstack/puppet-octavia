@@ -17,12 +17,11 @@
 #   is set.
 #   Defaults to $facts['os_service_default']
 #
-class octavia::reports(
+class octavia::reports (
   $log_dir                     = $facts['os_service_default'],
   $file_event_handler          = $facts['os_service_default'],
   $file_event_handler_interval = $facts['os_service_default'],
 ) {
-
   include octavia::deps
 
   oslo::reports { 'octavia_config':

@@ -220,7 +220,6 @@ class octavia (
   # DEPRECATED PARAMETERS
   $rabbit_heartbeat_in_pthread        = undef,
 ) inherits octavia::params {
-
   include octavia::deps
   include octavia::db
 

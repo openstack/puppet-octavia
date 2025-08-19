@@ -148,7 +148,6 @@ class octavia::api (
   $allow_ping_health_monitors     = $facts['os_service_default'],
   $allow_prometheus_listeners     = $facts['os_service_default'],
 ) inherits octavia::params {
-
   include octavia::deps
   include octavia::policy
   include octavia::db
@@ -182,7 +181,6 @@ class octavia::api (
 
       # On any uwsgi config change, we must restart Octavia API.
       Octavia_api_uwsgi_config<||> ~> Service['octavia-api']
-
     } elsif $service_name == 'httpd' {
       service { 'octavia-api':
         ensure => 'stopped',

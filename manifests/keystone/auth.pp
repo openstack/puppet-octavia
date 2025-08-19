@@ -98,7 +98,6 @@ class octavia::keystone::auth (
   Keystone::EndpointUrl $admin_url        = 'http://127.0.0.1:9876',
   Keystone::EndpointUrl $internal_url     = 'http://127.0.0.1:9876',
 ) {
-
   include octavia::deps
 
   Keystone::Resource::Service_identity['octavia'] -> Anchor['octavia::service::end']
@@ -123,5 +122,4 @@ class octavia::keystone::auth (
     internal_url        => $internal_url,
     admin_url           => $admin_url,
   }
-
 }

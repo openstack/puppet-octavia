@@ -65,7 +65,6 @@ class octavia::neutron (
   $endpoint_override    = $facts['os_service_default'],
   $valid_interfaces     = $facts['os_service_default'],
 ) {
-
   include octavia::deps
 
   if is_service_default($system_scope) {

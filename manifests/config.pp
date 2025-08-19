@@ -23,7 +23,6 @@
 class octavia::config (
   Hash $octavia_config = {},
 ) {
-
   include octavia::deps
 
   create_resources('octavia_config', $octavia_config)

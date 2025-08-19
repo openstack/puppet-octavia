@@ -26,7 +26,6 @@ class octavia::glance (
   $region_name          = $facts['os_service_default'],
   $endpoint_type        = $facts['os_service_default'],
 ) {
-
   include octavia::deps
 
   octavia_config {

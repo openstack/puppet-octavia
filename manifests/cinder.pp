@@ -56,7 +56,6 @@ class octavia::cinder (
   $volume_create_timeout        = $facts['os_service_default'],
   $volume_create_max_retries    = $facts['os_service_default'],
 ) {
-
   include octavia::deps
 
   octavia_config {

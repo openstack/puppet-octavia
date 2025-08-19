@@ -65,7 +65,6 @@ class octavia::health_manager (
   $sock_rlimit            = $facts['os_service_default'],
   $failover_threshold     = $facts['os_service_default'],
 ) {
-
   include octavia::deps
   include octavia::params
   include octavia::controller

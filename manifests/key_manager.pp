@@ -11,7 +11,6 @@
 class octavia::key_manager (
   $backend = $facts['os_service_default'],
 ) {
-
   include octavia::deps
 
   oslo::key_manager { 'octavia_config':

@@ -138,7 +138,6 @@ class octavia::certificates (
   $file_permission_owner                      = $octavia::params::user,
   $file_permission_group                      = $octavia::params::group,
 ) inherits octavia::params {
-
   include octavia::deps
 
   $client_ca_real = pick($client_ca, $ca_certificate)

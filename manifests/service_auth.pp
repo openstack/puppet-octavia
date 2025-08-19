@@ -49,7 +49,6 @@ class octavia::service_auth (
   $auth_type           = 'password',
   $region_name         = $facts['os_service_default'],
 ) {
-
   include octavia::deps
 
   if is_service_default($system_scope) {

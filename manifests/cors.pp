@@ -44,7 +44,6 @@ class octavia::cors (
   $allow_methods     = $facts['os_service_default'],
   $allow_headers     = $facts['os_service_default'],
 ) {
-
   include octavia::deps
 
   oslo::cors { 'octavia_config':

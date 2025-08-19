@@ -41,7 +41,6 @@ class octavia::quota (
   $default_l7policy_quota        = $facts['os_service_default'],
   $default_l7rule_quota          = $facts['os_service_default'],
 ) {
-
   include octavia::deps
 
   octavia_config {

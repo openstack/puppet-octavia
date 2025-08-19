@@ -69,7 +69,6 @@ class octavia::provider::ovn (
   $ovsdb_retry_max_interval = $facts['os_service_default'],
   $ovsdb_probe_interval     = $facts['os_service_default'],
 ) {
-
   include octavia::deps
   include octavia::params
 

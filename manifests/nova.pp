@@ -42,7 +42,6 @@ class octavia::nova (
   $enable_anti_affinity = $facts['os_service_default'],
   $anti_affinity_policy = $facts['os_service_default'],
 ) {
-
   include octavia::deps
 
   octavia_config {

@@ -10,7 +10,6 @@
 class octavia::client (
   $ensure = 'present'
 ) {
-
   include octavia::deps
   include octavia::params
 

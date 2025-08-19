@@ -20,7 +20,6 @@ class octavia::roles (
       'admin',
   ]
 ) {
-
   warning('The octavia::roles class is deprecated and will be removed')
 
   if $role_names {

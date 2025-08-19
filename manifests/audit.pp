@@ -22,7 +22,6 @@ class octavia::audit (
   $audit_map_file  = $facts['os_service_default'],
   $ignore_req_list = $facts['os_service_default'],
 ) {
-
   include octavia::deps
 
   octavia_config {

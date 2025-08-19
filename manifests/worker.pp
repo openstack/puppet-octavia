@@ -64,7 +64,6 @@ class octavia::worker (
   Integer $ssh_key_bits                                        = 2048,
   String[1] $amp_project_name                                  = 'services',
 ) {
-
   include octavia::deps
   include octavia::params
   include octavia::controller
@@ -120,7 +119,7 @@ class octavia::worker (
   }
 
   if $manage_keygen {
-    exec {'create_amp_key_dir':
+    exec { 'create_amp_key_dir':
       path    => ['/bin', '/usr/bin'],
       command => "mkdir -p ${key_path}",
       creates => $key_path,

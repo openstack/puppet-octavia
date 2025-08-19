@@ -194,7 +194,7 @@
 #  (Optional) Hash of additional parameters to pass through to the keystone
 #  authtoken class. Values set here override the individual parameters above.
 #
-class octavia::keystone::authtoken(
+class octavia::keystone::authtoken (
   String[1] $password,
   $username                       = 'octavia',
   $auth_url                       = 'http://localhost:5000',
@@ -234,7 +234,6 @@ class octavia::keystone::authtoken(
   $interface                      = $facts['os_service_default'],
   $params                         = {},
 ) {
-
   include octavia::deps
 
   keystone::resource::authtoken {
@@ -282,4 +281,3 @@ class octavia::keystone::authtoken(
 
   Keystone::Resource::Authtoken['octavia_config'] -> Anchor['octavia::config::end']
 }
-

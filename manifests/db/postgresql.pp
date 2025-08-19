@@ -28,7 +28,7 @@
 #    (Optional) Privileges given to the database user.
 #    Default to 'ALL'
 #
-class octavia::db::postgresql(
+class octavia::db::postgresql (
   $password,
   $dbname             = 'octavia',
   $persistence_dbname = undef,
@@ -36,7 +36,6 @@ class octavia::db::postgresql(
   $encoding           = undef,
   $privileges         = 'ALL',
 ) {
-
   include octavia::deps
 
   openstacklib::db::postgresql { 'octavia':
@@ -60,5 +59,4 @@ class octavia::db::postgresql(
   Anchor['octavia::db::begin']
   ~> Class['octavia::db::postgresql']
   ~> Anchor['octavia::db::end']
-
 }

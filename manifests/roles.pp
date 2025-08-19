@@ -7,25 +7,21 @@
 # [*role_names*]
 #   (optional) Create keystone roles to comply with Octavia policies.
 #   Defaults to ['load-balancer_observer', 'load-balancer_global_observer',
-#   'load-balancer_member', 'load-balancer_quota_admin', 'load-balancer_admin',
-#   'admin']
+#   'load-balancer_member', 'load-balancer_quota_admin', 'load-balancer_admin']
 #
 class octavia::roles (
-  $role_names = [
-      'load-balancer_observer',
-      'load-balancer_global_observer',
-      'load-balancer_member',
-      'load-balancer_quota_admin',
-      'load-balancer_admin',
-      'admin',
+  Array[String[1]] $role_names = [
+    'load-balancer_observer',
+    'load-balancer_global_observer',
+    'load-balancer_member',
+    'load-balancer_quota_admin',
+    'load-balancer_admin',
   ]
 ) {
 
   warning('The octavia::roles class is deprecated and will be removed')
 
-  if $role_names {
-    keystone_role { $role_names:
-      ensure => present,
-    }
+  keystone_role { $role_names:
+    ensure => present,
   }
 }

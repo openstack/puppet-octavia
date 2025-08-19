@@ -9,12 +9,12 @@
 #   Defaults to $facts['os_service_default']
 #
 # [*audit_map_file*]
-#   (Optional) Path to audit map file for octavia-api service.
+#   (Optional) Path to audit map file.
 #   Defaults to $facts['os_service_default']
 #
 # [*ignore_req_list*]
-#   (Optional) Comma separated list of octavia REST API HTTP methods
-#   to be ignored during audit logging.
+#   (Optional) List of REST API HTTP methods to be ignored during audit
+#   logging.
 #   Defaults to $facts['os_service_default']
 #
 class octavia::audit (
@@ -26,8 +26,11 @@ class octavia::audit (
   include octavia::deps
 
   octavia_config {
-    'audit/enabled':         value => $enabled;
-    'audit/audit_map_file':  value => $audit_map_file;
-    'audit/ignore_req_list': value => join(any2array($ignore_req_list), ',');
+    'audit/enabled': value => $enabled;
+  }
+
+  oslo::audit { 'octavia_config':
+    audit_map_file  => $audit_map_file,
+    ignore_req_list => $ignore_req_list,
   }
 }

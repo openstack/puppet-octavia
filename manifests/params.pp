@@ -3,6 +3,8 @@
 class octavia::params {
   include openstacklib::defaults
 
+  $pyver3 = $openstacklib::defaults::pyver3
+
   $api_service_name            = 'octavia-api'
   $worker_service_name         = 'octavia-worker'
   $health_manager_service_name = 'octavia-health-manager'
@@ -22,7 +24,7 @@ class octavia::params {
       $housekeeping_package_name   = 'openstack-octavia-housekeeping'
       $driver_agent_package_name   = 'openstack-octavia-driver-agent'
       $octavia_wsgi_script_path    = '/var/www/cgi-bin/octavia'
-      $octavia_wsgi_script_source  = '/usr/bin/octavia-wsgi'
+      $octavia_wsgi_script_source  = "/usr/lib/python${pyver3}/site-packages/octavia/wsgi/api.py"
       $python_redis_package_name   = 'python3-redis'
       $python_kazoo_package_name   = 'python3-kazoo'
       $python_etcd3gw_package_name = 'python3-etcd3gw'

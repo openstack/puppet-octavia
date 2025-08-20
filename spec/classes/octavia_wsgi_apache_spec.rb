@@ -161,7 +161,7 @@ describe 'octavia::wsgi::apache' do
         when 'RedHat'
           {
             :wsgi_script_path   => '/var/www/cgi-bin/octavia',
-            :wsgi_script_source => '/usr/bin/octavia-wsgi',
+            :wsgi_script_source => '/usr/lib/python3.9/site-packages/octavia/wsgi/api.py',
           }
         end
       end

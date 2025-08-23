@@ -2,11 +2,6 @@ require 'spec_helper'
 
 describe 'octavia::roles' do
 
-  let :params do
-    {
-    }
-  end
-
   shared_examples_for 'octavia-roles' do
 
     context 'when using default args' do
@@ -16,15 +11,14 @@ describe 'octavia::roles' do
         is_expected.to contain_keystone_role('load-balancer_member')
         is_expected.to contain_keystone_role('load-balancer_quota_admin')
         is_expected.to contain_keystone_role('load-balancer_admin')
-        is_expected.to contain_keystone_role('admin')
       end
     end
 
     context 'when using custom roles' do
-      before do
-        params.merge!({
+      let :params do
+        {
           :role_names => ['foo', 'bar', 'krispy']
-        })
+        }
       end
       it 'creates custom keystone roles' do
         is_expected.to contain_keystone_role('foo')

@@ -67,15 +67,17 @@ describe 'octavia' do
           :retry         => '<SERVICE DEFAULT>',
         )
       end
-    end
 
-    it 'has default RPC topic' do
-      is_expected.to contain_octavia_config('oslo_messaging/topic').with_value('octavia-rpc')
+      it 'configures defaults' do
+        is_expected.to contain_octavia_config('DEFAULT/host').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_octavia_config('oslo_messaging/topic').with_value('octavia-rpc')
+      end
     end
 
     context 'with overridden parameters' do
       let :params do
         {
+          :host                               => 'localhost',
           :default_transport_url              => 'rabbit://rabbit_user:password@localhost:5673',
           :rpc_response_timeout               => '120',
           :control_exchange                   => 'octavia',
@@ -150,6 +152,7 @@ describe 'octavia' do
       end
 
       it 'configures various things' do
+        is_expected.to contain_octavia_config('DEFAULT/host').with_value('localhost')
         is_expected.to contain_octavia_config('oslo_messaging/topic').with_value('oct-rpc')
       end
     end

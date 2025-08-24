@@ -8,6 +8,10 @@
 #   (optional) The state of aodh packages
 #   Defaults to 'present'
 #
+# [*host*]
+#   (optional) Name of this node.
+#   Defaults to $facts['os_service_default'].
+#
 # [*default_transport_url*]
 #    (optional) A URL representing the messaging driver to use and its full
 #    configuration. Transport URLs take the form:
@@ -184,6 +188,7 @@
 #
 class octavia (
   $package_ensure                     = 'present',
+  $host                               = $facts['os_service_default'],
   $default_transport_url              = $facts['os_service_default'],
   $rpc_response_timeout               = $facts['os_service_default'],
   $control_exchange                   = $facts['os_service_default'],
@@ -231,6 +236,10 @@ class octavia (
 
   resources { 'octavia_config':
     purge => $purge_config,
+  }
+
+  octavia_config {
+    'DEFAULT/host' : value => $host;
   }
 
   oslo::messaging::rabbit { 'octavia_config':

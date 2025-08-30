@@ -5,7 +5,7 @@
 # === Parameters
 #
 # [*package_ensure*]
-#   (optional) The state of aodh packages
+#   (optional) The state of octavia packages
 #   Defaults to 'present'
 #
 # [*host*]

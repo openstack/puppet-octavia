@@ -54,7 +54,7 @@
 class octavia::worker (
   Boolean $manage_service                                      = true,
   Boolean $enabled                                             = true,
-  $package_ensure                                              = 'present',
+  Stdlib::Ensure::Package $package_ensure                      = 'present',
   $workers                                                     = $facts['os_workers'],
   Boolean $manage_nova_flavor                                  = true,
   Hash $nova_flavor_config                                     = {},

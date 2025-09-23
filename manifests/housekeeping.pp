@@ -39,15 +39,15 @@
 #   Defaults to $facts['os_service_default']
 #
 class octavia::housekeeping (
-  Boolean $manage_service    = true,
-  Boolean $enabled           = true,
-  $package_ensure            = 'present',
-  $cleanup_interval          = $facts['os_service_default'],
-  $amphora_expiry_age        = $facts['os_service_default'],
-  $load_balancer_expiry_age  = $facts['os_service_default'],
-  $cert_interval             = $facts['os_service_default'],
-  $cert_expiry_buffer        = $facts['os_service_default'],
-  $cert_rotate_threads       = $facts['os_service_default'],
+  Boolean $manage_service                 = true,
+  Boolean $enabled                        = true,
+  Stdlib::Ensure::Package $package_ensure = 'present',
+  $cleanup_interval                       = $facts['os_service_default'],
+  $amphora_expiry_age                     = $facts['os_service_default'],
+  $load_balancer_expiry_age               = $facts['os_service_default'],
+  $cert_interval                          = $facts['os_service_default'],
+  $cert_expiry_buffer                     = $facts['os_service_default'],
+  $cert_rotate_threads                    = $facts['os_service_default'],
 ) {
   include octavia::deps
   include octavia::params

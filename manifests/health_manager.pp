@@ -52,18 +52,18 @@
 #  Defaults to $facts['os_service_default']
 #
 class octavia::health_manager (
-  Boolean $manage_service = true,
-  Boolean $enabled        = true,
-  $package_ensure         = 'present',
-  $ip                     = $facts['os_service_default'],
-  $port                   = $facts['os_service_default'],
-  $health_update_threads  = $facts['os_workers'],
-  $stats_update_threads   = $facts['os_workers'],
-  $failover_threads       = $facts['os_service_default'],
-  $heartbeat_timeout      = $facts['os_service_default'],
-  $health_check_interval  = $facts['os_service_default'],
-  $sock_rlimit            = $facts['os_service_default'],
-  $failover_threshold     = $facts['os_service_default'],
+  Boolean $manage_service                 = true,
+  Boolean $enabled                        = true,
+  Stdlib::Ensure::Package $package_ensure = 'present',
+  $ip                                     = $facts['os_service_default'],
+  $port                                   = $facts['os_service_default'],
+  $health_update_threads                  = $facts['os_workers'],
+  $stats_update_threads                   = $facts['os_workers'],
+  $failover_threads                       = $facts['os_service_default'],
+  $heartbeat_timeout                      = $facts['os_service_default'],
+  $health_check_interval                  = $facts['os_service_default'],
+  $sock_rlimit                            = $facts['os_service_default'],
+  $failover_threshold                     = $facts['os_service_default'],
 ) {
   include octavia::deps
   include octavia::params

@@ -122,7 +122,7 @@
 class octavia::api (
   Boolean $enabled                = true,
   Boolean $manage_service         = true,
-  $service_name                   = $octavia::params::api_service_name,
+  String[1] $service_name         = $octavia::params::api_service_name,
   $host                           = '0.0.0.0',
   $port                           = '9876',
   $package_ensure                 = 'present',
@@ -163,36 +163,36 @@ class octavia::api (
   }
 
   if $manage_service {
-    if $enabled {
-      $service_ensure = 'running'
-    } else {
-      $service_ensure = 'stopped'
-    }
+    case $service_name {
+      'httpd': {
+        Service<| title == 'httpd' |> { tag +> 'octavia-service' }
 
-    if $service_name == $octavia::params::api_service_name {
-      service { 'octavia-api':
-        ensure     => $service_ensure,
-        name       => $octavia::params::api_service_name,
-        enable     => $enabled,
-        hasstatus  => true,
-        hasrestart => true,
-        tag        => 'octavia-service',
+        service { 'octavia-api':
+          ensure => 'stopped',
+          name   => $octavia::params::api_service_name,
+          enable => false,
+          tag    => 'octavia-service',
+        }
+        Service['octavia-api'] -> Service[$service_name]
       }
+      default: {
+        $service_ensure = $enabled ? {
+          true    => 'running',
+          default => 'stopped',
+        }
 
-      # On any uwsgi config change, we must restart Octavia API.
-      Octavia_api_uwsgi_config<||> ~> Service['octavia-api']
-    } elsif $service_name == 'httpd' {
-      service { 'octavia-api':
-        ensure => 'stopped',
-        name   => $octavia::params::api_service_name,
-        enable => false,
-        tag    => 'octavia-service',
+        service { 'octavia-api':
+          ensure     => $service_ensure,
+          name       => $octavia::params::api_service_name,
+          enable     => $enabled,
+          hasstatus  => true,
+          hasrestart => true,
+          tag        => 'octavia-service',
+        }
+
+        # On any uwsgi config change, we must restart Octavia API.
+        Octavia_api_uwsgi_config<||> ~> Service['octavia-api']
       }
-      Service['octavia-api'] -> Service[$service_name]
-      Service<| title == 'httpd' |> { tag +> 'octavia-service' }
-    } else {
-    fail("Invalid service_name. Either octavia-api/openstack-octavia-api for \
-running as a standalone service, or httpd for being run by a httpd server")
     }
   }
 

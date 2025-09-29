@@ -33,7 +33,6 @@ describe 'octavia::policy' do
           :file_group   => 'octavia',
           :file_format  => 'yaml',
           :purge_config => false,
-          :tag          => 'octavia',
         )
         is_expected.to contain_oslo__policy('octavia_config').with(
           :enforce_scope        => false,
@@ -64,7 +63,6 @@ describe 'octavia::policy' do
           :file_group   => 'octavia',
           :file_format  => 'yaml',
           :purge_config => true,
-          :tag          => 'octavia',
         )
         is_expected.to contain_oslo__policy('octavia_config').with(
           :enforce_scope        => false,

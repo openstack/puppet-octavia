@@ -56,18 +56,18 @@
 #   Defaults to $facts['os_service_default']
 #
 class octavia::provider::ovn (
-  $package_ensure           = 'present',
-  $ovn_nb_connection        = $facts['os_service_default'],
-  $ovn_nb_private_key       = $facts['os_service_default'],
-  $ovn_nb_certificate       = $facts['os_service_default'],
-  $ovn_nb_ca_cert           = $facts['os_service_default'],
-  $ovn_sb_connection        = $facts['os_service_default'],
-  $ovn_sb_private_key       = $facts['os_service_default'],
-  $ovn_sb_certificate       = $facts['os_service_default'],
-  $ovn_sb_ca_cert           = $facts['os_service_default'],
-  $ovsdb_connection_timeout = $facts['os_service_default'],
-  $ovsdb_retry_max_interval = $facts['os_service_default'],
-  $ovsdb_probe_interval     = $facts['os_service_default'],
+  Stdlib::Ensure::Package $package_ensure = 'present',
+  $ovn_nb_connection                      = $facts['os_service_default'],
+  $ovn_nb_private_key                     = $facts['os_service_default'],
+  $ovn_nb_certificate                     = $facts['os_service_default'],
+  $ovn_nb_ca_cert                         = $facts['os_service_default'],
+  $ovn_sb_connection                      = $facts['os_service_default'],
+  $ovn_sb_private_key                     = $facts['os_service_default'],
+  $ovn_sb_certificate                     = $facts['os_service_default'],
+  $ovn_sb_ca_cert                         = $facts['os_service_default'],
+  $ovsdb_connection_timeout               = $facts['os_service_default'],
+  $ovsdb_retry_max_interval               = $facts['os_service_default'],
+  $ovsdb_probe_interval                   = $facts['os_service_default'],
 ) {
   include octavia::deps
   include octavia::params

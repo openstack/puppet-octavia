@@ -69,21 +69,21 @@
 #   Defaults to $facts['os_service_default']
 #
 class octavia::driver_agent (
-  Boolean $manage_service          = true,
-  Boolean $enabled                 = true,
-  $package_ensure                  = 'present',
-  $status_socket_path              = $facts['os_service_default'],
-  $stats_socket_path               = $facts['os_service_default'],
-  $get_socket_path                 = $facts['os_service_default'],
-  $status_request_timeout          = $facts['os_service_default'],
-  $status_max_processes            = $facts['os_service_default'],
-  $stats_request_timeout           = $facts['os_service_default'],
-  $stats_max_processes             = $facts['os_service_default'],
-  $get_request_timeout             = $facts['os_service_default'],
-  $get_max_processes               = $facts['os_service_default'],
-  $max_process_warning_percent     = $facts['os_service_default'],
-  $provider_agent_shutdown_timeout = $facts['os_service_default'],
-  $enabled_provider_agents         = $facts['os_service_default'],
+  Boolean $manage_service                 = true,
+  Boolean $enabled                        = true,
+  Stdlib::Ensure::Package $package_ensure = 'present',
+  $status_socket_path                     = $facts['os_service_default'],
+  $stats_socket_path                      = $facts['os_service_default'],
+  $get_socket_path                        = $facts['os_service_default'],
+  $status_request_timeout                 = $facts['os_service_default'],
+  $status_max_processes                   = $facts['os_service_default'],
+  $stats_request_timeout                  = $facts['os_service_default'],
+  $stats_max_processes                    = $facts['os_service_default'],
+  $get_request_timeout                    = $facts['os_service_default'],
+  $get_max_processes                      = $facts['os_service_default'],
+  $max_process_warning_percent            = $facts['os_service_default'],
+  $provider_agent_shutdown_timeout        = $facts['os_service_default'],
+  $enabled_provider_agents                = $facts['os_service_default'],
 ) {
   include octavia::deps
   include octavia::params

@@ -8,7 +8,7 @@
 #   (Optional) Ensure state for package.
 #
 class octavia::client (
-  $ensure = 'present'
+  Stdlib::Ensure::Package $ensure = 'present',
 ) {
   include octavia::deps
   include octavia::params

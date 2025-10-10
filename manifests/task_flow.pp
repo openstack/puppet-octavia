@@ -130,7 +130,7 @@ class octavia::task_flow (
   $jobboard_save_logbook                                  = $facts['os_service_default'],
   $persistence_connection                                 = $facts['os_service_default'],
   Boolean $manage_backend_package                         = true,
-  $package_ensure                                         = 'present',
+  Stdlib::Ensure::Package $package_ensure                 = 'present',
 ) {
   include octavia::deps
   include octavia::params

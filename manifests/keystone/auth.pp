@@ -21,7 +21,7 @@
 #
 # [*roles*]
 #   (Optional) List of roles assigned to octavia user.
-#   Defaults to ['admin']
+#   Defaults to ['admin', 'service']
 #
 # [*system_scope*]
 #   (Optional) Scope for system operations.
@@ -83,7 +83,7 @@ class octavia::keystone::auth (
   String[1] $auth_name                    = 'octavia',
   String[1] $email                        = 'octavia@localhost',
   String[1] $tenant                       = 'services',
-  Array[String[1]] $roles                 = ['admin'],
+  Array[String[1]] $roles                 = ['admin', 'service'],
   String[1] $system_scope                 = 'all',
   Array[String[1]] $system_roles          = [],
   Boolean $configure_endpoint             = true,

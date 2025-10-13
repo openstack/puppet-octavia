@@ -1,0 +1,8 @@
+---
+deprecations:
+  - |
+    The following parameters of the ``octavia::api`` class have been deprecated
+    and have no effect now.
+
+    - ``api_v1_enabled``
+    - ``api_v2_enabled``

@@ -39,14 +39,6 @@
 #   (optional) The handler that the API communicates with
 #   Defaults to $facts['os_service_default']
 #
-# [*api_v1_enabled*]
-#   (optional) Boolean if V1 API should be enabled.
-#   Defaults to $facts['os_service_default']
-#
-# [*api_v2_enabled*]
-#   (optional) Boolean if V2 API should be enabled.
-#   Defaults to $facts['os_service_default']
-#
 # [*allow_tls_terminated_listeners*]
 #   (optional) Boolean if we allow creation of TLS terminated listeners.
 #   Defaults to $facts['os_service_default']
@@ -119,6 +111,16 @@
 #   (optional) Allow PROMETHEUS type listeners.
 #   Defaults to $facts['os_service_default']
 #
+# DEPRECATED PARAMETERS
+#
+# [*api_v1_enabled*]
+#   (optional) Boolean if V1 API should be enabled.
+#   Defaults to undef
+#
+# [*api_v2_enabled*]
+#   (optional) Boolean if V2 API should be enabled.
+#   Defaults to undef
+#
 class octavia::api (
   Boolean $enabled                          = true,
   Boolean $manage_service                   = true,
@@ -128,8 +130,6 @@ class octavia::api (
   Stdlib::Ensure::Package $package_ensure   = 'present',
   Enum['keystone', 'noauth'] $auth_strategy = 'keystone',
   $api_handler                              = $facts['os_service_default'],
-  $api_v1_enabled                           = $facts['os_service_default'],
-  $api_v2_enabled                           = $facts['os_service_default'],
   $allow_tls_terminated_listeners           = $facts['os_service_default'],
   Boolean $sync_db                          = false,
   $enable_proxy_headers_parsing             = $facts['os_service_default'],
@@ -147,6 +147,9 @@ class octavia::api (
   $minimum_tls_version                      = $facts['os_service_default'],
   $allow_ping_health_monitors               = $facts['os_service_default'],
   $allow_prometheus_listeners               = $facts['os_service_default'],
+  # DEPRECATED PARAMETERS
+  $api_v1_enabled                           = undef,
+  $api_v2_enabled                           = undef,
 ) inherits octavia::params {
   include octavia::deps
   include octavia::policy
@@ -154,6 +157,14 @@ class octavia::api (
 
   if $auth_strategy == 'keystone' {
     include octavia::keystone::authtoken
+  }
+
+  [
+    'api_v1_enabled', 'api_v2_enabled',
+  ].each |String $opt| {
+    if getvar($opt) != undef {
+      warning("The ${opt} parameter is deprecated and has no effect.")
+    }
   }
 
   package { 'octavia-api':
@@ -211,8 +222,6 @@ class octavia::api (
     'api_settings/bind_port':                      value => $port;
     'api_settings/auth_strategy':                  value => $auth_strategy;
     'api_settings/api_handler':                    value => $api_handler;
-    'api_settings/api_v1_enabled':                 value => $api_v1_enabled;
-    'api_settings/api_v2_enabled':                 value => $api_v2_enabled;
     'api_settings/allow_tls_terminated_listeners': value => $allow_tls_terminated_listeners;
     'api_settings/default_provider_driver':        value => $default_provider_driver;
     'api_settings/enabled_provider_drivers':       value => $enabled_provider_drivers_real;
@@ -227,6 +236,12 @@ class octavia::api (
     'api_settings/minimum_tls_version':            value => $minimum_tls_version;
     'api_settings/allow_ping_health_monitors':     value => $allow_ping_health_monitors;
     'api_settings/allow_prometheus_listeners':     value => $allow_prometheus_listeners;
+  }
+
+  # TODO(tkajinam): Remove this after 2026.1 release
+  octavia_config {
+    'api_settings/api_v1_enabled': ensure => absent;
+    'api_settings/api_v2_enabled': ensure => absent;
   }
 
   oslo::middleware { 'octavia_config':

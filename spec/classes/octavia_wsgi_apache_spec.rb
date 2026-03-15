@@ -156,7 +156,7 @@ describe 'octavia::wsgi::apache' do
         when 'Debian'
           {
             :wsgi_script_path   => '/usr/lib/cgi-bin/octavia',
-            :wsgi_script_source => '/usr/bin/octavia-wsgi',
+            :wsgi_script_source => '/usr/lib/python3/dist-packages/octavia/wsgi/api.py',
           }
         when 'RedHat'
           {

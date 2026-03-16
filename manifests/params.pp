@@ -3,7 +3,7 @@
 class octavia::params {
   include openstacklib::defaults
 
-  $pyver3 = $openstacklib::defaults::pyver3
+  $pybasedir = $openstacklib::defaults::pybasedir
 
   $api_service_name            = 'octavia-api'
   $worker_service_name         = 'octavia-worker'
@@ -24,7 +24,7 @@ class octavia::params {
       $housekeeping_package_name   = 'openstack-octavia-housekeeping'
       $driver_agent_package_name   = 'openstack-octavia-driver-agent'
       $octavia_wsgi_script_path    = '/var/www/cgi-bin/octavia'
-      $octavia_wsgi_script_source  = "/usr/lib/python${pyver3}/site-packages/octavia/wsgi/api.py"
+      $octavia_wsgi_script_source  = "${pybasedir}/octavia/wsgi/api.py"
       $python_redis_package_name   = 'python3-redis'
       $python_kazoo_package_name   = 'python3-kazoo'
       $python_etcd3gw_package_name = 'python3-etcd3gw'
@@ -37,7 +37,7 @@ class octavia::params {
       $housekeeping_package_name   = 'octavia-housekeeping'
       $driver_agent_package_name   = 'octavia-driver-agent'
       $octavia_wsgi_script_path    = '/usr/lib/cgi-bin/octavia'
-      $octavia_wsgi_script_source  = '/usr/lib/python3/dist-packages/octavia/wsgi/api.py'
+      $octavia_wsgi_script_source  = "${pybasedir}/octavia/wsgi/api.py"
       $python_redis_package_name   = 'python3-redis'
       $python_kazoo_package_name   = 'python3-kazoo'
       $python_etcd3gw_package_name = 'python3-etcd3gw'
